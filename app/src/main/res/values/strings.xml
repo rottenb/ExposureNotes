@@ -1,0 +1,32 @@
+<resources>
+    <!-- APP STUFF -->
+    <string name="app_name">ExposureNotes</string>
+
+    <!-- Film Info -->
+    <string name="film_header">FILM:</string>
+    <string name="iso_header">ISO:</string>
+    <string name="dev_header">DEV:</string>
+
+    <string name="film_hint">HP5+</string>
+    <string name="iso_hint">400</string>
+    <string name="dev_hint">(box)</string>
+
+    <!-- Camera And Lens Info -->
+    <string name="camera_header">CAMERA:</string>
+    <string name="camera_type">Fuji GW690ii</string>
+    <string name="lens_header">LENS:</string>
+    <string name="lens_type">EBC Fujinon 90mm f/3.5</string>
+
+    <!-- Frame Notes -->
+    <string name="frame_num_header">#</string>
+    <string name="shutter_header">Shutter</string>
+    <string name="aperture_header">Aperture</string>
+    <string name="notes_header">Notes</string>
+
+    <string name="shutter_hint"> </string>
+    <string name="aperture_hint"> </string>
+    <string name="notes_hint"> </string>
+
+    <!-- Frame List Item -->
+    <string name="frame_list_num_hint"> </string>
+</resources>
