@@ -17,16 +17,17 @@
     <string name="lens_header">LENS:</string>
     <string name="lens_type">EBC Fujinon 90mm f/3.5</string>
 
+
     <!-- Frame Notes -->
     <string name="frame_num_header">#</string>
     <string name="shutter_header">Shutter</string>
     <string name="aperture_header">Aperture</string>
     <string name="notes_header">Notes</string>
 
-    <string name="shutter_hint"> </string>
-    <string name="aperture_hint"> </string>
-    <string name="notes_hint"> </string>
+    <string name="shutter_hint">1/500</string>
+    <string name="aperture_hint">f/3.5</string>
+    <string name="notes_hint">dogs</string>
 
     <!-- Frame List Item -->
-    <string name="frame_list_num_hint"> </string>
+    <string name="frame_list_num_hint">1</string>
 </resources>

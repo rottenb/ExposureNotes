@@ -2,7 +2,10 @@
 <resources>
     <!-- Main Screen -->
     <dimen name="header_font_size">18sp</dimen>
-    <dimen name="film_font_size">12sp</dimen>
+    <dimen name="film_font_size">15sp</dimen>
+
+    <!-- Frame Info Dialog -->
+    <dimen name="dialog_font_size">30sp</dimen>
 
     <!-- List Sizes -->
     <dimen name="list_item_font_size">30sp</dimen>

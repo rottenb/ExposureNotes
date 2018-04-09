@@ -12,10 +12,12 @@
     <color name="blue">#0000FF</color>
     <color name="dark_blue">#000066</color>
     <color name="light_blue">#6699FF</color>
+    <color name="lighter_blue">#e6eeff</color>
     <color name="yellow">#ffff00</color>
     <color name="dark_yellow">#ffcc00</color>
     <color name="olive">#99AA75</color>
     <color name="orange">#ff9900</color>
+    <color name="light_orange">#fff5e6</color>
 
     <!-- MAIN APP COLOURS -->
     <color name="colorPrimary">@color/dark_yellow</color>

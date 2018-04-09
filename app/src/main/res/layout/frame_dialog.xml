@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:baselineAligned="false">
+        <!-- Shutter speed -->
+        <LinearLayout
+            android:id="@+id/trip_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/border"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="@dimen/dialog_font_size"
+                android:textColor="@color/olive"
+                android:textStyle="bold"
+                android:text="@string/shutter_header"/>
+            <EditText
+                android:id="@+id/set_shutter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dialog_font_size"
+                android:textColor="@color/dark_green"
+                android:textStyle="bold"
+                android:textColorHint="@color/dark_green"
+                android:hint="@string/shutter_hint"
+                android:inputType="numberDecimal"/>
+        </LinearLayout>
+        <!-- Aperture -->
+        <LinearLayout
+            android:id="@+id/trip_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/border"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="@dimen/dialog_font_size"
+                android:textColor="@color/blue"
+                android:textStyle="bold"
+                android:text="@string/aperture_header"/>
+            <EditText
+                android:id="@+id/set_aperture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dialog_font_size"
+                android:textStyle="bold"
+                android:textColor="@color/dark_blue"
+                android:textColorHint="@color/dark_blue"
+                android:hint="@string/aperture_hint"
+                android:inputType="numberDecimal"/>
+        </LinearLayout>
+    </LinearLayout>
+    <!-- Frame Notes -->
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/border">
+    <EditText
+        android:id="@+id/detail_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@null"
+        android:cursorVisible="true"
+        android:gravity="top|start"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dialog_font_size"
+        android:hint="@string/notes_header"
+        android:inputType="text"/>
+    </LinearLayout>
+
+    <!-- OK button -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/ok_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:text="OK"/>
+    </LinearLayout>
+
+</LinearLayout>

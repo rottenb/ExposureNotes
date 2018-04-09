@@ -2,6 +2,7 @@ package com.brianmk.exposurenotes;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,31 +21,34 @@ public class FrameArrayAdapter extends ArrayAdapter<FrameData> {
 
 
     @Override
-    public @NonNull View getView(int position, View convertView, @NonNull ViewGroup parent) {
+    public @NonNull View getView(int position, View view, @NonNull ViewGroup parent) {
         FrameData frame = getItem(position);
 
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.frame_list_item,
+        if (view == null) {
+            view = LayoutInflater.from(getContext()).inflate(R.layout.frame_list_item,
                     parent,false);
         }
 
-        TextView itemView = convertView.findViewById(R.id.number);
-        itemView.setText(String.format(Locale.getDefault(),"%d", position + 1));
-        itemView = convertView.findViewById(R.id.shutter);
-        itemView.setText(frame.getShutter());
-        itemView = convertView.findViewById(R.id.aperture);
-        itemView.setText(frame.getAperture());
-        itemView = convertView.findViewById(R.id.notes);
-        itemView.setText(frame.getNotes());
-/*
-        if (position % 2 == 1) {
-            convertView.setBackgroundColor(Color.BLUE);
-        } else {
-            convertView.setBackgroundColor(Color.CYAN);
+        // Populate the list view with information
+        if (frame != null) {
+            TextView itemView = view.findViewById(R.id.number);
+            itemView.setText(String.format(Locale.getDefault(), "%d", position + 1));
+            itemView = view.findViewById(R.id.shutter);
+            itemView.setText(frame.getShutter());
+            itemView = view.findViewById(R.id.aperture);
+            itemView.setText(frame.getAperture());
+            itemView = view.findViewById(R.id.notes);
+            itemView.setText(frame.getNotes());
         }
-*/
 
-        return convertView;
+        // Alternating colours for the list rows
+        if (position % 2 == 1) {
+            view.setBackgroundColor(ResourcesCompat.getColor(view.getResources(), R.color.lighter_blue, null));
+        } else {
+            view.setBackgroundColor(ResourcesCompat.getColor(view.getResources(), R.color.light_orange, null));
+        }
+
+        return view;
     }
 
 }
