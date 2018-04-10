@@ -28,6 +28,43 @@
     <string name="aperture_hint">f/3.5</string>
     <string name="notes_hint">dogs</string>
 
+    <string name="ok_button">OK</string>
+    <string name="export_button">EXPORT</string>
+
+    <string-array name="shutter_speeds">
+        <item>---</item>
+        <item>1/500s</item>
+        <item>1/250s</item>
+        <item>1/125s</item>
+        <item>1/60s</item>
+        <item>1/30s</item>
+        <item>1/15s</item>
+        <item>1/8s</item>
+        <item>1/4s</item>
+        <item>1/2s</item>
+        <item>1s</item>
+        <item>T</item>
+        <item>B</item>
+    </string-array>
+
+    <string-array name="apertures">
+        <item>---</item>
+        <item>f/3.5</item>
+        <item>f/4.0</item>
+        <item>f/4.8</item>
+        <item>f/5.6</item>
+        <item>f/6.7</item>
+        <item>f/8.0</item>
+        <item>f/9.5</item>
+        <item>f/11.0</item>
+        <item>f/13.0</item>
+        <item>f/16.0</item>
+        <item>f/19.0</item>
+        <item>f/22.0</item>
+        <item>f/27.0</item>
+        <item>f/32.0</item>
+    </string-array>
+
     <!-- Frame List Item -->
     <string name="frame_list_num_hint">1</string>
 </resources>

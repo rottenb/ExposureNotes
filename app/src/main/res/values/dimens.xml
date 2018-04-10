@@ -8,6 +8,6 @@
     <dimen name="dialog_font_size">30sp</dimen>
 
     <!-- List Sizes -->
-    <dimen name="list_item_font_size">30sp</dimen>
+    <dimen name="list_item_font_size">25sp</dimen>
 
 </resources>

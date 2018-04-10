@@ -10,47 +10,64 @@ import android.widget.ListView;
 import java.util.LinkedList;
 import java.util.List;
 
+
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    private volatile List<FrameData> frameDataList;
+    private FrameArrayAdapter frameArrayAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<FrameData> frameDataList;
-        FrameArrayAdapter frameArrayAdapter;
-
         // Create a list of blank exposure information
         frameDataList = new LinkedList<>();
- /*       int exposureCount = 8; // 120 6x9
+        int exposureCount = 8; // 120 6x9
         for (int i = 0; i < exposureCount; i++) {
             frameDataList.add(new FrameData());
         }
-*/
-      // Dummy data
-        frameDataList.add(new FrameData("1/125", "f/5.6", "pipeline"));
-        frameDataList.add(new FrameData("1/250", "f/4.0", "dog"));
-        frameDataList.add(new FrameData("1/60", "f/8.0", "flower"));
-        frameDataList.add(new FrameData("1/60", "f/8.0", "bridge"));
-        frameDataList.add(new FrameData("1/500", "f/3.5", "trees"));
-        frameDataList.add(new FrameData("1/250", "f/8.0", "boat"));
-        frameDataList.add(new FrameData("90s", "f/16", "mountains"));
-        frameDataList.add(new FrameData("1/500", "f/4.0", "Davey"));
 
+        // Test data
+/*        frameDataList.add(new FrameData(1, 3, "dogs"));
+        frameDataList.add(new FrameData(2, 2, "poop"));
+        frameDataList.add(new FrameData(3, 6, "plane"));
+        frameDataList.add(new FrameData(5, 4, "lake"));
+        frameDataList.add(new FrameData(6, 5, "mountains"));
+        frameDataList.add(new FrameData(3, 4, "Davey"));
+        frameDataList.add(new FrameData(2, 1, "Missy"));
+        frameDataList.add(new FrameData(1, 4, "more dogs"));
+*/
         // Create an adapter with the list data, attach that to the list view
         frameArrayAdapter = new FrameArrayAdapter(this, frameDataList);
         ListView frameListView = findViewById(R.id.frame_list);
         frameListView.setAdapter(frameArrayAdapter);
 
-
         // Allow list touching
         frameListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-                DialogFragment newFrame = new FrameInfoDialog();
-                newFrame.show(getFragmentManager(), null);
+                DialogFragment frameDialog = new FrameInfoDialog();
+                Bundle args = new Bundle();
+                args.putInt("position", pos);
+                args.putInt("shutter", frameDataList.get(pos).getShutterIdx());
+                args.putInt("aperture", frameDataList.get(pos).getApertureIdx());
+                args.putString("notes", frameDataList.get(pos).getNotes());
+                frameDialog.setArguments(args);
+                frameDialog.show(getFragmentManager(), null);
             }
         });
     }
+
+
+    public void setSingleFrameData(int pos, int t, int a, String n) {
+        frameDataList.get(pos).setShutter(t);
+        frameDataList.get(pos).setAperture(a);
+        frameDataList.get(pos).setNotes(n);
+
+        frameArrayAdapter.notifyDataSetChanged();
+    }
+
 }

@@ -5,6 +5,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_vertical"
     android:weightSum="1">
 
     <TextView
@@ -12,28 +13,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight=".30"
-        android:hint="@string/frame_list_num_hint"
-        android:textSize="@dimen/list_item_font_size" />
+        android:textSize="30sp" />
     <TextView
         android:id="@+id/shutter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight=".25"
-        android:hint="@string/shutter_hint"
         android:textSize="@dimen/list_item_font_size"/>
     <TextView
         android:id="@+id/aperture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_weight=".25"
-        android:hint="@string/aperture_hint"
         android:textSize="@dimen/list_item_font_size"/>
     <TextView
         android:id="@+id/notes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
         android:layout_weight=".20"
-        android:hint="@string/notes_hint"
-        android:textSize="@dimen/list_item_font_size"/>
+        android:textSize="@dimen/header_font_size"/>
 
 </TableRow>

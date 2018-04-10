@@ -23,16 +23,16 @@
             android:layout_weight="1"
             android:background="@drawable/border"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center_horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textSize="@dimen/dialog_font_size"
-                android:textColor="@color/olive"
+                android:textColor="@color/dark_green"
                 android:textStyle="bold"
                 android:text="@string/shutter_header"/>
-            <EditText
+            <Spinner
                 android:id="@+id/set_shutter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,23 +53,23 @@
             android:layout_weight="1"
             android:background="@drawable/border"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center_horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textSize="@dimen/dialog_font_size"
-                android:textColor="@color/blue"
+                android:textColor="@color/dark_blue"
                 android:textStyle="bold"
                 android:text="@string/aperture_header"/>
-            <EditText
+            <Spinner
                 android:id="@+id/set_aperture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/dialog_font_size"
                 android:textStyle="bold"
-                android:textColor="@color/dark_blue"
-                android:textColorHint="@color/dark_blue"
+                android:textColor="@color/blue"
+                android:textColorHint="@color/blue"
                 android:hint="@string/aperture_hint"
                 android:inputType="numberDecimal"/>
         </LinearLayout>
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/black"
-            android:text="OK"/>
+            android:text="@string/ok_button"/>
     </LinearLayout>
 
 </LinearLayout>
