@@ -4,7 +4,7 @@ public class FrameData {
     private static final String LOG_TAG = FrameData.class.getSimpleName();
 
 
-    private String[] shutters = {    "---",
+    private String[] shutters = {   "",
                                     "1/500s",
                                     "1/250s",
                                     "1/125s",
@@ -18,7 +18,7 @@ public class FrameData {
                                     "T",
                                     "B" };
 
-    private String[] apertures = {   "---",
+    private String[] apertures = {  "",
                                     "f/3.5",
                                     "f/4.0",
                                     "f/4.8",
@@ -44,7 +44,7 @@ public class FrameData {
         this.notes = "";
     }
 
-    FrameData(int t, int a, String n) {
+    FrameData(int t, int a, String n, Boolean b) {
         this.shutterIdx = t;
         this.apertureIdx = a;
         this.notes = n;

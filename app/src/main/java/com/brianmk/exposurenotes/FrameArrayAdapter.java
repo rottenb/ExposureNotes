@@ -2,7 +2,6 @@ package com.brianmk.exposurenotes;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,9 @@ import java.util.Locale;
 public class FrameArrayAdapter extends ArrayAdapter<FrameData> {
     private static final String LOG_TAG = FrameArrayAdapter.class.getSimpleName();
 
-    public FrameArrayAdapter(Context context, List<FrameData> frameData) {
+    FrameArrayAdapter(Context context, List<FrameData> frameData) {
         super(context, 0, frameData);
     }
-
 
     @Override
     public @NonNull View getView(int position, View view, @NonNull ViewGroup parent) {
@@ -33,19 +31,15 @@ public class FrameArrayAdapter extends ArrayAdapter<FrameData> {
         if (frame != null) {
             TextView itemView = view.findViewById(R.id.number);
             itemView.setText(String.format(Locale.getDefault(), "%d", position + 1));
+
             itemView = view.findViewById(R.id.shutter);
             itemView.setText(frame.getShutter());
+
             itemView = view.findViewById(R.id.aperture);
             itemView.setText(frame.getAperture());
+
             itemView = view.findViewById(R.id.notes);
             itemView.setText(frame.getNotes());
-        }
-
-        // Alternating colours for the list rows
-        if (position % 2 == 1) {
-            view.setBackgroundColor(ResourcesCompat.getColor(view.getResources(), R.color.lighter_blue, null));
-        } else {
-            view.setBackgroundColor(ResourcesCompat.getColor(view.getResources(), R.color.light_orange, null));
         }
 
         return view;

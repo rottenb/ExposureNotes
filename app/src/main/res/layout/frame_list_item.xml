@@ -2,9 +2,9 @@
 <TableRow
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/frame_list_item"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     android:gravity="center_vertical"
     android:weightSum="1">
 
@@ -12,27 +12,32 @@
         android:id="@+id/number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:layout_weight=".30"
-        android:textSize="30sp" />
+        android:textColor="@color/dark_grey"
+        android:textSize="25sp" />
     <TextView
         android:id="@+id/shutter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:layout_weight=".25"
+        android:textColor="@color/dark_grey"
         android:textSize="@dimen/list_item_font_size"/>
     <TextView
         android:id="@+id/aperture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:gravity="center_horizontal"
         android:layout_weight=".25"
+        android:textColor="@color/dark_grey"
         android:textSize="@dimen/list_item_font_size"/>
     <TextView
         android:id="@+id/notes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="10dp"
         android:layout_weight=".20"
+        android:textColor="@color/dark_grey"
         android:textSize="@dimen/header_font_size"/>
-
 </TableRow>

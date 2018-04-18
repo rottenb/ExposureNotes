@@ -12,12 +12,12 @@ public class OutputJSON extends JSONObject {
     private static final String LOG_TAG = OutputJSON.class.getSimpleName();
 
     public JSONObject createJSONobj(String camera, String lens,
-                                    String film, int iso, int dev,
-                                    int frames, List<FrameData> frameList) {
+                                    String film, String iso, String dev,
+                                    List<FrameData> frameList) {
 
         JSONObject obj = new JSONObject();
         JSONArray filmArray = new JSONArray();
-        for (int i = 0; i < frames; i++) {
+        for (int i = 0; i < frameList.size(); i++) {
             JSONArray frameArray = new JSONArray();
 
             frameArray.put(frameList.get(i).getShutter());

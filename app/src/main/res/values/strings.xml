@@ -1,15 +1,16 @@
 <resources>
     <!-- APP STUFF -->
     <string name="app_name">ExposureNotes</string>
+    <string name="spinner_drop"></string>
 
     <!-- Film Info -->
     <string name="film_header">FILM:</string>
     <string name="iso_header">ISO:</string>
     <string name="dev_header">DEV:</string>
 
-    <string name="film_hint">HP5+</string>
-    <string name="iso_hint">400</string>
-    <string name="dev_hint">(box)</string>
+    <string name="film_type">Ilford HP5+</string>
+    <string name="iso_value">400</string>
+    <string name="dev_value">0</string>
 
     <!-- Camera And Lens Info -->
     <string name="camera_header">CAMERA:</string>
@@ -17,6 +18,13 @@
     <string name="lens_header">LENS:</string>
     <string name="lens_type">EBC Fujinon 90mm f/3.5</string>
 
+    <!-- Export Dialog -->
+    <string name="export_filename">DD-MM-YYY FILM.json</string>
+    <string name="export_method">DropBox</string>
+    <string-array name="export_methods">
+        <item>DropBox</item>
+        <item>Local Storage</item>
+    </string-array>
 
     <!-- Frame Notes -->
     <string name="frame_num_header">#</string>
@@ -29,10 +37,12 @@
     <string name="notes_hint">dogs</string>
 
     <string name="ok_button">OK</string>
-    <string name="export_button">EXPORT</string>
+    <string name="export_button">Export</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="clear_button">Clear</string>
 
     <string-array name="shutter_speeds">
-        <item>---</item>
+        <item>- none -</item>
         <item>1/500s</item>
         <item>1/250s</item>
         <item>1/125s</item>
@@ -48,7 +58,7 @@
     </string-array>
 
     <string-array name="apertures">
-        <item>---</item>
+        <item>- none -</item>
         <item>f/3.5</item>
         <item>f/4.0</item>
         <item>f/4.8</item>
@@ -63,6 +73,11 @@
         <item>f/22.0</item>
         <item>f/27.0</item>
         <item>f/32.0</item>
+    </string-array>
+
+    <string-array name="cameras">
+        <item>Fuji GW690ii</item>
+        <item>Bronica ETRsi</item>
     </string-array>
 
     <!-- Frame List Item -->

@@ -14,8 +14,7 @@
         android:baselineAligned="false">
         <!-- Shutter speed -->
         <LinearLayout
-            android:id="@+id/trip_start"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
@@ -29,24 +28,29 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textSize="@dimen/dialog_font_size"
-                android:textColor="@color/dark_green"
-                android:textStyle="bold"
+                android:textColor="@color/dark_grey"
                 android:text="@string/shutter_header"/>
-            <Spinner
-                android:id="@+id/set_shutter"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/dialog_font_size"
-                android:textColor="@color/dark_green"
-                android:textStyle="bold"
-                android:textColorHint="@color/dark_green"
-                android:hint="@string/shutter_hint"
-                android:inputType="numberDecimal"/>
+                android:layout_margin="5dp"
+                android:background="@drawable/border">
+                <Spinner
+                    android:id="@+id/set_shutter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@color/white"/>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignEnd="@id/set_shutter"
+                    android:src="@drawable/drop"/>
+            </RelativeLayout>
         </LinearLayout>
         <!-- Aperture -->
         <LinearLayout
-            android:id="@+id/trip_end"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="10dp"
@@ -59,19 +63,26 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textSize="@dimen/dialog_font_size"
-                android:textColor="@color/dark_blue"
-                android:textStyle="bold"
+                android:textColor="@color/dark_grey"
                 android:text="@string/aperture_header"/>
-            <Spinner
-                android:id="@+id/set_aperture"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/dialog_font_size"
-                android:textStyle="bold"
-                android:textColor="@color/blue"
-                android:textColorHint="@color/blue"
-                android:hint="@string/aperture_hint"
-                android:inputType="numberDecimal"/>
+                android:layout_margin="5dp"
+                android:background="@drawable/border">
+                <Spinner
+                    android:id="@+id/set_aperture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:textSize="@dimen/dialog_font_size"
+                    android:background="@color/white"/>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignEnd="@id/set_aperture"
+                    android:src="@drawable/drop"/>
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
     <!-- Frame Notes -->
@@ -98,17 +109,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_margin="5dp"
         android:orientation="horizontal"
         android:gravity="center_horizontal">
 
         <Button
-            android:id="@+id/ok_button"
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/frame_ok_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/black"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/border"
+            android:textColor="@color/dark_grey"
             android:text="@string/ok_button"/>
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/frame_clear_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/border"
+            android:textColor="@color/dark_grey"
+            android:text="@string/clear_button"/>
     </LinearLayout>
 
 </LinearLayout>

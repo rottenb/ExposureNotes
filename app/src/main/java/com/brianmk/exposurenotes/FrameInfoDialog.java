@@ -3,7 +3,6 @@ package com.brianmk.exposurenotes;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +12,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 public class FrameInfoDialog extends DialogFragment {
-    private static final String LOG_TAG = TimePickerDialog.class.getSimpleName();
+    private static final String LOG_TAG = FrameInfoDialog.class.getSimpleName();
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -37,7 +34,7 @@ public class FrameInfoDialog extends DialogFragment {
         // Aperture spinner
         final Spinner aptSpin = content.findViewById(R.id.set_aperture);
         ArrayAdapter<CharSequence> aptAdapter = ArrayAdapter.createFromResource( getContext(),
-                R.array.apertures, R.layout.aperture_spinner_item);
+                R.array.apertures, R.layout.shutter_spinner_item);
         aptAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         aptSpin.setAdapter(aptAdapter);
         aptSpin.setSelection(getArguments().getInt("aperture"));
@@ -47,7 +44,7 @@ public class FrameInfoDialog extends DialogFragment {
         notesEdit.setText(getArguments().getString("notes"));
 
         // Save info and return to main screen
-        Button okButton = content.findViewById(R.id.ok_button);
+        Button okButton = content.findViewById(R.id.frame_ok_button);
         okButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 int pos = getArguments().getInt("position");
