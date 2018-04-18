@@ -5,3 +5,4 @@
 - share/upload options (dropbox, keybase, email, etc)
 - camera(s) detail (? needed ?)
 - film details
+- film-agnostic frame count (add new frames to list as needed)
