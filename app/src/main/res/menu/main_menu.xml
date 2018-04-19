@@ -1,0 +1,41 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.brianmk.simplecheck_in.MainActivity">
+
+    <group android:id="@+id/menu_group_user">
+        <item
+            android:id="@+id/main_menu_camera"
+            android:orderInCategory="100"
+            android:title="@string/camera_settings"/>
+
+        <item
+            android:id="@+id/main_menu_film"
+            android:orderInCategory="200"
+            android:title="@string/film_settings"/>
+
+        <item
+            android:id="@+id/main_menu_clear_roll"
+            android:orderInCategory="300"
+            android:title="@string/clear_roll"/>
+
+        <!--
+        <item
+            android:orderInCategory="200"
+            android:titleCondensed="Areas"
+            android:title="USer"
+            android:enabled="true">
+            <menu
+                android:id="@+id/main_menu_sort">
+                <item
+                    android:id="@+id/sort_title"
+                    android:title="poop"/>
+                <item
+                    android:id="@+id/sort_activity"
+                    android:title="pee"/>
+            </menu>
+        </item>
+        -->
+    </group>
+
+
+</menu>

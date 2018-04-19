@@ -35,9 +35,9 @@ public class ExportDialog extends DialogFragment {
         filenameText.setText(filename);
 
         // Export method
-        Spinner methodSpinner = content.findViewById(R.id.export_method);
+        Spinner methodSpinner = content.findViewById(R.id.default_spinner);
         ArrayAdapter<CharSequence> activityAdapter = ArrayAdapter.createFromResource(content.getContext(),
-                R.array.export_methods, R.layout.export_method_spinner_item);
+                R.array.export_methods, R.layout.default_spinner_item);
         activityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         methodSpinner.setAdapter(activityAdapter);
         methodSpinner.setSelection(0);

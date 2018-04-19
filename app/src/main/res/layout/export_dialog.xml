@@ -12,12 +12,14 @@
         android:layout_margin="5dp"
         android:orientation="vertical"
         android:background="@drawable/border">
+
         <EditText
             android:id="@+id/export_filename"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textCapWords"
             android:hint="@string/export_filename"/>
+        <!--
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,6 +41,8 @@
                 android:src="@drawable/drop"
                 android:contentDescription="@string/spinner_drop"/>
         </RelativeLayout>
+        -->
+        <include layout="@layout/default_spinner"/>
     </LinearLayout>
 
     <LinearLayout

@@ -3,7 +3,6 @@ package com.brianmk.exposurenotes;
 public class FrameData {
     private static final String LOG_TAG = FrameData.class.getSimpleName();
 
-
     private String[] shutters = {   "",
                                     "1/500s",
                                     "1/250s",

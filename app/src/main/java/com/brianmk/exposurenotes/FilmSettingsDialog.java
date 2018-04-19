@@ -33,7 +33,7 @@ public class FilmSettingsDialog extends DialogFragment {
                 String f = ((EditText) content.findViewById(R.id.film_type)).getText().toString();
                 String i = ((EditText) content.findViewById(R.id.iso_value)).getText().toString();
                 String d = ((EditText) content.findViewById(R.id.dev_value)).getText().toString();
-                ((MainActivity)getActivity()).setFilmData(c, l, f, i, d);
+               // ((MainActivity)getActivity()).setFilmData(c, l, f, i, d);
                 dismiss();
             }
         });

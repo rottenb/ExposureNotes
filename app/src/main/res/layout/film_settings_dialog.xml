@@ -3,54 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Camera And Lens Info -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="5dp"
-        android:background="@drawable/border">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/camera_header"/>
-
-            <EditText
-                android:id="@+id/camera_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".2"
-                android:inputType="textCapWords"
-                android:hint="@string/camera_type"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/lens_header"/>
-            <EditText
-                android:id="@+id/lens_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".2"
-                android:inputType="textCapWords"
-                android:hint="@string/lens_type"/>
-
-        </LinearLayout>
-    </LinearLayout>
-
     <!-- Film and Development Info -->
     <LinearLayout
         android:layout_width="match_parent"

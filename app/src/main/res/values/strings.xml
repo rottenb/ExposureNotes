@@ -1,22 +1,8 @@
 <resources>
     <!-- APP STUFF -->
     <string name="app_name">ExposureNotes</string>
-    <string name="spinner_drop"></string>
+    <string name="spinner_drop"> </string>
 
-    <!-- Film Info -->
-    <string name="film_header">FILM:</string>
-    <string name="iso_header">ISO:</string>
-    <string name="dev_header">DEV:</string>
-
-    <string name="film_type">Ilford HP5+</string>
-    <string name="iso_value">400</string>
-    <string name="dev_value">0</string>
-
-    <!-- Camera And Lens Info -->
-    <string name="camera_header">CAMERA:</string>
-    <string name="camera_type">Fuji GW690ii</string>
-    <string name="lens_header">LENS:</string>
-    <string name="lens_type">EBC Fujinon 90mm f/3.5</string>
 
     <!-- Export Dialog -->
     <string name="export_filename">DD-MM-YYY FILM.json</string>
@@ -25,6 +11,39 @@
         <item>DropBox</item>
         <item>Local Storage</item>
     </string-array>
+
+    <!-- Camera Settings -->
+    <string name="camera_settings">Camera Settings</string>
+    <string name="camera_header">Camera:</string>
+    <string name="camera_type">Fuji GW690ii</string>
+    <string name="lens_header">Lens:</string>
+    <string name="lens_type">EBC Fujinon 90mm f/3.5</string>
+    <string name="format_header">Frame Ratio:</string>
+    <string name="format_type">6x9 (120)</string>
+
+    <string-array name="format_types">
+        <item>35mm</item>
+        <item>645 (120)</item>
+        <item>6x6 (120)</item>
+        <item>6x7 (120)</item>
+        <item>6x8 (120)</item>
+        <item>6x9 (120)</item>
+        <item>4x5</item>
+        <item>8x10</item>
+        <item>Other</item>
+    </string-array>
+
+    <!-- Film Info -->
+    <string name="film_header">Film:</string>
+    <string name="iso_header">ISO:</string>
+    <string name="dev_header">Dev:</string>
+    <string name="film_size_header">Film Size:</string>
+    <string name="film_size">120</string>
+    <string name="film_type">Ilford HP5+</string>
+    <string name="iso_value">400</string>
+    <string name="dev_value">0</string>
+    <string name="film_settings">Film Settings</string>
+    <string name="clear_roll">Clear Frame List</string>
 
     <!-- Frame Notes -->
     <string name="frame_num_header">#</string>
@@ -36,10 +55,12 @@
     <string name="aperture_hint">f/3.5</string>
     <string name="notes_hint">dogs</string>
 
+    <!-- Button Text -->
     <string name="ok_button">OK</string>
     <string name="export_button">Export</string>
     <string name="cancel_button">Cancel</string>
     <string name="clear_button">Clear</string>
+    <string name="save_button">Save</string>
 
     <string-array name="shutter_speeds">
         <item>- none -</item>
