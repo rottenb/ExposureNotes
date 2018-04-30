@@ -6,3 +6,6 @@
 - camera(s) detail (? needed ?)
 - film details
 - film-agnostic frame count (add new frames to list as needed)
+- UI improvements
+- save user data
+- alternate views for screen orientation (?)
