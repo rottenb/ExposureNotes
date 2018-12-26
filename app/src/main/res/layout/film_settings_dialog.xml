@@ -29,58 +29,69 @@
                 android:hint="@string/film_type"/>
         </LinearLayout>
 
+        <!-- ISO -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="39dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/iso_header"/>
-            <EditText
-                android:id="@+id/iso_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".2"
-                android:inputType="textCapWords"
-                android:hint="@string/iso_value"/>
+
+            <include layout="@layout/default_spinner"/>
         </LinearLayout>
 
+        <!-- Development -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="37dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/dev_header"/>
-            <EditText
-                android:id="@+id/dev_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".2"
-                android:inputType="textCapWords"
-                android:hint="@string/dev_value"/>
+
+            <include layout="@layout/another_spinner"/>
         </LinearLayout>
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center|bottom">
 
         <Button
-            android:id="@+id/film_ok_button"
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/save_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/ok_button"/>
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/border"
+            android:textColor="@color/dark_grey"
+            android:text="@string/save_button"/>
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/border"
+            android:textColor="@color/dark_grey"
+            android:text="@string/cancel_button"/>
     </LinearLayout>
 
 

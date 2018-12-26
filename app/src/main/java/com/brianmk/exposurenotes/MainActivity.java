@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -102,6 +103,44 @@ public class MainActivity extends AppCompatActivity {
         return true;
     } // onCreateOptionsMenu()
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        // Menu items
+        switch (id) {
+            case R.id.main_menu_camera:
+                setCamera();
+                break;
+            case R.id.main_menu_film:
+                setFilm();
+                break;
+            case R.id.main_menu_clear_roll:
+                Toast.makeText(getApplicationContext(), "clear roll", Toast.LENGTH_LONG).show();
+                break;
+            default:
+                // gets called when the sub-menu gets tapped
+                //  (do nothing)
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    } //onOptionsItemSelected()
+
+    public void setCamera() {
+        DialogFragment cameraDialog = new CameraSettingsDialog();
+        cameraDialog.show(getFragmentManager(), null);
+    }
+
+    public void setFilm() {
+        DialogFragment filmDialog = new FilmSettingsDialog();
+        filmDialog.show(getFragmentManager(), null);
+
+    }
+
     public void setSingleFrameData(int pos, int t, int a, String n) {
         frameDataList.get(pos).setShutter(t);
         frameDataList.get(pos).setAperture(a);
@@ -128,13 +167,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setCamera() {
-
-    }
-
-    public void setFilm() {
-
-    }
 
     // Check that the correct permissions are enabled, ask to enable if not
     public static void verifyStoragePermissions(Activity activity) {
