@@ -11,8 +11,6 @@ data class FrameData(var shutterIdx: Int = 0, var apertureIdx: Int = 0, var note
     fun updateExposureSettings() {
         shutter = shutters[shutterIdx]
         aperture = apertures[apertureIdx]
-
-        // Test
     }
 
     companion object {
