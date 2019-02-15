@@ -8,9 +8,6 @@
     <string name="camera_settings">Camera Settings</string>
     <string name="film_settings">Film Settings</string>
 
-
-
-
     <!-- Export Dialog -->
     <string name="export_filename">DD-MM-YYY FILM.json</string>
     <string name="export_method">DropBox</string>
@@ -31,12 +28,12 @@
     <string name="format_type">6x9 (120)</string>
 
     <string-array name="format_types">
-        <item>35mm</item>
-        <item>645 (120)</item>
-        <item>6x6 (120)</item>
-        <item>6x7 (120)</item>
-        <item>6x8 (120)</item>
-        <item>6x9 (120)</item>
+        <item>3x2 (35mm)</item>
+        <item>645 (120mm)</item>
+        <item>6x6 (120mm)</item>
+        <item>6x7 (120mm)</item>
+        <item>6x8 (120mm)</item>
+        <item>6x9 (120mm)</item>
         <item>4x5</item>
         <item>8x10</item>
         <item>Other</item>
@@ -51,7 +48,8 @@
     <string name="film_type">Ilford HP5+</string>
     <string name="iso_value">400</string>
     <string name="dev_value">0</string>
-    <string name="clear_roll">Clear Frame List</string>
+    <string name="clear_roll">Clear Film Roll</string>
+    <string name="new_roll">New Film Roll</string>
 
     <string-array name="iso_types">
         <item>25</item>
@@ -127,8 +125,11 @@
     <string-array name="cameras">
         <item>Fuji GW690ii</item>
         <item>Bronica ETRsi</item>
+        <item>Canon Ftb QL</item>
+        <item>Mamiya Six Automat II</item>
     </string-array>
 
     <!-- Frame List Item -->
     <string name="frame_list_num_hint">1</string>
+    <string name="spinner_text_example">0/0.0s</string>
 </resources>

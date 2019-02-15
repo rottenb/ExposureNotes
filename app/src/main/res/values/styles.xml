@@ -6,6 +6,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:fontFamily">@font/roboto</item>
     </style>
+
+    <!-- Spinner Items -->
+    <style name="SpinnerItem">
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/list_item_font_size</item>
+    </style>
+
 
 </resources>

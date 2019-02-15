@@ -7,6 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
-    tools:text="@string/aperture_hint">
+    tools:text="@string/spinner_text_example">
 
 </TextView>

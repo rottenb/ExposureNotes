@@ -24,6 +24,11 @@
             android:orderInCategory="400"
             android:title="@string/clear_roll"/>
 
+        <item
+            android:id="@+id/main_menu_new_roll"
+            android:orderInCategory="500"
+            android:title="@string/new_roll"/>
+
 
         <!--
         <item

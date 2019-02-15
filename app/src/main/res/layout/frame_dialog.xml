@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,100 +8,146 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:baselineAligned="false"
         android:gravity="center_horizontal"
-        android:baselineAligned="false">
+        android:orientation="horizontal">
         <!-- Shutter speed -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:background="@drawable/border"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="@dimen/dialog_font_size"
+                android:text="@string/shutter_header"
                 android:textColor="@color/dark_grey"
-                android:text="@string/shutter_header"/>
+                android:textSize="@dimen/dialog_font_size" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@drawable/border">
+
                 <Spinner
                     android:id="@+id/set_shutter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:background="@color/white"/>
+                    android:background="@color/white" />
+
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignEnd="@id/set_shutter"
-                    android:src="@drawable/drop"/>
+                    android:src="@drawable/drop" />
             </RelativeLayout>
         </LinearLayout>
         <!-- Aperture -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:background="@drawable/border"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="@dimen/dialog_font_size"
+                android:text="@string/aperture_header"
                 android:textColor="@color/dark_grey"
-                android:text="@string/aperture_header"/>
+                android:textSize="@dimen/dialog_font_size" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@drawable/border">
+
                 <Spinner
                     android:id="@+id/set_aperture"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:textSize="@dimen/dialog_font_size"
-                    android:background="@color/white"/>
+                    android:background="@color/white"
+                    android:textSize="@dimen/dialog_font_size" />
+
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignEnd="@id/set_aperture"
-                    android:src="@drawable/drop"/>
+                    android:src="@drawable/drop" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
-    <!-- Frame Notes -->
+
+    <!-- Lens/Camera Info -->
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:background="@drawable/border">
-    <EditText
-        android:id="@+id/detail_notes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="@null"
-        android:cursorVisible="true"
-        android:gravity="top|start"
-        android:textColor="@color/black"
-        android:textSize="@dimen/dialog_font_size"
-        android:hint="@string/notes_header"
-        android:inputType="text"/>
+        android:background="@drawable/border">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/lens_header"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/dialog_font_size" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/border">
+
+            <Spinner
+                android:id="@+id/set_lens"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/white" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignEnd="@id/set_lens"
+                android:src="@drawable/drop" />
+        </RelativeLayout>
+
+    </LinearLayout>
+    <!-- Frame Notes -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/border">
+
+        <EditText
+            android:id="@+id/detail_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@null"
+            android:cursorVisible="true"
+            android:gravity="top|start"
+            android:hint="@string/notes_header"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dialog_font_size" />
     </LinearLayout>
 
     <!-- OK button -->
@@ -110,29 +155,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
         <Button
-            style="?android:attr/borderlessButtonStyle"
             android:id="@+id/frame_ok_button"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimary"
             android:background="@drawable/border"
-            android:textColor="@color/dark_grey"
-            android:text="@string/ok_button"/>
+            android:text="@string/ok_button"
+            android:textColor="@color/light_grey" />
 
         <Button
-            style="?android:attr/borderlessButtonStyle"
             android:id="@+id/frame_clear_button"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimary"
             android:background="@drawable/border"
-            android:textColor="@color/dark_grey"
-            android:text="@string/clear_button"/>
+            android:text="@string/clear_button"
+            android:textColor="@color/light_grey" />
     </LinearLayout>
 
 </LinearLayout>
