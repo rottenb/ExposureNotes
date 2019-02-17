@@ -23,14 +23,26 @@ class FrameArrayAdapter internal constructor(context: Context, frameData: List<F
 
         // Populate the list view with information
         if (frame != null) {
-            val frameNumberView = view!!.findViewById<TextView>(R.id.number)
-            if (frame.shutterIdx > 0 && frame.apertureIdx > 0) {
-                frameNumberView.setTextColor(ContextCompat.getColor(context, R.color.dark_grey))
-                (view.findViewById<View>(R.id.number) as TextView).text = String.format(Locale.getDefault(), "%d", pos + 1)
-            } else {
-                frameNumberView.setTextColor(ContextCompat.getColor(context, R.color.lighter_grey))
+            val frameNumberView = view!!.findViewById<View>(R.id.number) as TextView
+            var textColor: Int
 
-                (view.findViewById<View>(R.id.number) as TextView).text = String.format(Locale.getDefault(), "%d", pos + 1)
+            if (frame.shutterIdx > 0 && frame.apertureIdx > 0) {
+                if (pos == 11) {
+                    textColor = R.color.light_red
+                } else {
+                    textColor = R.color.colorPrimaryDark
+                }
+                frameNumberView.setTextColor(ContextCompat.getColor(context, textColor))
+                (view.findViewById<View>(R.id.number) as TextView).text = String.format(Locale.getDefault(), "%02d", pos + 1)
+            } else {
+                if (pos == 11) {
+                    textColor = R.color.lighter_red
+                } else {
+                    textColor = R.color.light_grey
+                }
+                frameNumberView.setTextColor(ContextCompat.getColor(context, textColor))
+
+                (view.findViewById<View>(R.id.number) as TextView).text = String.format(Locale.getDefault(), "%02d", pos + 1)
             }
 
             (view.findViewById<View>(R.id.shutter) as TextView).text = frame.shutter

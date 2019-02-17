@@ -1,185 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/default_margin"
+    android:background="@drawable/border">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- Shutter Speed Selection - "shutter_select" -->
+    <TextView
+        android:id="@+id/shutter_header_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-        <!-- Shutter speed -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/border"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/shutter_header"
-                android:textColor="@color/dark_grey"
-                android:textSize="@dimen/dialog_font_size" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@drawable/border">
-
-                <Spinner
-                    android:id="@+id/set_shutter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="@color/white" />
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignEnd="@id/set_shutter"
-                    android:src="@drawable/drop" />
-            </RelativeLayout>
-        </LinearLayout>
-        <!-- Aperture -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/border"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/aperture_header"
-                android:textColor="@color/dark_grey"
-                android:textSize="@dimen/dialog_font_size" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@drawable/border">
-
-                <Spinner
-                    android:id="@+id/set_aperture"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="@color/white"
-                    android:textSize="@dimen/dialog_font_size" />
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignEnd="@id/set_aperture"
-                    android:src="@drawable/drop" />
-            </RelativeLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Lens/Camera Info -->
+        android:layout_marginTop="@dimen/default_margin"
+        android:paddingStart="@dimen/double_padding"
+        android:paddingEnd="@dimen/double_padding"
+        android:text="@string/shutter_header"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/dialog_font_size"
+        app:layout_constraintBottom_toTopOf="@id/shutter_select"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/shutter_select"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintTop_toBottomOf="@id/shutter_header_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.48"
+        android:orientation="vertical"
         android:background="@drawable/border">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/lens_header"
-            android:textColor="@color/dark_grey"
-            android:textSize="@dimen/dialog_font_size" />
-        <RelativeLayout
+        <Spinner
+            android:id="@+id/shutter_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/border">
-
-            <Spinner
-                android:id="@+id/set_lens"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@color/white" />
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignEnd="@id/set_lens"
-                android:src="@drawable/drop" />
-        </RelativeLayout>
-
+            android:layout_marginTop="@dimen/half_margin"
+            android:layout_marginBottom="@dimen/half_margin"
+            android:padding="@dimen/default_padding">
+        </Spinner>
     </LinearLayout>
-    <!-- Frame Notes -->
+
+    <!-- Aperture Selection - "aperture_select"-->
+    <TextView
+        android:id="@+id/aperture_header_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        app:layout_constraintStart_toEndOf="@id/shutter_select"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/aperture_select"
+        android:paddingStart="@dimen/double_padding"
+        android:paddingEnd="@dimen/double_padding"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/dialog_font_size"
+        android:text="@string/aperture_header"/>
     <LinearLayout
+        android:id="@+id/aperture_select"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintTop_toBottomOf="@id/aperture_header_text"
+        app:layout_constraintStart_toEndOf="@id/shutter_select"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.48"
+        android:orientation="vertical"
+        android:background="@drawable/border">
+        <Spinner
+            android:id="@+id/aperture_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_margin"
+            android:layout_marginBottom="@dimen/half_margin"
+            android:padding="@dimen/default_padding">
+        </Spinner>
+    </LinearLayout>
+
+    <!-- Lens Selection - "lens_select" -->
+    <TextView
+        android:id="@+id/lens_header_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shutter_select"
+        app:layout_constraintBottom_toTopOf="@id/lens_select"
+        android:layout_marginTop="@dimen/double_margin"
+        android:paddingStart="@dimen/double_padding"
+        android:paddingEnd="@dimen/double_padding"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/dialog_font_size"
+        android:text="@string/lens_header"/>
+    <LinearLayout
+        android:id="@+id/lens_select"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintTop_toBottomOf="@id/lens_header_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        android:background="@drawable/border">
+
+        <Spinner
+            android:id="@+id/lens_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_margin"
+            android:layout_marginBottom="@dimen/half_margin"
+            android:padding="@dimen/default_padding">
+        </Spinner>
+    </LinearLayout>
+
+    <!-- Notes - "frame_notes" -->
+    <TextView
+        android:id="@+id/notes_header_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lens_select"
+        app:layout_constraintBottom_toTopOf="@id/frame_notes"
+        android:layout_marginTop="@dimen/double_margin"
+
+        android:paddingStart="@dimen/double_padding"
+        android:paddingEnd="@dimen/double_padding"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/dialog_font_size"
+        android:text="@string/notes_header"/>
+    <LinearLayout
+        android:id="@+id/frame_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintTop_toBottomOf="@id/notes_header_text"
+        app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/border">
 
         <EditText
-            android:id="@+id/detail_notes"
+            android:id="@+id/frame_notes_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@null"
-            android:cursorVisible="true"
-            android:gravity="top|start"
-            android:hint="@string/notes_header"
-            android:inputType="text"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dialog_font_size" />
+            android:padding="@dimen/double_padding"
+            android:textSize="@dimen/dialog_font_size"
+            android:inputType="textCapSentences"
+            android:hint="@string/frame_notes_hint"
+            android:autofillHints="@string/frame_notes_hint"
+            android:background="@android:color/transparent"/>
     </LinearLayout>
 
-    <!-- OK button -->
+    <!-- Action Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintTop_toBottomOf="@id/frame_notes"
+        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center">
+        <!-- OK Button -->
         <Button
+            style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/frame_ok_button"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/colorPrimary"
-            android:background="@drawable/border"
-            android:text="@string/ok_button"
-            android:textColor="@color/light_grey" />
-
+            android:layout_marginEnd="@dimen/double_margin"
+            android:textSize="@dimen/dialog_font_size"
+            android:textStyle="bold"
+            android:text="@string/ok_button"/>
+        <!-- Clear Button -->
         <Button
+            style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/frame_clear_button"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/colorPrimary"
-            android:background="@drawable/border"
-            android:text="@string/clear_button"
-            android:textColor="@color/light_grey" />
+            android:layout_marginStart="@dimen/double_margin"
+            android:textSize="@dimen/dialog_font_size"
+            android:textStyle="bold"
+            android:text="@string/clear_button"/>
     </LinearLayout>
 
-</LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

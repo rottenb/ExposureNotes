@@ -12,6 +12,7 @@
     <string name="export_filename">DD-MM-YYY FILM.json</string>
     <string name="export_method">DropBox</string>
     <string-array name="export_methods">
+        <item>- other -</item>
         <item>DropBox</item>
         <item>Keybase</item>
         <item>Gmail</item>
@@ -24,34 +25,56 @@
     <string name="camera_type">Fuji GW690ii</string>
     <string name="lens_header">Lens:</string>
     <string name="lens_type">EBC Fujinon 90mm f/3.5</string>
-    <string name="format_header">Frame Ratio:</string>
-    <string name="format_type">6x9 (120)</string>
+    <string name="frames_header"># Frames:</string>
+    <string name="format_header">Format:</string>
+    <string name="format_type">120mm</string>
+
+    <string-array name="lenses">
+        <item>- other -</item>
+        <item>Canon FD 23mm f/1.8</item>
+        <item>Canon FD 50mm f/1.4</item>
+        <item>Canon FD 50mm f/3.5 macro</item>
+        <item>Canon FD 85mm f/1.8</item>
+        <item>Canon FD 300mm f/4.0 L</item>
+        <item>Mamiya K/L 90mm f/3.5</item>
+        <item>Olympus D.Zuiko FC 75mm f/3.5</item>
+    </string-array>
+
+    <string-array name="formats">
+        <item>35mm</item>
+        <item>120mm</item>
+    </string-array>
 
     <string-array name="format_types">
+        <item>- other -</item>
         <item>3x2 (35mm)</item>
         <item>645 (120mm)</item>
         <item>6x6 (120mm)</item>
         <item>6x7 (120mm)</item>
         <item>6x8 (120mm)</item>
         <item>6x9 (120mm)</item>
-        <item>4x5</item>
-        <item>8x10</item>
-        <item>Other</item>
     </string-array>
 
     <!-- Film Info -->
     <string name="film_header">Film:</string>
+    <string name="manu_header">Manufacturer:</string>
     <string name="iso_header">ISO:</string>
     <string name="dev_header">Dev:</string>
     <string name="film_size_header">Film Size:</string>
     <string name="film_size">120</string>
-    <string name="film_type">Ilford HP5+</string>
-    <string name="iso_value">400</string>
+    <string name="film_manu">Manufacturer Name</string>
+    <string name="film_name">Film Name</string>
+    <string name="film_notes">Additional information</string>
+    <string name="iso_value">100</string>
     <string name="dev_value">0</string>
     <string name="clear_roll">Clear Film Roll</string>
     <string name="new_roll">New Film Roll</string>
 
-    <string-array name="iso_types">
+
+    <string-array name="isos">
+        <item>X</item>
+        <item>5</item>
+        <item>12</item>
         <item>25</item>
         <item>50</item>
         <item>100</item>
@@ -61,25 +84,28 @@
         <item>800</item>
         <item>1600</item>
         <item>3200</item>
+        <item>6400</item>
     </string-array>
 
-    <string-array name="dev_types">
+    <string-array name="devs">
+        <item>±X</item>
+        <item>-3</item>
         <item>-2</item>
         <item>-1</item>
-        <item>0</item>
+        <item> 0</item>
         <item>+1</item>
         <item>+2</item>
+        <item>+3</item>
     </string-array>
 
     <!-- Frame Notes -->
     <string name="frame_num_header">#</string>
-    <string name="shutter_header">Shutter</string>
-    <string name="aperture_header">Aperture</string>
-    <string name="notes_header">Notes</string>
-
+    <string name="shutter_header">Shutter:</string>
+    <string name="aperture_header">Aperture:</string>
+    <string name="notes_header">Notes:</string>
+    <string name="notes_hint">dogs</string>
     <string name="shutter_hint">1/500</string>
     <string name="aperture_hint">f/3.5</string>
-    <string name="notes_hint">dogs</string>
 
     <!-- Button Text -->
     <string name="ok_button">OK</string>
@@ -89,7 +115,7 @@
     <string name="save_button">Save</string>
 
     <string-array name="shutter_speeds">
-        <item>- none -</item>
+        <item>1/Xs</item>
         <item>1/500s</item>
         <item>1/250s</item>
         <item>1/125s</item>
@@ -100,12 +126,19 @@
         <item>1/4s</item>
         <item>1/2s</item>
         <item>1s</item>
+        <item>2s</item>
         <item>T</item>
         <item>B</item>
     </string-array>
 
     <string-array name="apertures">
-        <item>- none -</item>
+        <item>f/X.X</item>
+        <item>f/1.0</item>
+        <item>f/1.2</item>
+        <item>f/1.4</item>
+        <item>f/1.8</item>
+        <item>f/2.0</item>
+        <item>f/2.8</item>
         <item>f/3.5</item>
         <item>f/4.0</item>
         <item>f/4.8</item>
@@ -132,4 +165,6 @@
     <!-- Frame List Item -->
     <string name="frame_list_num_hint">1</string>
     <string name="spinner_text_example">0/0.0s</string>
+    <string name="frame_notes_hint">Enter a brief description</string>
+    <string name="frames_edit_hint">12</string>
 </resources>

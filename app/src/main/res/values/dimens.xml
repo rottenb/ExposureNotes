@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Main Screen -->
+    <!-- Font Sizes -->
     <dimen name="header_font_size">18sp</dimen>
     <dimen name="film_font_size">15sp</dimen>
+    <dimen name="dialog_font_size">20sp</dimen>
+    <dimen name="list_item_font_size">20sp</dimen>
 
-    <!-- Frame Info Dialog -->
-    <dimen name="dialog_font_size">30sp</dimen>
+    <!-- Padding and Margins -->
+    <dimen name="default_padding">6dp</dimen>
+    <dimen name="double_padding">12dp</dimen>
+    <dimen name="half_padding">3dp</dimen>
+    <dimen name="default_margin">6dp</dimen>
+    <dimen name="double_margin">12dp</dimen>
+    <dimen name="half_margin">3dp</dimen>
 
-    <!-- List Sizes -->
-    <dimen name="list_item_font_size">25sp</dimen>
-
-    <dimen name="table_row_padding">5dp</dimen>
 
 </resources>
