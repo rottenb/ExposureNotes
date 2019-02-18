@@ -1,21 +1,20 @@
 package com.brianmk.exposurenotes
 
-internal class CameraData {
+data class CameraData(var manu: String = "Canon",
+                      var name: String = "FTb QL",
+                      var serial: String = "752235",
+                      var formatIdx: Int = 0) {
 
-    var camera: String? = null
-    var lens: String? = null
+    private val formats = arrayOf("35mm", "120mm")
 
-    constructor() {
-        this.camera = "Fuji GW690ii"
-        this.lens = "EBC Fujinon 90mm f/3.5"
-    }
+    private var format = formats[formatIdx]
 
-    constructor(c: String, l: String) {
-        this.camera = c
-        this.lens = l
+    fun updateData() {
+        format = formats[formatIdx]
     }
 
     companion object {
-        private val LOG_D = CameraData::class.java.simpleName
+        private val LOG_TAG = FilmData::class.java.simpleName
     }
 }
+

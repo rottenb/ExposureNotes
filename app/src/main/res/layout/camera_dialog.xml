@@ -2,10 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/default_margin"
+    android:layout_height="match_parent"
     android:background="@drawable/border">
 
     <!-- Manufacturer -->
@@ -35,43 +33,39 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/double_padding"
             android:textSize="@dimen/dialog_font_size"
-            android:inputType="textCapWords"
-            android:maxLines="1"
-            android:ellipsize="end"
+            android:inputType="textCapSentences"
             android:hint="@string/film_manu"
             android:autofillHints="@string/film_manu"
             android:background="@android:color/transparent"/>
     </LinearLayout>
 
-    <!-- Film -->
+    <!-- Camera Model -->
     <TextView
         style="@style/DialogHeader"
-        android:id="@+id/film_header"
+        android:id="@+id/camera_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/manu_border"
-        android:text="@string/film_header"/>
+        android:text="@string/camera_header"/>
     <LinearLayout
-        android:id="@+id/film_border"
+        android:id="@+id/camera_border"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_margin"
-        app:layout_constraintTop_toBottomOf="@id/film_header"
+        app:layout_constraintTop_toBottomOf="@id/camera_header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent=".7"
+        app:layout_constraintWidth_percent=".6"
         android:background="@drawable/border">
         <EditText
-            android:id="@+id/film_edit"
+            android:id="@+id/camera_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/double_padding"
             android:textSize="@dimen/dialog_font_size"
             android:inputType="textCapWords"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:hint="@string/film_name"
-            android:autofillHints="@string/film_name"
+            android:hint="@string/camera_name"
+            android:autofillHints="@string/camera_name"
             android:background="@android:color/transparent"/>
     </LinearLayout>
 
@@ -81,17 +75,18 @@
         android:id="@+id/frames_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/film_border"
-        app:layout_constraintTop_toTopOf="@id/film_header"
+        app:layout_constraintStart_toStartOf="@id/frames_border"
+        app:layout_constraintTop_toBottomOf="@id/manu_border"
         android:text="@string/frames_header"/>
     <LinearLayout
-        android:id="@+id/format_select"
+        android:id="@+id/frames_border"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_margin"
-        app:layout_constraintTop_toBottomOf="@id/film_header"
-        app:layout_constraintStart_toEndOf="@id/film_border"
+        app:layout_constraintTop_toBottomOf="@id/frames_header"
+        app:layout_constraintStart_toEndOf="@id/camera_border"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.36"
         android:orientation="vertical"
         android:background="@drawable/border">
         <EditText
@@ -99,95 +94,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/double_padding"
-            android:gravity="center"
             android:textSize="@dimen/dialog_font_size"
+            android:gravity="center"
             android:inputType="number"
             android:maxLength="2"
             android:background="@android:color/transparent">
         </EditText>
-    </LinearLayout>
-
-    <!-- ISO -->
-    <TextView
-        style="@style/DialogHeader"
-        android:id="@+id/iso_header"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/film_border"
-        android:text="@string/iso_header"/>
-    <LinearLayout
-        android:id="@+id/iso_border"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        app:layout_constraintTop_toBottomOf="@id/iso_header"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.3"
-        android:background="@drawable/border">
-        <Spinner
-            android:id="@+id/iso_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/half_margin"
-            android:layout_marginBottom="@dimen/half_margin"
-            android:padding="@dimen/default_padding">
-        </Spinner>
-    </LinearLayout>
-
-    <!-- Film Format -->
-    <TextView
-        style="@style/DialogHeader"
-        android:id="@+id/format_header"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/iso_border"
-        app:layout_constraintTop_toBottomOf="@id/film_border"
-        android:text="@string/format_header"/>
-    <LinearLayout
-        android:id="@+id/format_border"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        app:layout_constraintTop_toBottomOf="@id/format_header"
-        app:layout_constraintStart_toEndOf="@id/iso_border"
-        app:layout_constraintEnd_toStartOf="@id/dev_border"
-        android:background="@drawable/border">
-        <Spinner
-            android:id="@+id/format_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/half_margin"
-            android:layout_marginBottom="@dimen/half_margin"
-            android:padding="@dimen/default_padding"/>
-    </LinearLayout>
-
-    <!-- DEV -->
-    <TextView
-        style="@style/DialogHeader"
-        android:id="@+id/dev_header"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/dev_border"
-        app:layout_constraintTop_toBottomOf="@id/film_border"
-        android:text="@string/dev_header"/>
-    <LinearLayout
-        android:id="@+id/dev_border"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        app:layout_constraintTop_toBottomOf="@id/dev_header"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.23"
-        android:background="@drawable/border">
-        <Spinner
-            android:id="@+id/dev_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/half_margin"
-            android:layout_marginBottom="@dimen/half_margin"
-            android:padding="@dimen/default_padding">
-        </Spinner>
     </LinearLayout>
 
     <!-- Notes -->
@@ -197,7 +109,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iso_border"
+        app:layout_constraintTop_toBottomOf="@id/camera_border"
         android:text="@string/notes_header"/>
     <LinearLayout
         android:id="@+id/notes_border"

@@ -23,7 +23,7 @@ data class FrameData(var shutterIdx: Int = 0, var apertureIdx: Int = 0,
     var aperture: String = apertures[apertureIdx]
     var lens: String = lenses[lensIdx]
 
-    fun updateSettings() {
+    fun updateData() {
         shutter = shutters[shutterIdx]
         aperture = apertures[apertureIdx]
         lens = lenses[lensIdx]

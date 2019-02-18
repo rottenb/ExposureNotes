@@ -24,34 +24,29 @@ class FrameArrayAdapter internal constructor(context: Context, frameData: List<F
         // Populate the list view with information
         if (frame != null) {
             val frameNumberView = view!!.findViewById<View>(R.id.number) as TextView
-            var textColor: Int
 
             if (frame.shutterIdx > 0 && frame.apertureIdx > 0) {
-                if (pos == 11) {
-                    textColor = R.color.light_red
-                } else {
-                    textColor = R.color.colorPrimaryDark
-                }
-                frameNumberView.setTextColor(ContextCompat.getColor(context, textColor))
+                frameNumberView.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
                 (view.findViewById<View>(R.id.number) as TextView).text = String.format(Locale.getDefault(), "%02d", pos + 1)
             } else {
-                if (pos == 11) {
-                    textColor = R.color.lighter_red
-                } else {
-                    textColor = R.color.light_grey
-                }
-                frameNumberView.setTextColor(ContextCompat.getColor(context, textColor))
+                frameNumberView.setTextColor(ContextCompat.getColor(context, R.color.light_grey))
 
                 (view.findViewById<View>(R.id.number) as TextView).text = String.format(Locale.getDefault(), "%02d", pos + 1)
             }
 
-            (view.findViewById<View>(R.id.shutter) as TextView).text = frame.shutter
+            val shutterView = view.findViewById<View>(R.id.shutter) as TextView
+            when (frame.shutter) {
+                "B" -> shutterView.setTextColor(ContextCompat.getColor(context, R.color.dark_yellow))
+                "T" -> shutterView.setTextColor(ContextCompat.getColor(context, R.color.blue))
+                else -> shutterView.setTextColor(ContextCompat.getColor(context, R.color.dark_grey))
+            }
+            shutterView.text = frame.shutter
+
             (view.findViewById<View>(R.id.aperture) as TextView).text = frame.aperture
             (view.findViewById<View>(R.id.notes) as TextView).text = frame.notes
 
-
         } else {
-            Log.d(LOG_TAG, "frame #$pos is null.")
+            Log.d(LOG_TAG, "frame #$pos is null!?")
         }
 
         return view!!

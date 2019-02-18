@@ -2,6 +2,8 @@ package com.brianmk.exposurenotes
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -15,13 +17,15 @@ import androidx.core.app.ActivityCompat
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
-
     private var frameDataList: MutableList<FrameData> = mutableListOf()
     private var frameArrayAdapter: FrameArrayAdapter? = null
     private lateinit var currentFilmRoll: FilmData
+    private lateinit var currentCamera: CameraData
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,31 +38,30 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(myToolbar)
 
         // TODO TEST DATA
-        currentFilmRoll = FilmData("Fujifilm", "Pro400H", 1,8, 12, 4)
+        currentFilmRoll = FilmData(frames = 12)
+        currentCamera = CameraData()
+        updateNotesHeader()
 
-        // Create a list of blank exposure information
-        for (i in 0 until currentFilmRoll.frames) {
-            frameDataList.add(i, FrameData())
+        fun getRandomString(length: Int) : String {
+            val paragraph = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id feugiat metus. Fusce vulputate elit in consectetur hendrerit. Donec ut ullamcorper tortor. Fusce viverra justo a magna accumsan, at malesuada orci pharetra."
+            var start = Random().nextInt(paragraph.length) - length
+            if (start <= 0) {
+                start = 1
+            }
+            val randomString = paragraph.substring(start, start + length )
+
+            return randomString
         }
 
-        // TODO TEST DATA
-        frameDataList[0].shutterIdx = 1
-        frameDataList[0].apertureIdx = 14
-        frameDataList[0].notes = "Description"
-        frameDataList[0].lensIdx = 5
-        frameDataList[0].updateSettings()
-
-        frameDataList[1].shutterIdx = 5
-        frameDataList[1].apertureIdx = 1
-        frameDataList[1].notes = "This description is too long!"
-        frameDataList[1].lensIdx = 5
-        frameDataList[1].updateSettings()
-
-        frameDataList[2].shutterIdx = 7
-        frameDataList[2].apertureIdx = 5
-        frameDataList[2].notes = "Some sorta nonsense"
-        frameDataList[2].lensIdx = 6
-        frameDataList[2].updateSettings()
+        // Create a list of blank exposure information
+        // TODO filled with test data
+        for (i in 0 until currentFilmRoll.frames) {
+            frameDataList.add(i, FrameData( shutterIdx = Random().nextInt(12) + 1,
+                                            apertureIdx = Random().nextInt(20) + 1,
+                                            notes = getRandomString(Random().nextInt(20) + 1),
+                                            lensIdx = Random().nextInt(6) + 1)
+                                )
+        }
 
         // Create an adapter with the list data, attach that to the list view
         frameArrayAdapter = FrameArrayAdapter(this, frameDataList)
@@ -74,7 +77,6 @@ class MainActivity : AppCompatActivity() {
         // TODO FIX THIS
         val exportButton = findViewById<View>(R.id.export_button) as Button
         exportButton.setOnClickListener {
-            setFilmDialog()
         }
     } // mainActivity
 
@@ -121,7 +123,7 @@ class MainActivity : AppCompatActivity() {
         when (id) {
             R.id.main_menu_camera -> setCameraDialog()
             R.id.main_menu_film -> setFilmDialog()
-            R.id.main_menu_clear_roll -> Toast.makeText(applicationContext, "clear roll", Toast.LENGTH_LONG).show()
+            R.id.main_menu_clear_roll -> clearFilmRoll()
             else -> {
                 // do nothing
             }
@@ -130,8 +132,33 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     } //onOptionsItemSelected()
 
-    fun setCameraDialog() {
+    private fun clearFilmRoll() {
+        val alertBuilder = AlertDialog.Builder(this)
+        alertBuilder.setMessage("Delete all frame data?\nProceed?")
+        alertBuilder.setPositiveButton("YES") { _, _ ->
+            frameDataList.clear()
 
+            for (i in 0 until currentFilmRoll.frames) {
+                frameDataList.add(i, FrameData())
+            }
+
+            frameArrayAdapter?.notifyDataSetChanged()
+        }
+        alertBuilder.setNegativeButton("NO") { _, _ -> } // do nothing
+
+        val warnDialog: Dialog = alertBuilder.create()
+        warnDialog.show()
+    }
+
+    private fun setCameraDialog() {
+        val args = Bundle()
+        args.putString("manu", currentCamera.manu)
+        args.putString("name", currentCamera.name)
+        args.putInt("format", currentCamera.formatIdx)
+        val cameraDialog = CameraDialog()
+
+        val fm = supportFragmentManager
+        cameraDialog.show(fm, "Camera Dialog")
     }
 
     private fun setFilmDialog() {
@@ -167,8 +194,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        frameArrayAdapter?.notifyDataSetInvalidated()
-
         currentFilmRoll.manu = manu
         currentFilmRoll.name = name
         currentFilmRoll.formatIdx = format
@@ -176,23 +201,34 @@ class MainActivity : AppCompatActivity() {
         currentFilmRoll.frames = frames
         currentFilmRoll.devIdx = dev
         currentFilmRoll.notes = notes
-        currentFilmRoll.updateSettings()
+        currentFilmRoll.updateData()
 
-        // Update Film Notes header
-        var textView = findViewById<View>(R.id.film) as TextView
-        val filmString = "${currentFilmRoll.manu} ${currentFilmRoll.name}"
-        textView.text = filmString
+        frameArrayAdapter?.notifyDataSetInvalidated()
+        updateNotesHeader()
+    }
+
+    fun updateNotesHeader() {
+        var textView = findViewById<View>(R.id.camera_name) as TextView
+        var str = "${currentCamera.manu} ${currentCamera.name}"
+        textView.text = str
+
+        textView = findViewById<View>(R.id.film) as TextView
+        str = "${currentFilmRoll.manu} ${currentFilmRoll.name}"
+        textView.text = str
 
         textView = findViewById<View>(R.id.iso) as TextView
         textView.text = currentFilmRoll.iso
 
         textView = findViewById<View>(R.id.dev) as TextView
         textView.text = currentFilmRoll.dev
-
     }
 
     fun saveRollInfo() {
 
+    }
+
+    fun getFrameCount(): Int {
+        return currentFilmRoll.frames
     }
 
     fun setSingleFrameData(pos: Int, shutter: Int, aperture: Int, lens: Int, notes: String) {
@@ -200,7 +236,7 @@ class MainActivity : AppCompatActivity() {
         frameDataList[pos].apertureIdx = aperture
         frameDataList[pos].lensIdx = lens
         frameDataList[pos].notes = notes
-        frameDataList[pos].updateSettings()
+        frameDataList[pos].updateData()
 
         frameArrayAdapter!!.notifyDataSetChanged()
     }
