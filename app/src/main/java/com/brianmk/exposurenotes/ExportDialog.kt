@@ -1,67 +1,47 @@
 package com.brianmk.exposurenotes
 
-import android.app.AlertDialog
-import android.app.Dialog
-import android.app.DialogFragment
+import android.graphics.Color
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Spinner
-import java.util.*
+import android.widget.TextView
+import androidx.fragment.app.DialogFragment
 
 class ExportDialog : DialogFragment() {
 
-    override fun onCreateDialog(savedInstanceState: Bundle): Dialog {
-        val builder = AlertDialog.Builder(activity)
-        val content = activity.layoutInflater.inflate(R.layout.export_dialog, null)
-        builder.setView(content)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val rootView = inflater.inflate(R.layout.export_dialog, container)
+        rootView.setBackgroundColor(Color.TRANSPARENT)
 
+        val filenameText = rootView.findViewById<View>(R.id.filename_edit) as TextView
+        val filenameStr = "01 - ${arguments!!.getString("camera")} - ${arguments!!.getString("film")}.json"
+        filenameText.text = filenameStr
 
-        val cal = Calendar.getInstance()
-//        val filename = Integer.toString(cal.get(cal.DAY_OF_MONTH)) + "-" +
-//                Integer.toString(cal.get(cal.MONTH)) + "-" +
-//                Integer.toString(cal.get(cal.YEAR)) + " " +
-//                arguments.getString("film") + ".json"
+        val methodSpin = rootView.findViewById<View>(R.id.method_spinner) as Spinner
+        val methodAdapter = ArrayAdapter.createFromResource(rootView.context,
+                R.array.export_methods, R.layout.spinner_item)
+        methodSpin.adapter = methodAdapter
+        methodSpin.setSelection(0)
 
-        val filename = "test.json"
+        val okButton = rootView.findViewById<View>(R.id.ok_button) as Button
+        okButton.setOnClickListener {
+            (activity as MainActivity).exportFilmRoll(filenameText.text.toString(),
+                    methodSpin.selectedItem.toString())
 
-        // Default filename
-        val filenameText = content.findViewById<EditText>(R.id.export_filename)
-        filenameText.setText(filename)
+            dismiss()
+        }
 
-        // Export method
-        val methodSpinner = content.findViewById<Spinner>(R.id.default_spinner)
-        val activityAdapter = ArrayAdapter.createFromResource(content.context,
-                R.array.export_methods, R.layout.default_spinner_item)
-        activityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        methodSpinner.adapter = activityAdapter
-        methodSpinner.setSelection(0)
+        val cancelButton = rootView.findViewById<View>(R.id.cancel_button) as Button
+        cancelButton.setOnClickListener {
+            dismiss()
+        }
 
-
-        // Export button
-        val exportButton = content.findViewById<Button>(R.id.export_dialog_button)
-        exportButton.setOnClickListener( {
-            fun onClick(view: View) {
-
-                (activity as MainActivity).exportFilmRoll("$filename.json", "dropbox")
-
-                dismiss()
-            }
-        })
-
-        // Cancel button
-        val cancelButton = content.findViewById<Button>(R.id.cancel_dialog_button)
-        cancelButton.setOnClickListener( {
-            fun onClick(view: View) {
-                dismiss()
-            }
-        })
-
-        return builder.create()
+        return rootView
     }
-
     companion object {
         private val LOG_TAG = ExportDialog::class.java.simpleName
     }

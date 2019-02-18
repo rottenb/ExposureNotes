@@ -66,7 +66,8 @@ class FilmDialog : DialogFragment() {
             // Ask user if they'd like to proceed or whatever
             if (Integer.parseInt(framesText.text.toString()) < arguments!!.getInt("frames")) {
                 val alertBuilder = AlertDialog.Builder(rootView.context)
-                alertBuilder.setMessage("New frame count is less than the current frame count.\nThe frame list will be truncated and data will be lost!\n\nProceed?")
+                alertBuilder.setMessage("New frame count is less than the current frame count.\n\n" +
+                        "The frame list will be truncated and data will be lost!\n\nProceed?")
                 alertBuilder.setPositiveButton("YES") { _, _ -> saveData() }
                 alertBuilder.setNegativeButton("NO") { _, _ -> } // do nothing
 

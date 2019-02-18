@@ -7,10 +7,14 @@ import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ListView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
@@ -58,12 +62,32 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Export button
-        // TODO FIX THIS
+/*
         val exportButton = findViewById<View>(R.id.export_button) as Button
         exportButton.setOnClickListener {
-            Toast.makeText(this, "Works in theory, not in fact.", Toast.LENGTH_LONG).show()
+            val args = Bundle()
+            args.putString("camera", currentCamera.name)
+            args.putString("film", currentFilmRoll.name)
+
+            val exportDialog = ExportDialog()
+            exportDialog.arguments = args
+            val fm = supportFragmentManager
+            exportDialog.show(fm, "Export Dialog")
         }
+*/
     } // mainActivity
+
+    // Export the film roll information
+    private fun exportRoll() {
+        val args = Bundle()
+        args.putString("camera", currentCamera.name)
+        args.putString("film", currentFilmRoll.name)
+
+        val exportDialog = ExportDialog()
+        exportDialog.arguments = args
+        val fm = supportFragmentManager
+        exportDialog.show(fm, "Export Dialog")
+    }
 
     // Set arguments to pass to the frame dialog, call the dialog
     private fun frameSetDialog(pos: Int) {
@@ -109,7 +133,8 @@ class MainActivity : AppCompatActivity() {
             R.id.main_menu_camera -> setCameraDialog()
             R.id.main_menu_film -> setFilmDialog()
             R.id.main_menu_clear_roll -> clearFilmRoll()
-            R.id.main_menu_fill_with_junk -> fillFilmRollJunk()
+            R.id.main_menu_export_roll -> exportRoll()
+            R.id.main_menu_junk -> fillWithTestData()
             else -> {
                 // do nothing
             }
@@ -119,7 +144,7 @@ class MainActivity : AppCompatActivity() {
     } //onOptionsItemSelected()
 
     // Fill frame list with random test data
-    private fun fillFilmRollJunk() {
+    private fun fillWithTestData() {
         fun getRandomString(length: Int) : String {
             val paragraph = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id" +
                     "feugiat metus. Fusce vulputate elit in consectetur hendrerit. Donec ut " +
@@ -141,6 +166,19 @@ class MainActivity : AppCompatActivity() {
             frameDataList[i].lensIdx = Random().nextInt(6) + 1
             frameDataList[i].updateData()
         }
+
+        currentCamera.manu = "Canon"
+        currentCamera.name = "FTb QL"
+        currentCamera.formatIdx = 0
+        currentCamera.updateData()
+
+        currentFilmRoll.manu = "Ilford"
+        currentFilmRoll.name = "HP5+"
+        currentFilmRoll.isoIdx = 8
+        currentFilmRoll.devIdx = 5
+        currentFilmRoll.updateData()
+
+        updateNotesHeader()
 
         frameArrayAdapter?.notifyDataSetInvalidated()
     } // fillFilmRollJunk
@@ -260,18 +298,28 @@ class MainActivity : AppCompatActivity() {
 
     fun exportFilmRoll(filename: String, method: String) {
         val outJ = OutputJSON()
-        val obj = outJ.createJSONobj("Fuji GW690ii", "EBC Fujinon 90mm f/3.5",
-                "Kodak Portra 160", "160", "0", frameDataList)
+        val obj = outJ.createJSONobj(currentCamera.name, currentFilmRoll.name, currentFilmRoll.iso, currentFilmRoll.dev, frameDataList)
         try {
-            val file = File("/storage/emulated/0/ExposureNotes/$filename")
+            val filepath = File("storage/emulated/0/ExposureNotes/")
+            filepath.mkdirs()
+
+            val file = File("$filepath/$filename")
+            Log.d(LOG_TAG, "$filepath/$filename")
             val output = BufferedWriter(FileWriter(file))
+
             output.write(obj.toString())
             output.close()
-            Toast.makeText(applicationContext, "JSON saved", Toast.LENGTH_SHORT).show()
+
+            val msg: Toast = Toast.makeText(applicationContext, "JSON saved", Toast.LENGTH_SHORT)
+            msg.setGravity(Gravity.CENTER, 0, 0)
+            msg.show()
+
         } catch (e: Exception) {
-            val error = "ERROR! Ensure that /storage/emulated/0/ExposureNotes is created and writeable"
-            Toast.makeText(applicationContext, error, Toast.LENGTH_LONG).show()
-            Log.d(LOG_TAG, "FILE WRITE!!")
+            val error = "ERROR! Ensure that /storage/emulated/0/ExposureNotes is created and writable."
+            val msg: Toast = Toast.makeText(applicationContext, error, Toast.LENGTH_LONG)
+            msg.setGravity(Gravity.CENTER, 0, 0)
+            msg.show()
+
             e.printStackTrace()
         }
 

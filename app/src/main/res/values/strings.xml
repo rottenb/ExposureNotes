@@ -9,15 +9,14 @@
     <string name="film_settings">Film Settings</string>
 
     <!-- Export Dialog -->
-    <string name="export_filename">DD-MM-YYY FILM.json</string>
-    <string name="export_method">DropBox</string>
+    <string name="export_filename">00 Film_name Camera_Name Date.json</string>
+    <string name="export_method">Send To:</string>
     <string-array name="export_methods">
-        <item>- other -</item>
+        <item>Local Storage</item>
         <item>DropBox</item>
         <item>Keybase</item>
         <item>Gmail</item>
         <item>Google Drive</item>
-        <item>Local Storage</item>
     </string-array>
 
     <!-- Camera Settings -->
@@ -59,7 +58,7 @@
     <string name="film_header">Film:</string>
     <string name="manu_header">Manufacturer:</string>
     <string name="iso_header">ISO:</string>
-    <string name="dev_header">Dev:</string>
+    <string name="dev_header">Develop:</string>
     <string name="film_size_header">Film Size:</string>
     <string name="film_size">120</string>
     <string name="film_manu">Manufacturer Name</string>
@@ -69,6 +68,8 @@
     <string name="dev_value">0</string>
     <string name="clear_roll">Clear Film Roll</string>
     <string name="new_roll">New Film Roll</string>
+    <string name="export_roll">Export Film Roll</string>
+
 
 
     <string-array name="isos">
@@ -109,7 +110,7 @@
 
     <!-- Button Text -->
     <string name="ok_button">OK</string>
-    <string name="export_button">Export</string>
+    <string name="export_button">Export Film Info</string>
     <string name="cancel_button">Cancel</string>
     <string name="clear_button">Clear</string>
     <string name="save_button">Save</string>
@@ -167,4 +168,6 @@
     <string name="spinner_text_example">0/0.0s</string>
     <string name="frame_notes_hint">Enter a brief description</string>
     <string name="frames_edit_hint">12</string>
+    <string name="filename_header">Filename:</string>
+    <string name="save_method">Save Method:</string>
 </resources>

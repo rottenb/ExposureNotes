@@ -25,5 +25,12 @@
         <item name="android:textSize">@dimen/dialog_font_size</item>
     </style>
 
+    <style name="ExportDialog" parent="AppTheme" >
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
 
 </resources>

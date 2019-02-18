@@ -8,8 +8,7 @@ import org.json.JSONObject
 
 class OutputJSON : JSONObject() {
 
-    fun createJSONobj(camera: String, lens: String,
-                      film: String, iso: String, dev: String,
+    fun createJSONobj(camera: String, film: String, iso: String, dev: String,
                       frameList: List<FrameData>): JSONObject {
 
         val obj = JSONObject()
@@ -26,7 +25,6 @@ class OutputJSON : JSONObject() {
 
         try {
             obj.put("camera", camera)
-            obj.put("lens", lens)
             obj.put("film", film)
             obj.put("iso", iso)
             obj.put("dev", dev)
