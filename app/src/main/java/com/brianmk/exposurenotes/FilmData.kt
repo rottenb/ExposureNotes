@@ -3,7 +3,7 @@ package com.brianmk.exposurenotes
 data class FilmData(var manu: String = "",
                     var name: String = "",
                     var formatIdx: Int = 0,
-                    var isoIdx: Int = 0,
+                    var isoIdx: Int = 5,
                     var frames: Int = 1,
                     var devIdx: Int = 4,
                     var notes: String = "") {

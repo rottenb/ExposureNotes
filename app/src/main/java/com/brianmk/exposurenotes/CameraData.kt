@@ -1,8 +1,8 @@
 package com.brianmk.exposurenotes
 
-data class CameraData(var manu: String = "Canon",
-                      var name: String = "FTb QL",
-                      var serial: String = "752235",
+data class CameraData(var manu: String = "",
+                      var name: String = "",
+                      var serial: String = "",
                       var formatIdx: Int = 0) {
 
     private val formats = arrayOf("35mm", "120mm")

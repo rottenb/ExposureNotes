@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintWidth_percent="0.6"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
@@ -55,6 +55,8 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/default_padding"
                     android:paddingEnd="@dimen/half_padding"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:textSize="@dimen/film_font_size"
                     android:text="@string/camera_name"/>
             </LinearLayout>
@@ -65,7 +67,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@id/camera_header"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.5">
+                app:layout_constraintWidth_percent="0.4">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -80,6 +82,8 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/default_padding"
                     android:paddingEnd="@dimen/half_padding"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:text="@string/film_name"
@@ -163,7 +167,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="27dp"
                 android:text="@string/shutter_header"
                 android:textSize="@dimen/header_font_size" />
 

@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         // TODO FIX THIS
         val exportButton = findViewById<View>(R.id.export_button) as Button
         exportButton.setOnClickListener {
+            Toast.makeText(this, "Works in theory, not in fact.", Toast.LENGTH_LONG).show()
         }
     } // mainActivity
 
@@ -88,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
         val fm = supportFragmentManager
         frameDialog.show(fm, "Frame Dialog")
-    }
+    } // frameSetDialog
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -120,14 +121,17 @@ class MainActivity : AppCompatActivity() {
     // Fill frame list with random test data
     private fun fillFilmRollJunk() {
         fun getRandomString(length: Int) : String {
-            val paragraph = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id feugiat metus. Fusce vulputate elit in consectetur hendrerit. Donec ut ullamcorper tortor. Fusce viverra justo a magna accumsan, at malesuada orci pharetra."
+            val paragraph = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id" +
+                    "feugiat metus. Fusce vulputate elit in consectetur hendrerit. Donec ut " +
+                    "ullamcorper tortor. Fusce viverra justo a magna accumsan, at malesuada orci" +
+                    "pharetra."
+
             var start = Random().nextInt(paragraph.length) - length
             if (start <= 0) {
                 start = 1
             }
-            val randomString = paragraph.substring(start, start + length )
 
-            return randomString
+            return paragraph.substring(start, start + length )
         }
 
         for (i in 0 until currentFilmRoll.frames) {
@@ -139,11 +143,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         frameArrayAdapter?.notifyDataSetInvalidated()
-    }
+    } // fillFilmRollJunk
 
     private fun clearFilmRoll() {
         val alertBuilder = AlertDialog.Builder(this)
-        alertBuilder.setMessage("Delete all frame data?\nProceed?")
+        alertBuilder.setMessage("Clear all frame data?")
         alertBuilder.setPositiveButton("YES") { _, _ ->
             frameDataList.clear()
 
@@ -157,7 +161,7 @@ class MainActivity : AppCompatActivity() {
 
         val warnDialog: Dialog = alertBuilder.create()
         warnDialog.show()
-    }
+    } // clearFilmRoll
 
     private fun setCameraDialog() {
         val args = Bundle()
@@ -165,10 +169,18 @@ class MainActivity : AppCompatActivity() {
         args.putString("name", currentCamera.name)
         args.putInt("format", currentCamera.formatIdx)
         val cameraDialog = CameraDialog()
+        cameraDialog.arguments = args
 
         val fm = supportFragmentManager
         cameraDialog.show(fm, "Camera Dialog")
-    }
+    } // setCameraDialog
+
+    fun setCameraData(manu: String, name: String) {
+        currentCamera.manu = manu
+        currentCamera.name = name
+
+        updateNotesHeader()
+    } // setCameraData
 
     private fun setFilmDialog() {
         val args = Bundle()
@@ -186,7 +198,7 @@ class MainActivity : AppCompatActivity() {
 
         val fm = supportFragmentManager
         filmDialog.show(fm, "Film Dialog")
-    }
+    } // setFilmDialog
 
     fun setFilmData(manu: String, name: String, format: Int, iso: Int, frames: Int, dev: Int, notes: String) {
         // Change the frame list to reflect the new size
@@ -214,9 +226,9 @@ class MainActivity : AppCompatActivity() {
 
         frameArrayAdapter?.notifyDataSetInvalidated()
         updateNotesHeader()
-    }
+    } // setFilmData
 
-    fun updateNotesHeader() {
+    private fun updateNotesHeader() {
         var textView = findViewById<View>(R.id.camera_name) as TextView
         var str = "${currentCamera.manu} ${currentCamera.name}"
         textView.text = str
@@ -230,15 +242,11 @@ class MainActivity : AppCompatActivity() {
 
         textView = findViewById<View>(R.id.dev) as TextView
         textView.text = currentFilmRoll.dev
-    }
+    } // updateNotesHeader
 
     fun saveRollInfo() {
 
-    }
-
-    fun getFrameCount(): Int {
-        return currentFilmRoll.frames
-    }
+    } // saveRollInfo
 
     fun setSingleFrameData(pos: Int, shutter: Int, aperture: Int, lens: Int, notes: String) {
         frameDataList[pos].shutterIdx = shutter
@@ -248,7 +256,7 @@ class MainActivity : AppCompatActivity() {
         frameDataList[pos].updateData()
 
         frameArrayAdapter!!.notifyDataSetChanged()
-    }
+    } // setSingleFrameData
 
     fun exportFilmRoll(filename: String, method: String) {
         val outJ = OutputJSON()
@@ -267,7 +275,7 @@ class MainActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
-    }
+    } // exportFilmRoll
 
     companion object {
         private val LOG_TAG = MainActivity::class.java.simpleName
@@ -290,7 +298,7 @@ class MainActivity : AppCompatActivity() {
                         REQUEST_EXTERNAL_STORAGE
                 )
             }
-        }
+        } // verifyStoragePermisions
     }
 
 }

@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/double_padding"
             android:textSize="@dimen/dialog_font_size"
-            android:inputType="textCapSentences"
+            android:inputType="textCapWords"
             android:hint="@string/film_manu"
             android:autofillHints="@string/film_manu"
             android:background="@android:color/transparent"/>
