@@ -23,6 +23,10 @@
             android:id="@+id/main_menu_clear_roll"
             android:orderInCategory="400"
             android:title="@string/clear_roll"/>
+        <item
+            android:id="@+id/main_menu_fill_with_junk"
+            android:orderInCategory="1000"
+            android:title="TEST: Fill Frames With Junk"/>
 
 
 

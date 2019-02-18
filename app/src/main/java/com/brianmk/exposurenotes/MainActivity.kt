@@ -42,25 +42,9 @@ class MainActivity : AppCompatActivity() {
         currentCamera = CameraData()
         updateNotesHeader()
 
-        fun getRandomString(length: Int) : String {
-            val paragraph = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id feugiat metus. Fusce vulputate elit in consectetur hendrerit. Donec ut ullamcorper tortor. Fusce viverra justo a magna accumsan, at malesuada orci pharetra."
-            var start = Random().nextInt(paragraph.length) - length
-            if (start <= 0) {
-                start = 1
-            }
-            val randomString = paragraph.substring(start, start + length )
-
-            return randomString
-        }
-
         // Create a list of blank exposure information
-        // TODO filled with test data
         for (i in 0 until currentFilmRoll.frames) {
-            frameDataList.add(i, FrameData( shutterIdx = Random().nextInt(12) + 1,
-                                            apertureIdx = Random().nextInt(20) + 1,
-                                            notes = getRandomString(Random().nextInt(20) + 1),
-                                            lensIdx = Random().nextInt(6) + 1)
-                                )
+            frameDataList.add(i, FrameData())
         }
 
         // Create an adapter with the list data, attach that to the list view
@@ -124,6 +108,7 @@ class MainActivity : AppCompatActivity() {
             R.id.main_menu_camera -> setCameraDialog()
             R.id.main_menu_film -> setFilmDialog()
             R.id.main_menu_clear_roll -> clearFilmRoll()
+            R.id.main_menu_fill_with_junk -> fillFilmRollJunk()
             else -> {
                 // do nothing
             }
@@ -131,6 +116,30 @@ class MainActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     } //onOptionsItemSelected()
+
+    // Fill frame list with random test data
+    private fun fillFilmRollJunk() {
+        fun getRandomString(length: Int) : String {
+            val paragraph = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id feugiat metus. Fusce vulputate elit in consectetur hendrerit. Donec ut ullamcorper tortor. Fusce viverra justo a magna accumsan, at malesuada orci pharetra."
+            var start = Random().nextInt(paragraph.length) - length
+            if (start <= 0) {
+                start = 1
+            }
+            val randomString = paragraph.substring(start, start + length )
+
+            return randomString
+        }
+
+        for (i in 0 until currentFilmRoll.frames) {
+            frameDataList[i].shutterIdx = Random().nextInt(12) + 1
+            frameDataList[i].apertureIdx = Random().nextInt(20) + 1
+            frameDataList[i].notes = getRandomString(Random().nextInt(20) + 1)
+            frameDataList[i].lensIdx = Random().nextInt(6) + 1
+            frameDataList[i].updateData()
+        }
+
+        frameArrayAdapter?.notifyDataSetInvalidated()
+    }
 
     private fun clearFilmRoll() {
         val alertBuilder = AlertDialog.Builder(this)
