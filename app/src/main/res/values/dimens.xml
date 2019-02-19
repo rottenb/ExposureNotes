@@ -4,6 +4,7 @@
     <dimen name="header_font_size">18sp</dimen>
     <dimen name="film_font_size">15sp</dimen>
     <dimen name="dialog_font_size">20sp</dimen>
+    <dimen name="dialog_title_size">25sp</dimen>
     <dimen name="list_item_font_size">20sp</dimen>
 
     <!-- Padding and Margins -->

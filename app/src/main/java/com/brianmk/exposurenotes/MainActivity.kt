@@ -27,12 +27,23 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private var frameDataList: MutableList<FrameData> = mutableListOf()
     private var frameArrayAdapter: FrameArrayAdapter? = null
+
     private lateinit var currentFilmRoll: FilmData
     private lateinit var currentCamera: CameraData
+
+    private var frameCount = 0
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+/*
+        if (frameCount == 0) {
+            setContentView(R.layout.blank_activity_main)
+        } else {
+            setContentView(R.layout.activity_main)
+        }
+*/
         setContentView(R.layout.activity_main)
 
         // Check that we have permission to read/write on the filesystem
@@ -61,20 +72,6 @@ class MainActivity : AppCompatActivity() {
             frameSetDialog(pos)
         }
 
-        // Export button
-/*
-        val exportButton = findViewById<View>(R.id.export_button) as Button
-        exportButton.setOnClickListener {
-            val args = Bundle()
-            args.putString("camera", currentCamera.name)
-            args.putString("film", currentFilmRoll.name)
-
-            val exportDialog = ExportDialog()
-            exportDialog.arguments = args
-            val fm = supportFragmentManager
-            exportDialog.show(fm, "Export Dialog")
-        }
-*/
     } // mainActivity
 
     // Export the film roll information
@@ -167,15 +164,16 @@ class MainActivity : AppCompatActivity() {
             frameDataList[i].updateData()
         }
 
-        currentCamera.manu = "Canon"
-        currentCamera.name = "FTb QL"
+        currentCamera.manu = "Mamiya"
+        currentCamera.name = "RB67sd"
         currentCamera.formatIdx = 0
         currentCamera.updateData()
 
         currentFilmRoll.manu = "Ilford"
         currentFilmRoll.name = "HP5+"
-        currentFilmRoll.isoIdx = 8
-        currentFilmRoll.devIdx = 5
+        currentFilmRoll.isoIdx = Random().nextInt(12) + 1
+        currentFilmRoll.devIdx = Random().nextInt(7) + 1
+        currentFilmRoll.formatIdx = Random().nextInt(11) + 1
         currentFilmRoll.updateData()
 
         updateNotesHeader()
@@ -274,6 +272,9 @@ class MainActivity : AppCompatActivity() {
         textView = findViewById<View>(R.id.film) as TextView
         str = "${currentFilmRoll.manu} ${currentFilmRoll.name}"
         textView.text = str
+
+        textView = findViewById<View>(R.id.format) as TextView
+        textView.text = currentFilmRoll.format
 
         textView = findViewById<View>(R.id.iso) as TextView
         textView.text = currentFilmRoll.iso

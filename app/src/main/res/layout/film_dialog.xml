@@ -8,15 +8,34 @@
     android:layout_margin="@dimen/default_margin"
     android:background="@drawable/border">
 
-    <!-- Manufacturer -->
+    <!-- Dialog Title -->
+    <TextView
+        style="@style/DialogTitle"
+        android:id="@+id/dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/film_dialog_title"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_margin="@dimen/half_margin"
+        app:layout_constraintTop_toBottomOf="@id/dialog_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/colorPrimary"/>
+
+    <!-- Manufacturer Name -->
     <TextView
         style="@style/DialogHeader"
         android:id="@+id/manu_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginTop="@dimen/double_margin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_title"
         app:layout_constraintBottom_toTopOf="@id/manu_border"
         android:text="@string/manu_header"/>
     <LinearLayout
@@ -27,7 +46,6 @@
         app:layout_constraintTop_toBottomOf="@id/manu_header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="vertical"
         android:background="@drawable/border">
         <EditText
             android:id="@+id/manu_edit"
@@ -43,7 +61,7 @@
             android:background="@android:color/transparent"/>
     </LinearLayout>
 
-    <!-- Film -->
+    <!-- Film name -->
     <TextView
         style="@style/DialogHeader"
         android:id="@+id/film_header"
@@ -59,7 +77,7 @@
         android:layout_margin="@dimen/default_margin"
         app:layout_constraintTop_toBottomOf="@id/film_header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent=".7"
+        app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/border">
         <EditText
             android:id="@+id/film_edit"
@@ -75,47 +93,47 @@
             android:background="@android:color/transparent"/>
     </LinearLayout>
 
-    <!-- Number of Frames -->
+    <!-- Format Selecton -->
     <TextView
         style="@style/DialogHeader"
-        android:id="@+id/frames_header"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/film_border"
-        app:layout_constraintTop_toTopOf="@id/film_header"
-        android:text="@string/frames_header"/>
-    <LinearLayout
-        android:id="@+id/format_select"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        app:layout_constraintTop_toBottomOf="@id/film_header"
-        app:layout_constraintStart_toEndOf="@id/film_border"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="vertical"
-        android:background="@drawable/border">
-        <EditText
-            android:id="@+id/frames_edit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/double_padding"
-            android:gravity="center"
-            android:textSize="@dimen/dialog_font_size"
-            android:inputType="number"
-            android:maxLength="2"
-            android:background="@android:color/transparent">
-        </EditText>
-    </LinearLayout>
-
-    <!-- ISO -->
-    <TextView
-        style="@style/DialogHeader"
-        android:id="@+id/iso_header"
+        android:id="@+id/format_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/film_border"
-        android:text="@string/iso_header"/>
+        android:text="@string/format_header"/>
+    <LinearLayout
+        android:id="@+id/format_border"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintTop_toBottomOf="@id/format_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/border">
+        <Spinner
+            android:id="@+id/format_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_margin"
+            android:layout_marginBottom="@dimen/half_margin"
+            android:padding="@dimen/default_padding">
+        </Spinner>
+    </LinearLayout>
+
+    <!-- ISO Selection -->
+    <TextView
+        android:id="@+id/iso_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/double_margin"
+        android:paddingStart="@dimen/double_padding"
+        android:paddingEnd="@dimen/double_padding"
+        android:text="@string/iso_header"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/dialog_font_size"
+        app:layout_constraintTop_toBottomOf="@id/format_border"
+        app:layout_constraintStart_toStartOf="parent"/>
     <LinearLayout
         android:id="@+id/iso_border"
         android:layout_width="0dp"
@@ -123,7 +141,7 @@
         android:layout_margin="@dimen/default_margin"
         app:layout_constraintTop_toBottomOf="@id/iso_header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintWidth_percent="0.48"
         android:background="@drawable/border">
         <Spinner
             android:id="@+id/iso_spinner"
@@ -135,41 +153,18 @@
         </Spinner>
     </LinearLayout>
 
-    <!-- Film Format -->
+    <!-- Dev Selection -->
     <TextView
-        style="@style/DialogHeader"
-        android:id="@+id/format_header"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/iso_border"
-        app:layout_constraintTop_toBottomOf="@id/film_border"
-        android:text="@string/format_header"/>
-    <LinearLayout
-        android:id="@+id/format_border"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        app:layout_constraintTop_toBottomOf="@id/format_header"
-        app:layout_constraintStart_toEndOf="@id/iso_border"
-        app:layout_constraintEnd_toStartOf="@id/dev_border"
-        android:background="@drawable/border">
-        <Spinner
-            android:id="@+id/format_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/half_margin"
-            android:layout_marginBottom="@dimen/half_margin"
-            android:padding="@dimen/default_padding"/>
-    </LinearLayout>
-
-    <!-- DEV -->
-    <TextView
-        style="@style/DialogHeader"
         android:id="@+id/dev_header"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/dev_border"
-        app:layout_constraintTop_toBottomOf="@id/film_border"
+        android:layout_marginTop="@dimen/double_margin"
+        app:layout_constraintStart_toEndOf="@id/iso_border"
+        app:layout_constraintTop_toBottomOf="@id/format_border"
+        android:paddingStart="@dimen/double_padding"
+        android:paddingEnd="@dimen/double_padding"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/dialog_font_size"
         android:text="@string/dev_header"/>
     <LinearLayout
         android:id="@+id/dev_border"
@@ -177,8 +172,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_margin"
         app:layout_constraintTop_toBottomOf="@id/dev_header"
+        app:layout_constraintStart_toEndOf="@id/iso_border"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.23"
+        app:layout_constraintWidth_percent="0.48"
+        android:orientation="vertical"
         android:background="@drawable/border">
         <Spinner
             android:id="@+id/dev_spinner"
@@ -192,43 +189,47 @@
 
     <!-- Notes -->
     <TextView
-        style="@style/DialogHeader"
         android:id="@+id/notes_header"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iso_border"
+        app:layout_constraintBottom_toTopOf="@id/frame_notes"
+        android:layout_marginTop="@dimen/double_margin"
+        android:paddingStart="@dimen/double_padding"
+        android:paddingEnd="@dimen/double_padding"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/dialog_font_size"
         android:text="@string/notes_header"/>
     <LinearLayout
         android:id="@+id/notes_border"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         android:layout_margin="@dimen/default_margin"
         app:layout_constraintTop_toBottomOf="@id/notes_header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/border">
+
         <EditText
             android:id="@+id/notes_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="start"
             android:padding="@dimen/double_padding"
             android:textSize="@dimen/dialog_font_size"
             android:inputType="textCapSentences"
-            android:gravity="top"
-            android:hint="@string/film_notes"
-            android:autofillHints="@string/film_notes"
+            android:hint="@string/frame_notes_hint"
+            android:autofillHints="@string/frame_notes_hint"
             android:background="@android:color/transparent"/>
     </LinearLayout>
 
     <!-- Action Buttons -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_margin"
         app:layout_constraintTop_toBottomOf="@id/notes_border"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center">
         <!-- OK Button -->
         <Button
@@ -251,6 +252,4 @@
             android:textStyle="bold"
             android:text="@string/cancel_button"/>
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

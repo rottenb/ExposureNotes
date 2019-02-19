@@ -36,12 +36,12 @@
             android:layout_margin="@dimen/default_margin">
             <LinearLayout
                 android:id="@+id/camera_header"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/film_header"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".60">
+                app:layout_constraintHorizontal_chainStyle="spread_inside">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -63,12 +63,11 @@
 
             <LinearLayout
                 android:id="@+id/film_header"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@id/camera_header"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.4">
+                app:layout_constraintTop_toTopOf="parent">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -222,32 +221,24 @@
             android:layout_height="1dp"
             android:background="@color/colorAccent" />
 
-        <!-- Frame List -->
-        <ListView
-            android:id="@+id/frame_list"
+        <!-- Empty Layout With Message On How To Get Started -->
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
-            android:background="@color/light_grey"/>
+            android:layout_height="match_parent"
+            android:background="@color/lighter_grey_blue"/>
 
     </LinearLayout>
-<!--
-    <Button
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:id="@+id/export_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="@dimen/header_font_size"
-        android:textStyle="bold"
-        android:text="@string/export_button"/>
--->
+    <!--
+        <Button
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:id="@+id/export_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/header_font_size"
+            android:textStyle="bold"
+            android:text="@string/export_button"/>
+    -->
 </androidx.constraintlayout.widget.ConstraintLayout>

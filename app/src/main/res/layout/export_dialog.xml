@@ -8,6 +8,24 @@
     android:layout_margin="@dimen/default_margin"
     android:background="@drawable/border">
 
+    <!-- Dialog Title -->
+    <TextView
+        style="@style/DialogTitle"
+        android:id="@+id/dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/film_dialog_title"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_margin="@dimen/half_margin"
+        app:layout_constraintTop_toBottomOf="@id/dialog_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/colorPrimary"/>
 
     <!-- Filename -->
     <TextView
@@ -15,9 +33,9 @@
         android:id="@+id/filename_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginTop="@dimen/double_margin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_title"
         app:layout_constraintBottom_toTopOf="@id/filename_border"
         android:text="@string/filename_header"/>
     <LinearLayout

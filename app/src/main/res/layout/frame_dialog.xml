@@ -8,12 +8,31 @@
     android:layout_margin="@dimen/default_margin"
     android:background="@drawable/border">
 
+    <!-- Dialog Title -->
+    <TextView
+        style="@style/DialogTitle"
+        android:id="@+id/dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/frame_dialog_title"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_margin="@dimen/half_margin"
+        app:layout_constraintTop_toBottomOf="@id/dialog_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/colorPrimary"/>
+
     <!-- Shutter Speed Selection - "shutter_select" -->
     <TextView
         android:id="@+id/shutter_header_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginTop="@dimen/double_margin"
         android:paddingStart="@dimen/double_padding"
         android:paddingEnd="@dimen/double_padding"
         android:text="@string/shutter_header"
@@ -21,8 +40,7 @@
         android:textSize="@dimen/dialog_font_size"
         app:layout_constraintBottom_toTopOf="@id/shutter_select"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread_inside" />
+        app:layout_constraintTop_toBottomOf="@id/dialog_title" />
     <LinearLayout
         android:id="@+id/shutter_select"
         android:layout_width="0dp"
@@ -31,7 +49,6 @@
         app:layout_constraintTop_toBottomOf="@id/shutter_header_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.48"
-        android:orientation="vertical"
         android:background="@drawable/border">
         <Spinner
             android:id="@+id/shutter_spinner"
@@ -48,9 +65,9 @@
         android:id="@+id/aperture_header_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginTop="@dimen/double_margin"
         app:layout_constraintStart_toEndOf="@id/shutter_select"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_title"
         app:layout_constraintBottom_toTopOf="@id/aperture_select"
         android:paddingStart="@dimen/double_padding"
         android:paddingEnd="@dimen/double_padding"
@@ -122,7 +139,6 @@
         app:layout_constraintTop_toBottomOf="@id/lens_select"
         app:layout_constraintBottom_toTopOf="@id/frame_notes"
         android:layout_marginTop="@dimen/double_margin"
-
         android:paddingStart="@dimen/double_padding"
         android:paddingEnd="@dimen/double_padding"
         android:textColor="@color/colorPrimaryDark"
@@ -160,7 +176,7 @@
         <!-- OK Button -->
         <Button
             style="@style/Widget.AppCompat.Button.Colored"
-            android:id="@+id/frame_ok_button"
+            android:id="@+id/ok_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/double_margin"
@@ -170,15 +186,24 @@
         <!-- Clear Button -->
         <Button
             style="@style/Widget.AppCompat.Button.Colored"
-            android:id="@+id/frame_clear_button"
+            android:id="@+id/clear_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/double_margin"
+            android:layout_marginEnd="@dimen/double_margin"
+            android:textSize="@dimen/dialog_font_size"
+            android:textStyle="bold"
+            android:text="@string/clear_button"/>
+        <!-- Cancel -->
+        <Button
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/double_margin"
             android:textSize="@dimen/dialog_font_size"
             android:textStyle="bold"
-            android:text="@string/clear_button"/>
+            android:text="@string/cancel_button"
+            />
     </LinearLayout>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

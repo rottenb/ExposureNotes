@@ -40,25 +40,25 @@
     </string-array>
 
     <string-array name="formats">
-        <item>35mm</item>
-        <item>120mm</item>
-    </string-array>
-
-    <string-array name="format_types">
-        <item>- other -</item>
-        <item>3x2 (35mm)</item>
-        <item>645 (120mm)</item>
-        <item>6x6 (120mm)</item>
-        <item>6x7 (120mm)</item>
-        <item>6x8 (120mm)</item>
-        <item>6x9 (120mm)</item>
+        <item>35mm 3x2 (24 frames)</item>
+        <item>35mm 3x2 (36 frames)</item>
+        <item>120mm 6x4.5 (15 frames)</item>
+        <item>120mm 6x4.5 (16 frames)</item>
+        <item>120mm 6x6 (12 frames)</item>
+        <item>120mm 6x6 (13 frames)</item>
+        <item>120mm 6x7 (10 frames)</item>
+        <item>120mm 6x8 (9 frames)</item>
+        <item>120mm 6x9 (8 frames)</item>
+        <item>120mm 6x12 (6 frames)</item>
+        <item>120mm 6x17 (4 frames)</item>
+        <item>120mm 6x24 (3 frames)</item>
     </string-array>
 
     <!-- Film Info -->
     <string name="film_header">Film:</string>
     <string name="manu_header">Manufacturer:</string>
     <string name="iso_header">ISO:</string>
-    <string name="dev_header">Develop:</string>
+    <string name="dev_header">Dev:</string>
     <string name="film_size_header">Film Size:</string>
     <string name="film_size">120</string>
     <string name="film_manu">Manufacturer Name</string>
@@ -73,7 +73,6 @@
 
 
     <string-array name="isos">
-        <item>X</item>
         <item>5</item>
         <item>12</item>
         <item>25</item>
@@ -89,7 +88,7 @@
     </string-array>
 
     <string-array name="devs">
-        <item>±X</item>
+        <item>±</item>
         <item>-3</item>
         <item>-2</item>
         <item>-1</item>
@@ -170,4 +169,8 @@
     <string name="frames_edit_hint">12</string>
     <string name="filename_header">Filename:</string>
     <string name="save_method">Save Method:</string>
+    <string name="frame_dialog_title">Frame Settings</string>
+    <string name="camera_dialog_title">Camera Settings</string>
+    <string name="film_dialog_title">Film Settings</string>
+    <string name="export_dialog_title">Export Film Roll Data</string>
 </resources>
