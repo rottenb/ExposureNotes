@@ -33,17 +33,8 @@ class MainActivity : AppCompatActivity() {
 
     private var frameCount = 0
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-/*
-        if (frameCount == 0) {
-            setContentView(R.layout.blank_activity_main)
-        } else {
-            setContentView(R.layout.activity_main)
-        }
-*/
         setContentView(R.layout.activity_main)
 
         // Check that we have permission to read/write on the filesystem
@@ -53,7 +44,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(myToolbar)
 
         // TODO TEST DATA
-        currentFilmRoll = FilmData(frames = 12)
+        currentFilmRoll = FilmData()
+
         currentCamera = CameraData()
         updateNotesHeader()
 
@@ -67,12 +59,32 @@ class MainActivity : AppCompatActivity() {
         val frameListView = findViewById<View>(R.id.frame_list) as ListView
         frameListView.adapter = frameArrayAdapter
 
+        setListVisibility()
+
         // Allow list touching, call a frame info dialog
-        frameListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
-            frameSetDialog(pos)
+        if (currentFilmRoll.frames <= 0) {
+            findViewById<View>(R.id.blank_list).setOnClickListener {
+                fillWithTestData()
+            }
+        } else {
+            frameListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
+                frameSetDialog(pos)
+            }
         }
 
     } // mainActivity
+
+    private fun setListVisibility() {
+        if (currentFilmRoll.frames <= 0) {
+            findViewById<View>(R.id.frame_list).visibility = View.INVISIBLE
+            findViewById<View>(R.id.list_end_bar).visibility = View.INVISIBLE
+            findViewById<View>(R.id.blank_list).visibility = View.VISIBLE
+        } else {
+            findViewById<View>(R.id.blank_list).visibility = View.GONE
+            findViewById<View>(R.id.frame_list).visibility = View.VISIBLE
+            findViewById<View>(R.id.list_end_bar).visibility = View.VISIBLE
+        }
+    }
 
     // Export the film roll information
     private fun exportRoll() {
@@ -142,24 +154,33 @@ class MainActivity : AppCompatActivity() {
 
     // Fill frame list with random test data
     private fun fillWithTestData() {
-        fun getRandomString(length: Int) : String {
-            val paragraph = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id" +
-                    "feugiat metus. Fusce vulputate elit in consectetur hendrerit. Donec ut " +
-                    "ullamcorper tortor. Fusce viverra justo a magna accumsan, at malesuada orci" +
-                    "pharetra."
+        fun getRandomString() : String {
+            val paragraph = arrayOf("Lorem ", "ipsum ", "dolor ", "sit ", "amet ", "consectetur ",
+                    "adipiscing ", "elit ", "Nulla ",  "id ", "feugiat ", "metus ", "Fusce ", "vulputate ",
+                    "elit ", "in ", "consectetur ", "hendrerit ", "Donec ", "ut ", "ullamcorper ", "tortor ",
+                    "Fusce ", "viverra ", "justo ", "a ", "magna ", "accumsan ", "at ", "malesuada ", "orci ",
+                    "pharetra. ")
 
-            var start = Random().nextInt(paragraph.length) - length
-            if (start <= 0) {
-                start = 1
+            var str = ""
+            val limit = Random().nextInt(4) + 2
+            for (i in 1 until limit) {
+                str = str + paragraph[Random().nextInt(paragraph.size)]
             }
 
-            return paragraph.substring(start, start + length )
+            return str
+        }
+
+        clearFilmRoll(false)
+        currentFilmRoll.frames = Random().nextInt(36) + 1
+
+        for (i in 0 until currentFilmRoll.frames) {
+            frameDataList.add(i, FrameData())
         }
 
         for (i in 0 until currentFilmRoll.frames) {
             frameDataList[i].shutterIdx = Random().nextInt(12) + 1
             frameDataList[i].apertureIdx = Random().nextInt(20) + 1
-            frameDataList[i].notes = getRandomString(Random().nextInt(20) + 1)
+            frameDataList[i].notes = getRandomString()
             frameDataList[i].lensIdx = Random().nextInt(6) + 1
             frameDataList[i].updateData()
         }
@@ -176,27 +197,35 @@ class MainActivity : AppCompatActivity() {
         currentFilmRoll.formatIdx = Random().nextInt(11) + 1
         currentFilmRoll.updateData()
 
+        Log.d(LOG_TAG, "frames: ${currentFilmRoll.frames}")
+
         updateNotesHeader()
+        setListVisibility()
 
         frameArrayAdapter?.notifyDataSetInvalidated()
     } // fillFilmRollJunk
 
-    private fun clearFilmRoll() {
-        val alertBuilder = AlertDialog.Builder(this)
-        alertBuilder.setMessage("Clear all frame data?")
-        alertBuilder.setPositiveButton("YES") { _, _ ->
-            frameDataList.clear()
+    private fun clearFilmRoll(showWarning: Boolean = true) {
+        if (showWarning) {
+            val alertBuilder = AlertDialog.Builder(this)
+            alertBuilder.setMessage("Clear all frame data?")
+            alertBuilder.setPositiveButton("YES") { _, _ ->
+                frameDataList.clear()
+                currentFilmRoll.frames = 0
 
-            for (i in 0 until currentFilmRoll.frames) {
-                frameDataList.add(i, FrameData())
+                setListVisibility()
+                frameArrayAdapter?.notifyDataSetChanged()
             }
+            alertBuilder.setNegativeButton("NO") { _, _ -> } // do nothing
 
+            val warnDialog: Dialog = alertBuilder.create()
+            warnDialog.show()
+        } else {
+            frameDataList.clear()
+            currentFilmRoll.frames = 0
+            setListVisibility()
             frameArrayAdapter?.notifyDataSetChanged()
         }
-        alertBuilder.setNegativeButton("NO") { _, _ -> } // do nothing
-
-        val warnDialog: Dialog = alertBuilder.create()
-        warnDialog.show()
     } // clearFilmRoll
 
     private fun setCameraDialog() {
@@ -261,6 +290,7 @@ class MainActivity : AppCompatActivity() {
         currentFilmRoll.updateData()
 
         frameArrayAdapter?.notifyDataSetInvalidated()
+        setListVisibility()
         updateNotesHeader()
     } // setFilmData
 

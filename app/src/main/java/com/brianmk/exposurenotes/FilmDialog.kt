@@ -31,8 +31,6 @@ class FilmDialog : DialogFragment() {
         formatSpin.adapter = formatAdapter
         formatSpin.setSelection(arguments!!.getInt("format"))
 
-        val frames = arrayOf(36, 24, 15, 16, 12, 13, 10, 9, 8, 6, 4, 3)
-        val frameCount = frames[formatSpin.selectedItemPosition]
 
         val isoSpin = rootView.findViewById<View>(R.id.iso_spinner) as Spinner
         val isoAdapter = ArrayAdapter.createFromResource(rootView.context,
@@ -51,6 +49,8 @@ class FilmDialog : DialogFragment() {
 
         val saveButton = rootView.findViewById<View>(R.id.save_button) as Button
         saveButton.setOnClickListener {
+            val frames = arrayOf(36, 24, 15, 16, 12, 13, 10, 9, 8, 6, 4, 3)
+            val frameCount = frames[formatSpin.selectedItemPosition]
             // This gets called if the user wants to truncate the film list
             fun saveData() {
                 (activity as MainActivity).setFilmData(

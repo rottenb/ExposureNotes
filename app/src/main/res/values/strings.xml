@@ -40,8 +40,8 @@
     </string-array>
 
     <string-array name="formats">
-        <item>35mm 3x2 (24 frames)</item>
         <item>35mm 3x2 (36 frames)</item>
+        <item>35mm 3x2 (24 frames)</item>
         <item>120mm 6x4.5 (15 frames)</item>
         <item>120mm 6x4.5 (16 frames)</item>
         <item>120mm 6x6 (12 frames)</item>

@@ -17,7 +17,7 @@
         android:background="@color/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <!-- Camera And Film Notes - "film_settings" -->
     <LinearLayout
@@ -217,11 +217,25 @@
                 android:textSize="@dimen/header_font_size" />
         </LinearLayout>
 
+
+
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorAccent" />
 
+        <TextView
+            android:id="@+id/blank_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="2dp"
+            android:gravity="center"
+            android:textSize="@dimen/dialog_font_size"
+            android:text="Tap For New Film Roll"
+            android:background="@color/lighter_grey_blue"/>
         <!-- Frame List -->
         <ListView
             android:id="@+id/frame_list"
@@ -229,7 +243,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="2dp"/>
 
+
+
         <View
+            android:id="@+id/list_end_bar"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="2dp"
