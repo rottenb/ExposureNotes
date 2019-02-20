@@ -15,5 +15,7 @@
     <dimen name="double_margin">12dp</dimen>
     <dimen name="half_margin">3dp</dimen>
 
+    <!-- Other Dimensions -->
+    <dimen name="notes_field_height">80dp</dimen>
 
 </resources>

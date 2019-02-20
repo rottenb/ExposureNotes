@@ -62,14 +62,11 @@ class MainActivity : AppCompatActivity() {
         setListVisibility()
 
         // Allow list touching, call a frame info dialog
-        if (currentFilmRoll.frames <= 0) {
-            findViewById<View>(R.id.blank_list).setOnClickListener {
-                fillWithTestData()
-            }
-        } else {
-            frameListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
-                frameSetDialog(pos)
-            }
+        findViewById<View>(R.id.blank_list).setOnClickListener {
+            fillWithTestData() }
+
+        frameListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
+            frameSetDialog(pos)
         }
 
     } // mainActivity
@@ -140,6 +137,7 @@ class MainActivity : AppCompatActivity() {
         // Menu items
         when (id) {
             R.id.main_menu_camera -> setCameraDialog()
+            R.id.main_menu_lens -> setLensDialog()
             R.id.main_menu_film -> setFilmDialog()
             R.id.main_menu_clear_roll -> clearFilmRoll()
             R.id.main_menu_export_roll -> exportRoll()
@@ -239,6 +237,12 @@ class MainActivity : AppCompatActivity() {
         val fm = supportFragmentManager
         cameraDialog.show(fm, "Camera Dialog")
     } // setCameraDialog
+
+    private fun setLensDialog() {
+        val lensDialog = LensDialog()
+        val fm = supportFragmentManager
+        lensDialog.show(fm, "Lens Dialog")
+    }
 
     fun setCameraData(manu: String, name: String) {
         currentCamera.manu = manu

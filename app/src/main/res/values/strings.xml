@@ -6,6 +6,7 @@
     <!-- Main Menu -->
     <string name="app_settings">App Settings</string>
     <string name="camera_settings">Camera Settings</string>
+    <string name="lens_settings">Lens Inventory</string>
     <string name="film_settings">Film Settings</string>
 
     <!-- Export Dialog -->
@@ -23,6 +24,7 @@
     <string name="camera_header">Camera:</string>
     <string name="camera_name">Camera Model</string>
     <string name="lens_header">Lens:</string>
+    <string name="lens_name">Lens Model</string>
     <string name="lens_type">EBC Fujinon 90mm f/3.5</string>
     <string name="frames_header">Frames:</string>
     <string name="format_header">Format:</string>
@@ -113,6 +115,8 @@
     <string name="cancel_button">Cancel</string>
     <string name="clear_button">Clear</string>
     <string name="save_button">Save</string>
+    <string name="add_button">Add</string>
+    <string name="remove_button">Remove</string>
 
     <string-array name="shutter_speeds">
         <item>1/Xs</item>
@@ -162,9 +166,8 @@
         <item>Mamiya Six Automat II</item>
     </string-array>
 
-    <!-- Frame List Item -->
     <string name="frame_list_num_hint">1</string>
-    <string name="spinner_text_example">0/0.0s</string>
+    <string name="spinner_text_example">Example</string>
     <string name="frame_notes_hint">Enter a brief description</string>
     <string name="frames_edit_hint">12</string>
     <string name="filename_header">Filename:</string>
@@ -173,4 +176,5 @@
     <string name="camera_dialog_title">Camera Settings</string>
     <string name="film_dialog_title">Film Settings</string>
     <string name="export_dialog_title">Export Film Roll Data</string>
+    <string name="lens_dialog_title">Lens Inventory</string>
 </resources>

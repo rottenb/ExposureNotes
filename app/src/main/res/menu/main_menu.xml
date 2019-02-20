@@ -5,7 +5,7 @@
     <group android:id="@+id/menu_group_user">
 
         <item
-            android:id="@+id/main_menus_display"
+            android:id="@+id/main_menu_settings"
             android:orderInCategory="100"
             android:title="@string/app_settings"/>
 
@@ -15,17 +15,22 @@
             android:title="@string/camera_settings"/>
 
         <item
-            android:id="@+id/main_menu_film"
+            android:id="@+id/main_menu_lens"
             android:orderInCategory="300"
+            android:title="Lens Inventory"/>
+
+        <item
+            android:id="@+id/main_menu_film"
+            android:orderInCategory="400"
             android:title="@string/film_settings"/>
 
         <item
             android:id="@+id/main_menu_clear_roll"
-            android:orderInCategory="400"
+            android:orderInCategory="500"
             android:title="@string/clear_roll"/>
         <item
             android:id="@+id/main_menu_export_roll"
-            android:orderInCategory="500"
+            android:orderInCategory="600"
             android:title="@string/export_roll"/>
         <item
             android:id="@+id/main_menu_junk"

@@ -6,6 +6,6 @@
     style="@style/SpinnerItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="start"
+    android:gravity="center"
     tools:text="@string/spinner_text_example">
 </TextView>
