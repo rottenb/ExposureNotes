@@ -25,11 +25,8 @@ class FilmDialog : DialogFragment() {
         val filmText = rootView.findViewById<View>(R.id.film_edit) as TextView
         filmText.text = arguments!!.getString("name")
 
-        val formatSpin = rootView.findViewById<View>(R.id.format_spinner) as Spinner
-        val formatAdapter = ArrayAdapter.createFromResource(rootView.context,
-                R.array.formats, R.layout.spinner_item)
-        formatSpin.adapter = formatAdapter
-        formatSpin.setSelection(arguments!!.getInt("format"))
+        val frameText = rootView.findViewById<View>(R.id.frame_count) as TextView
+        frameText.text = arguments!!.getInt("frames").toString()
 
 
         val isoSpin = rootView.findViewById<View>(R.id.iso_spinner) as Spinner
@@ -49,14 +46,13 @@ class FilmDialog : DialogFragment() {
 
         val saveButton = rootView.findViewById<View>(R.id.save_button) as Button
         saveButton.setOnClickListener {
-            val frames = arrayOf(36, 24, 15, 16, 12, 13, 10, 9, 8, 6, 4, 3)
-            val frameCount = frames[formatSpin.selectedItemPosition]
+            //val frameCount = frames[formatSpin.selectedItemPosition]
             // This gets called if the user wants to truncate the film list
+            val frameCount = frameText.text.toString().toInt()
             fun saveData() {
                 (activity as MainActivity).setFilmData(
                         manuText.text.toString(),
                         filmText.text.toString(),
-                        formatSpin.selectedItemPosition,
                         isoSpin.selectedItemPosition,
                         frameCount,
                         devSpin.selectedItemPosition,
@@ -66,7 +62,7 @@ class FilmDialog : DialogFragment() {
 
             // Warn if new frames size is smaller than old
             // Ask user if they'd like to proceed or whatever
-            if ( frameCount < arguments!!.getInt("frames")) {
+            if (frameCount < arguments!!.getInt("frames")) {
                 val alertBuilder = AlertDialog.Builder(rootView.context)
                 alertBuilder.setMessage("New frame count is less than the current frame count.\n\n" +
                         "The frame list will be truncated and data will be lost!\n\nProceed?")
@@ -79,8 +75,6 @@ class FilmDialog : DialogFragment() {
                 saveData()
             }
         }
-
-
 
         val cancelButton = rootView.findViewById<View>(R.id.cancel_button) as Button
         cancelButton.setOnClickListener {

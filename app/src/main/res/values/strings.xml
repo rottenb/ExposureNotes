@@ -30,32 +30,27 @@
     <string name="format_header">Format:</string>
     <string name="format_type">120mm</string>
 
-    <string-array name="lenses">
-        <item>- other -</item>
-        <item>Canon FD 23mm f/1.8</item>
-        <item>Canon FD 50mm f/1.4</item>
-        <item>Canon FD 50mm f/3.5 macro</item>
-        <item>Canon FD 85mm f/1.8</item>
-        <item>Canon FD 300mm f/4.0 L</item>
-        <item>Mamiya K/L 90mm f/3.5</item>
-        <item>Olympus D.Zuiko FC 75mm f/3.5</item>
-    </string-array>
+
 
     <string-array name="formats">
-        <item>35mm 3x2 (36 frames)</item>
-        <item>35mm 3x2 (24 frames)</item>
-        <item>120mm 6x4.5 (15 frames)</item>
-        <item>120mm 6x4.5 (16 frames)</item>
-        <item>120mm 6x6 (12 frames)</item>
-        <item>120mm 6x6 (13 frames)</item>
-        <item>120mm 6x7 (10 frames)</item>
-        <item>120mm 6x8 (9 frames)</item>
-        <item>120mm 6x9 (8 frames)</item>
-        <item>120mm 6x12 (6 frames)</item>
-        <item>120mm 6x17 (4 frames)</item>
-        <item>120mm 6x24 (3 frames)</item>
+        <item>35mm 3:2</item>
+        <item>120mm 6x4.5cm</item>
+        <item>120mm 6x6cm</item>
+        <item>120mm 6x7cm</item>
+        <item>120mm 6x8cm</item>
+        <item>120mm 6x9cm</item>
+        <item>120mm 6x12cm</item>
+        <item>120mm 6x17cm</item>
+        <item>120mm 6x24cm</item>
     </string-array>
 
+    <!--
+        <item>LF 4x5"</item>
+        <item>LF 5x7"</item>
+        <item>LF 8x10"</item>
+        <item>LF 11x14"</item>
+    </string-array>
+-->
     <!-- Film Info -->
     <string name="film_header">Film:</string>
     <string name="manu_header">Manufacturer:</string>
@@ -75,6 +70,7 @@
 
 
     <string-array name="isos">
+        <item>0</item>
         <item>5</item>
         <item>12</item>
         <item>25</item>
@@ -108,6 +104,7 @@
     <string name="notes_hint">dogs</string>
     <string name="shutter_hint">1/500</string>
     <string name="aperture_hint">f/3.5</string>
+    <string name="frame_header">Frame Count:</string>
 
     <!-- Button Text -->
     <string name="ok_button">OK</string>
@@ -166,6 +163,17 @@
         <item>Mamiya Six Automat II</item>
     </string-array>
 
+    <string-array name="lenses">
+        <item>- other -</item>
+        <item>Canon FD 23mm f/1.8</item>
+        <item>Canon FD 50mm f/1.4</item>
+        <item>Canon FD 50mm f/3.5 macro</item>
+        <item>Canon FD 85mm f/1.8</item>
+        <item>Canon FD 300mm f/4.0 L</item>
+        <item>Mamiya K/L 90mm f/3.5</item>
+        <item>Olympus D.Zuiko FC 75mm f/3.5</item>
+    </string-array>
+
     <string name="frame_list_num_hint">1</string>
     <string name="spinner_text_example">Example</string>
     <string name="frame_notes_hint">Enter a brief description</string>
@@ -177,4 +185,7 @@
     <string name="film_dialog_title">Film Settings</string>
     <string name="export_dialog_title">Export Film Roll Data</string>
     <string name="lens_dialog_title">Lens Inventory</string>
+    <string name="lens_selection">Lens Selection:</string>
+    <string name="fixed_lens">Fixed Lens:</string>
+    <string name="frame_num_hint">000</string>
 </resources>

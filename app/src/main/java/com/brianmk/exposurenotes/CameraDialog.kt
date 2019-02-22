@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.DialogFragment
 
 
@@ -30,11 +27,44 @@ class CameraDialog : DialogFragment() {
         formatSpin.adapter = formatAdapter
         formatSpin.setSelection(arguments!!.getInt("format"))
 
+        val fixedCheckbox = rootView.findViewById<View>(R.id.fixed_checkbox) as CheckBox
+        fixedCheckbox.isChecked = arguments!!.getBoolean("fixed")
+
+        val lensSpin = rootView.findViewById<View>(R.id.lens_spinner) as Spinner
+        val lensAdapter = ArrayAdapter.createFromResource(rootView.context,
+                R.array.lenses, R.layout.spinner_item)
+        lensSpin.adapter = lensAdapter
+        lensSpin.setSelection(arguments!!.getInt("lens"))
+        if (fixedCheckbox.isChecked) {
+            lensSpin.visibility = View.INVISIBLE
+        }
+
+        val lensSpinMask = rootView.findViewById<View>(R.id.lens_spinner_mask) as TextView
+        lensSpinMask.text = lensSpin.selectedItem.toString()
+        if (fixedCheckbox.isChecked) {
+            lensSpinMask.visibility = View.VISIBLE
+        }
+
+        fixedCheckbox.setOnClickListener {
+            if (fixedCheckbox.isChecked) {
+                lensSpin.visibility = View.INVISIBLE
+                lensSpinMask.text = lensSpin.selectedItem.toString()
+                lensSpinMask.visibility = View.VISIBLE
+            } else {
+                lensSpin.visibility = View.VISIBLE
+                lensSpinMask.visibility = View.INVISIBLE
+            }
+        }
+
         val saveButton = rootView.findViewById<View>(R.id.save_button) as Button
         saveButton.setOnClickListener {
+            // This gets called if the user wants to truncate the film list
             (activity as MainActivity).setCameraData(
                     manuText.text.toString(),
-                    nameText.text.toString())
+                    nameText.text.toString(),
+                    formatSpin.selectedItemPosition,
+                    lensSpin.selectedItemPosition,
+                    fixedCheckbox.isChecked)
             dismiss()
         }
 

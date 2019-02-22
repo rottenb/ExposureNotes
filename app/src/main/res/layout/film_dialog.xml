@@ -36,30 +36,31 @@
         android:layout_marginTop="@dimen/double_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dialog_title"
-        app:layout_constraintBottom_toTopOf="@id/manu_border"
         android:text="@string/manu_header"/>
-    <LinearLayout
-        android:id="@+id/manu_border"
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintTop_toTopOf="@id/manu_edit"
+        app:layout_constraintBottom_toBottomOf="@id/manu_edit"
+        app:layout_constraintStart_toStartOf="@id/manu_edit"
+        app:layout_constraintEnd_toEndOf="@id/manu_edit"
+        android:background="@drawable/border"/>
+    <EditText
+        android:id="@+id/manu_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        app:layout_constraintTop_toBottomOf="@id/manu_header"
+        android:padding="@dimen/double_padding"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/border">
-        <EditText
-            android:id="@+id/manu_edit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/double_padding"
-            android:textSize="@dimen/dialog_font_size"
-            android:inputType="textCapWords"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:hint="@string/film_manu"
-            android:autofillHints="@string/film_manu"
-            android:background="@android:color/transparent"/>
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/manu_header"
+        android:textSize="@dimen/dialog_font_size"
+        android:inputType="textCapWords"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:hint="@string/film_manu"
+        android:autofillHints="@string/film_manu"
+        android:background="@android:color/transparent"/>
 
     <!-- Film name -->
     <TextView
@@ -68,59 +69,72 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/manu_border"
+        app:layout_constraintTop_toBottomOf="@id/manu_edit"
         android:text="@string/film_header"/>
-    <LinearLayout
-        android:id="@+id/film_border"
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintStart_toStartOf="@id/film_edit"
+        app:layout_constraintEnd_toEndOf="@id/film_edit"
+        app:layout_constraintTop_toTopOf="@id/film_edit"
+        app:layout_constraintBottom_toBottomOf="@id/film_edit"
+        android:background="@drawable/border"/>
+    <EditText
+        android:id="@+id/film_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        app:layout_constraintTop_toBottomOf="@id/film_header"
+        android:padding="@dimen/double_padding"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/border">
-        <EditText
-            android:id="@+id/film_edit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/double_padding"
-            android:textSize="@dimen/dialog_font_size"
-            android:inputType="textCapWords"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:hint="@string/film_name"
-            android:autofillHints="@string/film_name"
-            android:background="@android:color/transparent"/>
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/film_header"
+        android:textSize="@dimen/dialog_font_size"
+        android:inputType="textCapWords"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:hint="@string/film_name"
+        android:autofillHints="@string/film_name"
+        android:background="@android:color/transparent"/>
 
-    <!-- Format Selecton -->
+    <!-- Frame Count -->
     <TextView
         style="@style/DialogHeader"
-        android:id="@+id/format_header"
+        android:id="@+id/frame_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/double_margin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/film_border"
-        android:text="@string/format_header"/>
-    <LinearLayout
-        android:id="@+id/format_border"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/film_edit"
+        android:text="@string/frame_header"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_margin="@dimen/default_margin"
-        app:layout_constraintTop_toBottomOf="@id/format_header"
+        app:layout_constraintTop_toTopOf="@id/frame_count"
+        app:layout_constraintBottom_toBottomOf="@id/frame_count"
+        app:layout_constraintStart_toStartOf="@id/frame_count"
+        app:layout_constraintEnd_toEndOf="@id/frame_count"
+        android:background="@drawable/border"/>
+    <EditText
+        android:id="@+id/frame_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/double_margin"
+        android:padding="@dimen/double_padding"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/border">
-        <Spinner
-            android:id="@+id/format_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/half_margin"
-            android:layout_marginBottom="@dimen/half_margin"
-            tools:listitem="@layout/spinner_item"
-            android:padding="@dimen/default_padding">
-        </Spinner>
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="@id/frame_header"
+        app:layout_constraintBottom_toBottomOf="@id/frame_header"
+        android:textSize="@dimen/dialog_font_size"
+        android:inputType="number"
+        android:maxLines="1"
+        android:maxLength="3"
+        android:ellipsize="end"
+        android:hint="@string/frame_num_hint"
+        android:autofillHints="@string/frame_num_hint"
+        android:background="@android:color/transparent"/>
 
     <!-- ISO Selection -->
     <TextView
@@ -134,9 +148,8 @@
         android:textSize="@dimen/dialog_font_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/iso_spinner"
-        app:layout_constraintTop_toBottomOf="@id/format_border"
+        app:layout_constraintTop_toBottomOf="@id/frame_count"
         app:layout_constraintHorizontal_chainStyle="spread_inside"/>
-
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -146,14 +159,11 @@
         app:layout_constraintTop_toTopOf="@id/iso_spinner"
         app:layout_constraintBottom_toBottomOf="@id/iso_spinner"
         android:background="@drawable/border"/>
-
     <Spinner
+        style="@style/SpinnerStyle"
         android:id="@+id/iso_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/half_margin"
-        android:layout_marginBottom="@dimen/half_margin"
-        android:padding="@dimen/double_padding"
         app:layout_constraintStart_toEndOf="@id/iso_header"
         app:layout_constraintEnd_toStartOf="@id/dev_header"
         app:layout_constraintTop_toTopOf="@id/iso_header"
@@ -170,7 +180,7 @@
         android:layout_marginTop="@dimen/double_margin"
         app:layout_constraintStart_toEndOf="@id/iso_spinner"
         app:layout_constraintEnd_toStartOf="@id/dev_spinner"
-        app:layout_constraintTop_toBottomOf="@id/format_border"
+        app:layout_constraintTop_toBottomOf="@id/frame_count"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/dialog_font_size"
         android:text="@string/dev_header"/>
@@ -184,20 +194,18 @@
         app:layout_constraintBottom_toBottomOf="@id/dev_spinner"
         android:background="@drawable/border"/>
 
-        <Spinner
-            android:id="@+id/dev_spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/half_margin"
-            android:layout_marginBottom="@dimen/half_margin"
-            android:padding="@dimen/double_padding"
-            app:layout_constraintStart_toEndOf="@id/dev_header"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/dev_header"
-            app:layout_constraintBottom_toBottomOf="@id/dev_header"
-            app:layout_constraintWidth_percent=".35"
-            tools:listitem="@layout/spinner_item">
-        </Spinner>
+    <Spinner
+        style="@style/SpinnerStyle"
+        android:id="@+id/dev_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/dev_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/dev_header"
+        app:layout_constraintBottom_toBottomOf="@id/dev_header"
+        app:layout_constraintWidth_percent=".35"
+        tools:listitem="@layout/spinner_item">
+    </Spinner>
 
     <!-- Notes -->
     <TextView

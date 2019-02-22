@@ -108,24 +108,81 @@
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/format_header"
+        app:layout_constraintStart_toStartOf="@id/format_spinner"
+        app:layout_constraintEnd_toEndOf="@id/format_spinner"
+        app:layout_constraintTop_toTopOf="@id/format_spinner"
         app:layout_constraintBottom_toBottomOf="@id/format_spinner"
         android:layout_margin="@dimen/default_margin"
         android:background="@drawable/border"/>
     <Spinner
+        style="@style/SpinnerStyle"
         android:id="@+id/format_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/half_margin"
-        android:layout_marginBottom="@dimen/half_margin"
-        android:padding="@dimen/double_padding"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/format_header"
-        tools:listitem="@layout/spinner_item">
-    </Spinner>
+        tools:listitem="@layout/spinner_item"/>
+
+    <!-- Lens -->
+    <TextView
+        style="@style/DialogHeader"
+        android:id="@+id/lens_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/format_spinner"
+        android:text="@string/lens_selection"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/lens_spinner"
+        app:layout_constraintEnd_toEndOf="@id/lens_spinner"
+        app:layout_constraintTop_toTopOf="@id/lens_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/lens_spinner"
+        android:layout_margin="@dimen/default_margin"
+        android:background="@drawable/border"/>
+    <Spinner
+        style="@style/SpinnerStyle"
+        android:id="@+id/lens_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lens_header"
+        tools:listitem="@layout/spinner_item"/>
+    <TextView
+        android:id="@+id/lens_spinner_mask"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@id/lens_spinner"
+        app:layout_constraintEnd_toEndOf="@id/lens_spinner"
+        app:layout_constraintTop_toTopOf="@id/lens_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/lens_spinner"
+        android:visibility="invisible"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/dialog_font_size"
+        tools:text="@string/spinner_text_example"/>
+    <TextView
+        style="@style/DialogHeader"
+        android:id="@+id/fixed_check_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/fixed_checkbox"
+        app:layout_constraintTop_toBottomOf="@id/lens_spinner"
+        android:text="@string/fixed_lens"
+        />
+    <CheckBox
+        android:id="@+id/fixed_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/double_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/fixed_check_text"
+        app:layout_constraintBottom_toBottomOf="@id/fixed_check_text"/>
+
 
     <!-- Notes -->
     <TextView
@@ -133,7 +190,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/format_spinner"
+        app:layout_constraintTop_toBottomOf="@id/fixed_checkbox"
         android:layout_marginTop="@dimen/double_margin"
         android:paddingStart="@dimen/double_padding"
         android:paddingEnd="@dimen/double_padding"
@@ -143,9 +200,9 @@
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notes_header"
+        app:layout_constraintStart_toStartOf="@id/notes_edit"
+        app:layout_constraintEnd_toEndOf="@id/notes_edit"
+        app:layout_constraintTop_toTopOf="@id/notes_edit"
         app:layout_constraintBottom_toBottomOf="@id/notes_edit"
         android:layout_margin="@dimen/default_margin"
         android:background="@drawable/border"/>

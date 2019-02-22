@@ -31,8 +31,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var currentFilmRoll: FilmData
     private lateinit var currentCamera: CameraData
 
-    private var frameCount = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -43,9 +41,7 @@ class MainActivity : AppCompatActivity() {
         val myToolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(myToolbar)
 
-        // TODO TEST DATA
         currentFilmRoll = FilmData()
-
         currentCamera = CameraData()
         updateNotesHeader()
 
@@ -63,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
         // Allow list touching, call a frame info dialog
         findViewById<View>(R.id.blank_list).setOnClickListener {
-            fillWithTestData() }
+            setFilmDialog() }
 
         frameListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
             frameSetDialog(pos)
@@ -185,17 +181,14 @@ class MainActivity : AppCompatActivity() {
 
         currentCamera.manu = "Mamiya"
         currentCamera.name = "RB67sd"
-        currentCamera.formatIdx = 0
+        currentCamera.formatIdx = Random().nextInt(11) + 1
         currentCamera.updateData()
 
         currentFilmRoll.manu = "Ilford"
         currentFilmRoll.name = "HP5+"
         currentFilmRoll.isoIdx = Random().nextInt(12) + 1
         currentFilmRoll.devIdx = Random().nextInt(7) + 1
-        currentFilmRoll.formatIdx = Random().nextInt(11) + 1
         currentFilmRoll.updateData()
-
-        Log.d(LOG_TAG, "frames: ${currentFilmRoll.frames}")
 
         updateNotesHeader()
         setListVisibility()
@@ -231,6 +224,9 @@ class MainActivity : AppCompatActivity() {
         args.putString("manu", currentCamera.manu)
         args.putString("name", currentCamera.name)
         args.putInt("format", currentCamera.formatIdx)
+        args.putInt("lens", currentCamera.lensIdx)
+        args.putBoolean("fixed", currentCamera.fixed)
+
         val cameraDialog = CameraDialog()
         cameraDialog.arguments = args
 
@@ -244,9 +240,14 @@ class MainActivity : AppCompatActivity() {
         lensDialog.show(fm, "Lens Dialog")
     }
 
-    fun setCameraData(manu: String, name: String) {
+    fun setCameraData(manu: String, name: String, formatIdx: Int, lensIdx: Int,
+                      isFixed: Boolean) {
         currentCamera.manu = manu
         currentCamera.name = name
+        currentCamera.formatIdx = formatIdx
+        currentCamera.lensIdx = lensIdx
+        currentCamera.fixed = isFixed
+        currentCamera.updateData()
 
         updateNotesHeader()
     } // setCameraData
@@ -256,7 +257,6 @@ class MainActivity : AppCompatActivity() {
 
         args.putString("manu", currentFilmRoll.manu)
         args.putString("name", currentFilmRoll.name)
-        args.putInt("format", currentFilmRoll.formatIdx)
         args.putInt("iso", currentFilmRoll.isoIdx)
         args.putInt("frames", currentFilmRoll.frames)
         args.putInt("dev", currentFilmRoll.devIdx)
@@ -269,7 +269,23 @@ class MainActivity : AppCompatActivity() {
         filmDialog.show(fm, "Film Dialog")
     } // setFilmDialog
 
-    fun setFilmData(manu: String, name: String, format: Int, iso: Int, frames: Int, dev: Int, notes: String) {
+    fun setFilmData(manu: String, name: String, iso: Int, frames: Int, dev: Int, notes: String) {
+        updateFrameCount(frames)
+
+        currentFilmRoll.manu = manu
+        currentFilmRoll.name = name
+        currentFilmRoll.frames = frames
+        currentFilmRoll.isoIdx = iso
+        currentFilmRoll.devIdx = dev
+        currentFilmRoll.notes = notes
+        currentFilmRoll.updateData()
+
+
+        setListVisibility()
+        updateNotesHeader()
+    } // setFilmData
+
+    private fun updateFrameCount(frames: Int) {
         // Change the frame list to reflect the new size
         // If new film is larger, add frames.
         // If new film is smaller, remove frames from the bottom
@@ -279,24 +295,13 @@ class MainActivity : AppCompatActivity() {
             }
         } else if (currentFilmRoll.frames > frames) {
             for(i in currentFilmRoll.frames - 1 downTo frames) {
-                // TODO Post warning about cutting the list
                 frameDataList.removeAt(i)
             }
         }
 
-        currentFilmRoll.manu = manu
-        currentFilmRoll.name = name
-        currentFilmRoll.formatIdx = format
-        currentFilmRoll.isoIdx = iso
-        currentFilmRoll.frames = frames
-        currentFilmRoll.devIdx = dev
-        currentFilmRoll.notes = notes
-        currentFilmRoll.updateData()
-
         frameArrayAdapter?.notifyDataSetInvalidated()
-        setListVisibility()
-        updateNotesHeader()
-    } // setFilmData
+
+    }
 
     private fun updateNotesHeader() {
         var textView = findViewById<View>(R.id.camera_name) as TextView
@@ -308,7 +313,7 @@ class MainActivity : AppCompatActivity() {
         textView.text = str
 
         textView = findViewById<View>(R.id.format) as TextView
-        textView.text = currentFilmRoll.format
+        textView.text = currentCamera.format
 
         textView = findViewById<View>(R.id.iso) as TextView
         textView.text = currentFilmRoll.iso
