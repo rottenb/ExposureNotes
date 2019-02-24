@@ -6,7 +6,6 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -18,6 +17,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
+import com.brianmk.exposurenotes.adapter.FrameArrayAdapter
+import com.brianmk.exposurenotes.data.CameraData
+import com.brianmk.exposurenotes.data.FilmData
+import com.brianmk.exposurenotes.data.FrameData
+import com.brianmk.exposurenotes.dialog.*
+import com.brianmk.exposurenotes.util.OutputJSON
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -57,18 +62,42 @@ class MainActivity : AppCompatActivity() {
 
         setListVisibility()
 
-        // Allow list touching, call a frame info dialog
-        findViewById<View>(R.id.blank_list).setOnClickListener {
-            setFilmDialog() }
-
-        frameListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
-            frameSetDialog(pos)
+        findViewById<View>(R.id.camera_setup).setOnClickListener {
+            if ((findViewById<View>(R.id.camera_name) as TextView).text.toString() == " " ) {
+                setCameraDialog()
+            }
         }
 
-    } // mainActivity
+        findViewById<View>(R.id.film_setup).setOnClickListener {
+            if ((findViewById<View>(R.id.film_name) as TextView).text.toString() == " " ) {
+                setFilmDialog()
+            }
+        }
+
+        frameListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
+            setFrameDialog(pos)
+        }
+
+    } // onCreate
 
     private fun setListVisibility() {
-        if (currentFilmRoll.frames <= 0) {
+        var cameraSet = false
+        if ((findViewById<View>(R.id.camera_name) as TextView).text != " ") {
+            findViewById<View>(R.id.camera_setup).setBackgroundColor(getColor(R.color.light_grey))
+            cameraSet = true
+        } else {
+            findViewById<View>(R.id.camera_setup).setBackgroundColor(getColor(R.color.colorPrimaryDark))
+        }
+
+        var filmSet = false
+        if ((findViewById<View>(R.id.film_name) as TextView).text != " ") {
+            findViewById<View>(R.id.film_setup).setBackgroundColor(getColor(R.color.light_grey))
+            filmSet = true
+        } else {
+            findViewById<View>(R.id.film_setup).setBackgroundColor(getColor(R.color.colorPrimaryDark))
+        }
+
+        if (!cameraSet || !filmSet || currentFilmRoll.frames <= 0) {
             findViewById<View>(R.id.frame_list).visibility = View.INVISIBLE
             findViewById<View>(R.id.list_end_bar).visibility = View.INVISIBLE
             findViewById<View>(R.id.blank_list).visibility = View.VISIBLE
@@ -77,7 +106,7 @@ class MainActivity : AppCompatActivity() {
             findViewById<View>(R.id.frame_list).visibility = View.VISIBLE
             findViewById<View>(R.id.list_end_bar).visibility = View.VISIBLE
         }
-    }
+    } // setListVisibility
 
     // Export the film roll information
     private fun exportRoll() {
@@ -92,7 +121,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Set arguments to pass to the frame dialog, call the dialog
-    private fun frameSetDialog(pos: Int) {
+    private fun setFrameDialog(pos: Int) {
         val args = Bundle()
 
         // If not the first frame, and not blank, take defaults from previous
@@ -100,10 +129,13 @@ class MainActivity : AppCompatActivity() {
             args.putInt("shutter", frameDataList[pos - 1].shutterIdx)
             args.putInt("aperture", frameDataList[pos - 1].apertureIdx)
             args.putInt("lens", frameDataList[pos - 1].lensIdx)
+            args.putBoolean("fixed", currentCamera.fixed)
         } else {
             args.putInt("shutter", frameDataList[pos].shutterIdx)
             args.putInt("aperture", frameDataList[pos].apertureIdx)
-            args.putInt("lens", frameDataList[pos].lensIdx)
+            //args.putInt("lens", frameDataList[pos].lensIdx)
+            args.putInt("lens", currentCamera.lensIdx)
+            args.putBoolean("fixed", currentCamera.fixed)
         }
 
         // These are always unique to each frame
@@ -181,8 +213,7 @@ class MainActivity : AppCompatActivity() {
 
         currentCamera.manu = "Mamiya"
         currentCamera.name = "RB67sd"
-        currentCamera.formatIdx = Random().nextInt(11) + 1
-        currentCamera.updateData()
+        currentCamera.format = "120mm"
 
         currentFilmRoll.manu = "Ilford"
         currentFilmRoll.name = "HP5+"
@@ -202,10 +233,16 @@ class MainActivity : AppCompatActivity() {
             alertBuilder.setMessage("Clear all frame data?")
             alertBuilder.setPositiveButton("YES") { _, _ ->
                 frameDataList.clear()
+
                 currentFilmRoll.frames = 0
 
                 setListVisibility()
+
                 frameArrayAdapter?.notifyDataSetChanged()
+
+                currentCamera.clearData()
+                currentFilmRoll.clearData()
+                updateNotesHeader()
             }
             alertBuilder.setNegativeButton("NO") { _, _ -> } // do nothing
 
@@ -213,17 +250,26 @@ class MainActivity : AppCompatActivity() {
             warnDialog.show()
         } else {
             frameDataList.clear()
+
             currentFilmRoll.frames = 0
+
             setListVisibility()
+
             frameArrayAdapter?.notifyDataSetChanged()
+
+            currentCamera.clearData()
+            currentFilmRoll.clearData()
+            updateNotesHeader()
         }
+
+
     } // clearFilmRoll
 
     private fun setCameraDialog() {
         val args = Bundle()
         args.putString("manu", currentCamera.manu)
         args.putString("name", currentCamera.name)
-        args.putInt("format", currentCamera.formatIdx)
+        args.putString("format", currentCamera.format)
         args.putInt("lens", currentCamera.lensIdx)
         args.putBoolean("fixed", currentCamera.fixed)
 
@@ -234,23 +280,26 @@ class MainActivity : AppCompatActivity() {
         cameraDialog.show(fm, "Camera Dialog")
     } // setCameraDialog
 
+    fun setCameraData(manu: String, name: String, format: String, lensIdx: Int,
+                      isFixed: Boolean) {
+        currentCamera.manu = manu
+        currentCamera.name = name
+        currentCamera.format = format
+        currentCamera.lensIdx = lensIdx
+        currentCamera.fixed = isFixed
+
+        updateNotesHeader()
+    } // setCameraData
+
+    /*
+        SET LENS DIALOG
+     */
     private fun setLensDialog() {
         val lensDialog = LensDialog()
         val fm = supportFragmentManager
         lensDialog.show(fm, "Lens Dialog")
-    }
+    } // setLensDialog
 
-    fun setCameraData(manu: String, name: String, formatIdx: Int, lensIdx: Int,
-                      isFixed: Boolean) {
-        currentCamera.manu = manu
-        currentCamera.name = name
-        currentCamera.formatIdx = formatIdx
-        currentCamera.lensIdx = lensIdx
-        currentCamera.fixed = isFixed
-        currentCamera.updateData()
-
-        updateNotesHeader()
-    } // setCameraData
 
     private fun setFilmDialog() {
         val args = Bundle()
@@ -280,7 +329,6 @@ class MainActivity : AppCompatActivity() {
         currentFilmRoll.notes = notes
         currentFilmRoll.updateData()
 
-
         setListVisibility()
         updateNotesHeader()
     } // setFilmData
@@ -308,7 +356,7 @@ class MainActivity : AppCompatActivity() {
         var str = "${currentCamera.manu} ${currentCamera.name}"
         textView.text = str
 
-        textView = findViewById<View>(R.id.film) as TextView
+        textView = findViewById<View>(R.id.film_name) as TextView
         str = "${currentFilmRoll.manu} ${currentFilmRoll.name}"
         textView.text = str
 
@@ -320,6 +368,8 @@ class MainActivity : AppCompatActivity() {
 
         textView = findViewById<View>(R.id.dev) as TextView
         textView.text = currentFilmRoll.dev
+
+        setListVisibility()
     } // updateNotesHeader
 
     fun saveRollInfo() {
@@ -344,7 +394,6 @@ class MainActivity : AppCompatActivity() {
             filepath.mkdirs()
 
             val file = File("$filepath/$filename")
-            Log.d(LOG_TAG, "$filepath/$filename")
             val output = BufferedWriter(FileWriter(file))
 
             output.write(obj.toString())

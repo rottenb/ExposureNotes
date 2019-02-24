@@ -1,4 +1,4 @@
-package com.brianmk.exposurenotes
+package com.brianmk.exposurenotes.dialog
 
 import android.graphics.Color
 import android.os.Bundle
@@ -7,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
+import com.brianmk.exposurenotes.R
 
 class LensDialog : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
-        val rootView = inflater.inflate(R.layout.lens_dialog, container)
+        val rootView = inflater.inflate(R.layout.dialog_lens, container)
         rootView.setBackgroundColor(Color.TRANSPARENT)
 
         val cancelButton = rootView.findViewById<View>(R.id.cancel_button) as Button

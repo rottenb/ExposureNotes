@@ -1,6 +1,7 @@
-package com.brianmk.exposurenotes
+package com.brianmk.exposurenotes.util
 
 import android.util.Log
+import com.brianmk.exposurenotes.data.FrameData
 
 import org.json.JSONArray
 import org.json.JSONException

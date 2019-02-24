@@ -1,4 +1,4 @@
-package com.brianmk.exposurenotes
+package com.brianmk.exposurenotes.data
 
 data class FilmData(var manu: String = "",
                     var name: String = "",
@@ -16,6 +16,17 @@ data class FilmData(var manu: String = "",
     fun updateData() {
         iso = isos[isoIdx]
         dev = devs[devIdx]
+    }
+
+    fun clearData() {
+        manu = ""
+        name = ""
+        isoIdx = 5
+        frames = 0
+        devIdx = 4
+        notes = ""
+
+        updateData()
     }
 
     companion object {

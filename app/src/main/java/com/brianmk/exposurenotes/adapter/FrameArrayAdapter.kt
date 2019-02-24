@@ -1,4 +1,4 @@
-package com.brianmk.exposurenotes
+package com.brianmk.exposurenotes.adapter
 
 import android.content.Context
 import android.util.Log
@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.brianmk.exposurenotes.R
+import com.brianmk.exposurenotes.data.FrameData
 import java.util.*
 
 class FrameArrayAdapter internal constructor(context: Context, frameData: List<FrameData>) : ArrayAdapter<FrameData>(context, 0, frameData) {
@@ -17,7 +19,7 @@ class FrameArrayAdapter internal constructor(context: Context, frameData: List<F
         val frame = getItem(pos)
 
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.frame_list_item,
+            view = LayoutInflater.from(context).inflate(R.layout.item_list_frame,
                     parent, false)
         }
 

@@ -1,4 +1,4 @@
-package com.brianmk.exposurenotes
+package com.brianmk.exposurenotes.dialog
 
 import android.graphics.Color
 import android.os.Bundle
@@ -10,11 +10,13 @@ import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import com.brianmk.exposurenotes.MainActivity
+import com.brianmk.exposurenotes.R
 
 class ExportDialog : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.export_dialog, container)
+        val rootView = inflater.inflate(R.layout.dialog_export, container)
         rootView.setBackgroundColor(Color.TRANSPARENT)
 
         val filenameText = rootView.findViewById<View>(R.id.filename_edit) as TextView
@@ -23,7 +25,7 @@ class ExportDialog : DialogFragment() {
 
         val methodSpin = rootView.findViewById<View>(R.id.method_spinner) as Spinner
         val methodAdapter = ArrayAdapter.createFromResource(rootView.context,
-                R.array.export_methods, R.layout.spinner_item)
+                R.array.export_methods, R.layout.item_spinner)
         methodSpin.adapter = methodAdapter
         methodSpin.setSelection(0)
 

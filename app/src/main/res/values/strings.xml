@@ -23,34 +23,19 @@
     <!-- Camera Settings -->
     <string name="camera_header">Camera:</string>
     <string name="camera_name">Camera Model</string>
-    <string name="lens_header">Lens:</string>
-    <string name="lens_name">Lens Model</string>
-    <string name="lens_type">EBC Fujinon 90mm f/3.5</string>
     <string name="frames_header">Frames:</string>
     <string name="format_header">Format:</string>
     <string name="format_type">120mm</string>
 
+    <!-- Lens Stuff -->
+    <string name="lens_header">Lens:</string>
+    <string name="lens_name">Lens Model</string>
 
+    <!-- Formats -->
+    <string name="format_35mm">35mm</string>
+    <string name="format_120mm">120mm</string>
+    <string name="format_other">Other</string>
 
-    <string-array name="formats">
-        <item>35mm 3:2</item>
-        <item>120mm 6x4.5cm</item>
-        <item>120mm 6x6cm</item>
-        <item>120mm 6x7cm</item>
-        <item>120mm 6x8cm</item>
-        <item>120mm 6x9cm</item>
-        <item>120mm 6x12cm</item>
-        <item>120mm 6x17cm</item>
-        <item>120mm 6x24cm</item>
-    </string-array>
-
-    <!--
-        <item>LF 4x5"</item>
-        <item>LF 5x7"</item>
-        <item>LF 8x10"</item>
-        <item>LF 11x14"</item>
-    </string-array>
--->
     <!-- Film Info -->
     <string name="film_header">Film:</string>
     <string name="manu_header">Manufacturer:</string>
@@ -66,8 +51,6 @@
     <string name="clear_roll">Clear Film Roll</string>
     <string name="new_roll">New Film Roll</string>
     <string name="export_roll">Export Film Roll</string>
-
-
 
     <string-array name="isos">
         <item>0</item>
@@ -186,6 +169,9 @@
     <string name="export_dialog_title">Export Film Roll Data</string>
     <string name="lens_dialog_title">Lens Inventory</string>
     <string name="lens_selection">Lens Selection:</string>
+    <string name="lens_fixed_select">Lens (fixed):</string>
     <string name="fixed_lens">Fixed Lens:</string>
     <string name="frame_num_hint">000</string>
+    <string name="setup_camera">\u0020Setup Camera\u0020\u0020</string>
+    <string name="setup_film_roll">Setup Film Roll</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.brianmk.exposurenotes
+package com.brianmk.exposurenotes.data
 
 data class FrameData(var shutterIdx: Int = 0, var apertureIdx: Int = 0,
                      var lensIdx: Int = 0, var notes: String = "") {

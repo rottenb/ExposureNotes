@@ -1,7 +1,8 @@
-package com.brianmk.exposurenotes
+package com.brianmk.exposurenotes.adapter
 
 import android.content.Context
 import android.widget.ArrayAdapter
+import com.brianmk.exposurenotes.data.FilmData
 
 class FilmDataAdapter internal constructor(c: Context, filmData: List<FilmData>) : ArrayAdapter<FilmData>(c, 0, filmData) {
 /*
