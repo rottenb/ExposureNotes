@@ -1,5 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.brianmk.simplecheck_in.MainActivity">
 
     <group android:id="@+id/menu_group_user">
@@ -12,7 +13,9 @@
         <item
             android:id="@+id/main_menu_camera"
             android:orderInCategory="200"
-            android:title="@string/camera_settings"/>
+            android:title="@string/camera_settings"
+            android:icon="@drawable/camera"
+            app:showAsAction="ifRoom"/>
 
         <item
             android:id="@+id/main_menu_lens"
@@ -22,7 +25,9 @@
         <item
             android:id="@+id/main_menu_film"
             android:orderInCategory="400"
-            android:title="@string/film_settings"/>
+            android:title="@string/film_settings"
+            android:icon="@drawable/film"
+            app:showAsAction="ifRoom"/>
 
         <item
             android:id="@+id/main_menu_clear_roll"

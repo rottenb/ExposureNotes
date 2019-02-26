@@ -9,8 +9,9 @@
 
     <!-- Padding and Margins -->
     <dimen name="default_padding">6dp</dimen>
-    <dimen name="double_padding">12dp</dimen>
     <dimen name="half_padding">3dp</dimen>
+    <dimen name="double_padding">12dp</dimen>
+    <dimen name="triple_padding">18dp</dimen>
     <dimen name="default_margin">6dp</dimen>
     <dimen name="double_margin">12dp</dimen>
     <dimen name="half_margin">3dp</dimen>

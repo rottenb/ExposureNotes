@@ -17,15 +17,19 @@ class CameraDialog : DialogFragment() {
         val rootView = inflater.inflate(R.layout.dialog_camera, container)
         rootView.setBackgroundColor(Color.TRANSPARENT)
 
-        val manuText = rootView.findViewById<View>(R.id.manu_edit) as TextView
-        manuText.text = arguments!!.getString("manu")
+        val manuText = rootView.findViewById<View>(R.id.manu_edit) as AutoCompleteTextView
+        manuText.setText(arguments?.getString("manu"))
+        val manuAdapter = ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, arguments?.getStringArray("makers")!!)
+        manuText.setAdapter(manuAdapter)
 
-        val nameText = rootView.findViewById<View>(R.id.camera_edit) as TextView
-        nameText.text = arguments!!.getString("name")
+        val nameText = rootView.findViewById<View>(R.id.camera_edit) as AutoCompleteTextView
+        nameText.setText(arguments?.getString("name"))
+        val nameAdapter = ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, arguments?.getStringArray("models")!!)
+        nameText.setAdapter(nameAdapter)
 
         val formatRadio = rootView.findViewById<View>(R.id.format_radio) as RadioGroup
 
-        when (arguments!!.getString("format")) {
+        when (arguments?.getString("format")) {
             "35mm" -> formatRadio.check(R.id.format_35)
             "120mm" -> formatRadio.check(R.id.format_120)
             "Other" -> formatRadio.check(R.id.format_other)

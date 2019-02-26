@@ -23,16 +23,16 @@ class ExportDialog : DialogFragment() {
         val filenameStr = "01 - ${arguments!!.getString("camera")} - ${arguments!!.getString("film")}.json"
         filenameText.text = filenameStr
 
-        val methodSpin = rootView.findViewById<View>(R.id.method_spinner) as Spinner
-        val methodAdapter = ArrayAdapter.createFromResource(rootView.context,
+        val saveSpin = rootView.findViewById<View>(R.id.save_spinner) as Spinner
+        val saveAdapter = ArrayAdapter.createFromResource(rootView.context,
                 R.array.export_methods, R.layout.item_spinner)
-        methodSpin.adapter = methodAdapter
-        methodSpin.setSelection(0)
+        saveSpin.adapter = saveAdapter
+        saveSpin.setSelection(0)
 
         val okButton = rootView.findViewById<View>(R.id.ok_button) as Button
         okButton.setOnClickListener {
             (activity as MainActivity).exportFilmRoll(filenameText.text.toString(),
-                    methodSpin.selectedItem.toString())
+                    saveSpin.selectedItem.toString())
 
             dismiss()
         }
@@ -44,6 +44,13 @@ class ExportDialog : DialogFragment() {
 
         return rootView
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+    }
+
     companion object {
         private val LOG_TAG = ExportDialog::class.java.simpleName
     }

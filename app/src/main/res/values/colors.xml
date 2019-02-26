@@ -6,6 +6,7 @@
     <color name="dark_grey">#888888</color>
     <color name="light_grey">#DDDDDD</color>
     <color name="lighter_grey">#EEEEEE</color>
+    <color name="light_grey_blue">#E6EEFF</color>
     <color name="lighter_grey_blue">#EBF0FA</color>
     <color name="red">#FF0000</color>
     <color name="dark_red">#660000</color>

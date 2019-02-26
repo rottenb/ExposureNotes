@@ -46,7 +46,7 @@
         app:layout_constraintStart_toStartOf="@id/manu_edit"
         app:layout_constraintEnd_toEndOf="@id/manu_edit"
         android:background="@drawable/border"/>
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/manu_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
         app:layout_constraintTop_toTopOf="@id/film_edit"
         app:layout_constraintBottom_toBottomOf="@id/film_edit"
         android:background="@drawable/border"/>
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/film_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

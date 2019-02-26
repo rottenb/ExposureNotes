@@ -18,15 +18,19 @@ class FilmDialog : DialogFragment() {
         val rootView = inflater.inflate(R.layout.dialog_film, container)
         rootView.setBackgroundColor(Color.TRANSPARENT)
 
-        val manuText = rootView.findViewById<View>(R.id.manu_edit) as TextView
-        manuText.text = arguments!!.getString("manu")
+        val manuText = rootView.findViewById<View>(R.id.manu_edit) as AutoCompleteTextView
+        manuText.setText(arguments?.getString("manu"))
+        val manuAdapter = ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, arguments?.getStringArray("makers")!!)
+        manuText.setAdapter(manuAdapter)
 
-        val filmText = rootView.findViewById<View>(R.id.film_edit) as TextView
-        filmText.text = arguments!!.getString("name")
+        val filmText = rootView.findViewById<View>(R.id.film_edit) as AutoCompleteTextView
+        filmText.setText(arguments?.getString("name"))
+        val filmAdapter = ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, arguments?.getStringArray("models")!!)
+        filmText.setAdapter(filmAdapter)
 
         val framePicker = rootView.findViewById<View>(R.id.frame_count) as NumberPicker
-        framePicker.minValue = 1
-        framePicker.maxValue = 36
+        framePicker.minValue = 0
+        framePicker.maxValue = 40
 
         var frameCount = arguments!!.getInt("frames")
 

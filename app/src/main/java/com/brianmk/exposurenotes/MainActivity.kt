@@ -21,6 +21,7 @@ import com.brianmk.exposurenotes.adapter.FrameArrayAdapter
 import com.brianmk.exposurenotes.data.CameraData
 import com.brianmk.exposurenotes.data.FilmData
 import com.brianmk.exposurenotes.data.FrameData
+import com.brianmk.exposurenotes.data.NameArrays
 import com.brianmk.exposurenotes.dialog.*
 import com.brianmk.exposurenotes.util.OutputJSON
 import java.io.BufferedWriter
@@ -36,6 +37,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var currentFilmRoll: FilmData
     private lateinit var currentCamera: CameraData
 
+    private lateinit var productNames: NameArrays
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -48,6 +51,8 @@ class MainActivity : AppCompatActivity() {
 
         currentFilmRoll = FilmData()
         currentCamera = CameraData()
+        productNames = NameArrays()
+
         updateNotesHeader()
 
         // Create a list of blank exposure information
@@ -109,13 +114,14 @@ class MainActivity : AppCompatActivity() {
     } // setListVisibility
 
     // Export the film roll information
-    private fun exportRoll() {
+    private fun exportDialog() {
         val args = Bundle()
         args.putString("camera", currentCamera.name)
         args.putString("film", currentFilmRoll.name)
 
         val exportDialog = ExportDialog()
         exportDialog.arguments = args
+
         val fm = supportFragmentManager
         exportDialog.show(fm, "Export Dialog")
     }
@@ -168,7 +174,7 @@ class MainActivity : AppCompatActivity() {
             R.id.main_menu_lens -> setLensDialog()
             R.id.main_menu_film -> setFilmDialog()
             R.id.main_menu_clear_roll -> clearFilmRoll()
-            R.id.main_menu_export_roll -> exportRoll()
+            R.id.main_menu_export_roll -> exportDialog()
             R.id.main_menu_junk -> fillWithTestData()
             else -> {
                 // do nothing
@@ -267,6 +273,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setCameraDialog() {
         val args = Bundle()
+        args.putStringArray("makers", productNames.cameraMakers.toTypedArray())
+        args.putStringArray("models", productNames.cameraModels.toTypedArray())
         args.putString("manu", currentCamera.manu)
         args.putString("name", currentCamera.name)
         args.putString("format", currentCamera.format)
@@ -303,7 +311,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setFilmDialog() {
         val args = Bundle()
-
+        args.putStringArray("makers", productNames.filmMakers.toTypedArray())
+        args.putStringArray("models", productNames.filmModels.toTypedArray())
         args.putString("manu", currentFilmRoll.manu)
         args.putString("name", currentFilmRoll.name)
         args.putInt("iso", currentFilmRoll.isoIdx)

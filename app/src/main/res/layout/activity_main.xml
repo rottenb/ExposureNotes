@@ -229,6 +229,7 @@
             android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp"
             android:layout_marginBottom="2dp"
+            android:paddingBottom="@dimen/triple_padding"
             android:orientation="vertical"
             android:gravity="center"
             android:textSize="@dimen/dialog_font_size"
@@ -260,9 +261,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"/>
-
-
-
         <View
             android:id="@+id/list_end_bar"
             android:layout_width="match_parent"
