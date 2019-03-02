@@ -175,4 +175,6 @@
     <string name="setup_camera">\u0020Camera\u0020\u0020</string>
     <string name="setup_film_roll">Film Roll</string>
     <string name="frame_select">Frame Select:</string>
+    <string name="application_settings">Application Settings</string>
+    <string name="welcome_msg">Tap to get started:</string>
 </resources>

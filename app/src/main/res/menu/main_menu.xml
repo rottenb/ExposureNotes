@@ -41,6 +41,10 @@
             android:id="@+id/main_menu_junk"
             android:orderInCategory="1000"
             android:title="TEST DATA"/>
+        <item
+            android:id="@+id/main_menu_db"
+            android:orderInCategory="1100"
+            android:title="TEST DB"/>
 
 
 

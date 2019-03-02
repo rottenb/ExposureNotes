@@ -231,28 +231,58 @@
             android:layout_marginBottom="2dp"
             android:paddingBottom="@dimen/triple_padding"
             android:orientation="vertical"
-            android:gravity="center"
+            android:gravity="center|top"
             android:textSize="@dimen/dialog_font_size"
             android:background="@color/lighter_grey_blue">
-            <Button
-                style="@style/Widget.AppCompat.Button.Colored"
+            <TextView
+                style="@style/DialogHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/large_margin"
+                android:layout_marginBottom="@dimen/large_margin"
+                android:gravity="center"
+                android:textSize="@dimen/dialog_title_size"
+                android:text="@string/welcome_msg"/>
+            <ImageView
                 android:id="@+id/camera_setup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/double_margin"
+                android:layout_marginTop="@dimen/large_margin"
                 android:padding="@dimen/double_padding"
-                android:textStyle="bold"
-                android:text="@string/setup_camera"/>
-            <Button
-                style="@style/Widget.AppCompat.Button.Colored"
+                android:src="@drawable/camera"
+                android:tint="@color/colorPrimary"
+                android:backgroundTint="@android:color/transparent"
+                android:scaleX="@dimen/main_icon_scale"
+                android:scaleY="@dimen/main_icon_scale"
+                android:contentDescription="@string/camera_settings"/>
+            <TextView
+                android:id="@+id/camera_setup_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/large_margin"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/camera_settings"/>
+            <ImageView
                 android:id="@+id/film_setup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/double_margin"
-                android:padding="@dimen/double_padding"
-                android:textStyle="bold"
-                android:text="@string/setup_film_roll"/>
-
+                android:padding="@dimen/triple_padding"
+                android:layout_marginTop="@dimen/large_margin"
+                android:src="@drawable/film"
+                android:tint="@color/colorPrimary"
+                android:backgroundTint="@android:color/transparent"
+                android:scaleX="@dimen/main_icon_scale"
+                android:scaleY="@dimen/main_icon_scale"
+                android:contentDescription="@string/film_settings"/>
+            <TextView
+                android:id="@+id/film_setup_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/large_margin"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/film_settings"/>
         </LinearLayout>
 
         <!-- Frame List -->

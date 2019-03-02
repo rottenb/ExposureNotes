@@ -4,24 +4,20 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
+import androidx.room.Room
 import com.brianmk.exposurenotes.adapter.FrameArrayAdapter
-import com.brianmk.exposurenotes.data.CameraData
-import com.brianmk.exposurenotes.data.FilmData
-import com.brianmk.exposurenotes.data.FrameData
-import com.brianmk.exposurenotes.data.NameArrays
+import com.brianmk.exposurenotes.data.*
 import com.brianmk.exposurenotes.dialog.*
 import com.brianmk.exposurenotes.util.OutputJSON
 import java.io.BufferedWriter
@@ -37,7 +33,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var currentFilmRoll: FilmData
     private lateinit var currentCamera: CameraData
 
-    private lateinit var productNames: NameArrays
+    //lateinit var cameraMakerDB: CameraMakerDatabase
+
+    private lateinit var productNames: ProductNameArrays
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +49,9 @@ class MainActivity : AppCompatActivity() {
 
         currentFilmRoll = FilmData()
         currentCamera = CameraData()
-        productNames = NameArrays()
+        productNames = ProductNameArrays()
+
+        //var cameraMakerDB = getDatabase(this)
 
         updateNotesHeader()
 
@@ -88,18 +88,22 @@ class MainActivity : AppCompatActivity() {
     private fun setListVisibility() {
         var cameraSet = false
         if ((findViewById<View>(R.id.camera_name) as TextView).text != " ") {
-            findViewById<View>(R.id.camera_setup).setBackgroundColor(getColor(R.color.light_grey))
+            (findViewById<View>(R.id.camera_setup) as ImageView).setColorFilter(getColor(R.color.light_grey))
+            (findViewById<View>(R.id.camera_setup_text) as TextView).setTextColor(getColor(R.color.light_grey))
             cameraSet = true
         } else {
-            findViewById<View>(R.id.camera_setup).setBackgroundColor(getColor(R.color.colorPrimaryDark))
+            (findViewById<View>(R.id.camera_setup) as ImageView).setColorFilter(getColor(R.color.colorPrimary))
+            (findViewById<View>(R.id.camera_setup_text) as TextView).setTextColor(getColor(R.color.colorPrimary))
         }
 
         var filmSet = false
         if ((findViewById<View>(R.id.film_name) as TextView).text != " ") {
-            findViewById<View>(R.id.film_setup).setBackgroundColor(getColor(R.color.light_grey))
+            (findViewById<View>(R.id.film_setup) as ImageView).setColorFilter(getColor(R.color.light_grey))
+            (findViewById<View>(R.id.film_setup_text) as TextView).setTextColor(getColor(R.color.light_grey))
             filmSet = true
         } else {
-            findViewById<View>(R.id.film_setup).setBackgroundColor(getColor(R.color.colorPrimaryDark))
+            (findViewById<View>(R.id.film_setup) as ImageView).setColorFilter(getColor(R.color.colorPrimary))
+            (findViewById<View>(R.id.film_setup_text) as TextView).setTextColor(getColor(R.color.colorPrimary))
         }
 
         if (!cameraSet || !filmSet || currentFilmRoll.frames <= 0) {
@@ -176,6 +180,7 @@ class MainActivity : AppCompatActivity() {
             R.id.main_menu_clear_roll -> clearFilmRoll()
             R.id.main_menu_export_roll -> exportDialog()
             R.id.main_menu_junk -> fillWithTestData()
+            R.id.main_menu_db -> testDB()
             else -> {
                 // do nothing
             }
@@ -183,6 +188,10 @@ class MainActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     } //onOptionsItemSelected()
+
+    private fun testDB() {
+
+    }
 
     // Fill frame list with random test data
     private fun fillWithTestData() {
@@ -425,6 +434,23 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private val LOG_TAG = MainActivity::class.java.simpleName
+
+        @Volatile
+        private var INSTANCE: CameraMakerDatabase? = null
+
+        fun getDatabase(context: Context) : CameraMakerDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val tempInstance = INSTANCE
+                if (tempInstance != null) {
+                    return tempInstance
+                }
+                val instance = Room.databaseBuilder(context.applicationContext,
+                                                    CameraMakerDatabase::class.java,
+                                                    "camera_maker_database").build()
+                INSTANCE = instance
+                return instance
+            }
+        }
 
         // Storage Permissions
         private val REQUEST_EXTERNAL_STORAGE = 1
