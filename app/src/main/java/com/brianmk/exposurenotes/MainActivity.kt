@@ -7,6 +7,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -20,6 +21,9 @@ import com.brianmk.exposurenotes.adapter.FrameArrayAdapter
 import com.brianmk.exposurenotes.data.*
 import com.brianmk.exposurenotes.dialog.*
 import com.brianmk.exposurenotes.util.OutputJSON
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -33,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var currentFilmRoll: FilmData
     private lateinit var currentCamera: CameraData
 
-    //lateinit var cameraMakerDB: CameraMakerDatabase
+    lateinit var exposureDB: ExposureNotesDatabase
 
     private lateinit var productNames: ProductNameArrays
 
@@ -51,7 +55,10 @@ class MainActivity : AppCompatActivity() {
         currentCamera = CameraData()
         productNames = ProductNameArrays()
 
-        //var cameraMakerDB = getDatabase(this)
+        //var cameraMakerDB = getDatabase(applicationContext)
+        exposureDB = Room.databaseBuilder(applicationContext,
+                                    ExposureNotesDatabase::class.java,
+                              "exposure_notes_db").build()
 
         updateNotesHeader()
 
@@ -167,30 +174,79 @@ class MainActivity : AppCompatActivity() {
     } // onCreateOptionsMenu()
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        val id = item.itemId
-
         // Menu items
-        when (id) {
+        when (item.itemId) {
             R.id.main_menu_camera -> setCameraDialog()
             R.id.main_menu_lens -> setLensDialog()
             R.id.main_menu_film -> setFilmDialog()
             R.id.main_menu_clear_roll -> clearFilmRoll()
             R.id.main_menu_export_roll -> exportDialog()
             R.id.main_menu_junk -> fillWithTestData()
-            R.id.main_menu_db -> testDB()
-            else -> {
-                // do nothing
-            }
+            R.id.database_menu_save -> saveDatabase()
+            R.id.database_menu_load -> loadDatabase()
+            R.id.database_menu_delete -> deleteDatabase()
+            R.id.database_menu_test -> testDB()
         }
 
         return super.onOptionsItemSelected(item)
     } //onOptionsItemSelected()
 
-    private fun testDB() {
+    private fun saveDatabase() {
+        doAsync {
+            val roll = RollInfo(currentCamera.manu, currentCamera.name, currentCamera.format, currentCamera.lensIdx, currentCamera.fixed,
+                    currentFilmRoll.manu, currentFilmRoll.name, currentFilmRoll.isoIdx, currentFilmRoll.frames, currentFilmRoll.devIdx)
+            if (exposureDB.rollInfoDao().getAll().isEmpty()) {
+                exposureDB.rollInfoDao().insert(roll)
+            } else {
+                exposureDB.rollInfoDao().update(roll)
+            }
 
+            uiThread {
+                toast("Film Roll Data Saved")
+            }
+        }
+    }
+
+    private fun loadDatabase() {
+        doAsync {
+            val roll = exposureDB.rollInfoDao().getAll()
+            if (roll.isNotEmpty()) {
+                setCameraData(roll[0].cameraManu, roll[0].cameraName,roll[0].cameraFormat, roll[0].cameraLensIdx, roll[0].cameraIsFixed)
+                setFilmData(roll[0].filmManu, roll[0].filmName, roll[0].filmIsoIdx, roll[0].filmFrames, roll[0].filmDevIdx, "")
+            }
+            uiThread {
+                toast("Film Roll Data Loaded")
+            }
+        }
+
+        updateNotesHeader()
+        setListVisibility()
+    }
+
+    private fun deleteDatabase() {
+        doAsync {
+            exposureDB.cameraMakerDao().deleteAll()
+            exposureDB.cameraModelDao().deleteAll()
+            exposureDB.filmMakerDao().deleteAll()
+            exposureDB.filmModelDao().deleteAll()
+            exposureDB.frameInfoDao().deleteAll()
+            exposureDB.rollInfoDao().deleteAll()
+        }
+    }
+
+    private fun testDB() {
+        doAsync {
+            exposureDB.cameraMakerDao().insert(CameraMaker("Canon"))
+
+            val out: List<CameraMaker> = exposureDB.cameraMakerDao().getAll()
+            Log.d(MainActivity.LOG_TAG, "Size: ${out.size}")
+            Log.d(MainActivity.LOG_TAG, "Maker: ${out[0].maker}")
+
+            uiThread {
+                toast(out[0].maker)
+            }
+
+        }
     }
 
     // Fill frame list with random test data
@@ -205,7 +261,7 @@ class MainActivity : AppCompatActivity() {
             var str = ""
             val limit = Random().nextInt(4) + 2
             for (i in 1 until limit) {
-                str = str + paragraph[Random().nextInt(paragraph.size)]
+                str += paragraph[Random().nextInt(paragraph.size)]
             }
 
             return str
@@ -436,16 +492,16 @@ class MainActivity : AppCompatActivity() {
         private val LOG_TAG = MainActivity::class.java.simpleName
 
         @Volatile
-        private var INSTANCE: CameraMakerDatabase? = null
+        private var INSTANCE: ExposureNotesDatabase? = null
 
-        fun getDatabase(context: Context) : CameraMakerDatabase {
+        fun getDatabase(context: Context) : ExposureNotesDatabase {
             return INSTANCE ?: synchronized(this) {
                 val tempInstance = INSTANCE
                 if (tempInstance != null) {
                     return tempInstance
                 }
                 val instance = Room.databaseBuilder(context.applicationContext,
-                                                    CameraMakerDatabase::class.java,
+                                                    ExposureNotesDatabase::class.java,
                                                     "camera_maker_database").build()
                 INSTANCE = instance
                 return instance
