@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         currentCamera = CameraData()
         productNames = ProductNameArrays()
 
-        //var cameraMakerDB = getDatabase(applicationContext)
         exposureDB = Room.databaseBuilder(applicationContext,
                                     ExposureNotesDatabase::class.java,
                               "exposure_notes_db").build()
@@ -145,12 +144,11 @@ class MainActivity : AppCompatActivity() {
         if (pos != 0 && frameDataList[pos].shutterIdx == 0 && frameDataList[pos].apertureIdx == 0) {
             args.putInt("shutter", frameDataList[pos - 1].shutterIdx)
             args.putInt("aperture", frameDataList[pos - 1].apertureIdx)
-            args.putInt("lens", frameDataList[pos - 1].lensIdx)
+            args.putInt("lens", currentCamera.lensIdx)
             args.putBoolean("fixed", currentCamera.fixed)
         } else {
             args.putInt("shutter", frameDataList[pos].shutterIdx)
             args.putInt("aperture", frameDataList[pos].apertureIdx)
-            //args.putInt("lens", frameDataList[pos].lensIdx)
             args.putInt("lens", currentCamera.lensIdx)
             args.putBoolean("fixed", currentCamera.fixed)
         }
@@ -193,13 +191,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveDatabase() {
         doAsync {
-            val roll = RollInfo(currentCamera.manu, currentCamera.name, currentCamera.format, currentCamera.lensIdx, currentCamera.fixed,
+            val roll = RollInfo(0, currentCamera.manu, currentCamera.name, currentCamera.format, currentCamera.lensIdx, currentCamera.fixed,
                     currentFilmRoll.manu, currentFilmRoll.name, currentFilmRoll.isoIdx, currentFilmRoll.frames, currentFilmRoll.devIdx)
             if (exposureDB.rollInfoDao().getAll().isEmpty()) {
                 exposureDB.rollInfoDao().insert(roll)
             } else {
                 exposureDB.rollInfoDao().update(roll)
             }
+
+            for (i in 0 until currentFilmRoll.frames) {
+                val frame = FrameInfo(i, frameDataList[i].shutterIdx, frameDataList[i].apertureIdx, frameDataList[i].lensIdx, frameDataList[i].notes)
+
+                exposureDB.frameInfoDao().insert(frame)
+            }
+
 
             uiThread {
                 toast("Film Roll Data Saved")
@@ -210,17 +215,29 @@ class MainActivity : AppCompatActivity() {
     private fun loadDatabase() {
         doAsync {
             val roll = exposureDB.rollInfoDao().getAll()
-            if (roll.isNotEmpty()) {
-                setCameraData(roll[0].cameraManu, roll[0].cameraName,roll[0].cameraFormat, roll[0].cameraLensIdx, roll[0].cameraIsFixed)
-                setFilmData(roll[0].filmManu, roll[0].filmName, roll[0].filmIsoIdx, roll[0].filmFrames, roll[0].filmDevIdx, "")
-            }
+            val frames = exposureDB.frameInfoDao().getAll()
+
             uiThread {
+                if (roll.isNotEmpty()) {
+                    setCameraData(roll[0].cameraManu, roll[0].cameraName,roll[0].cameraFormat, roll[0].cameraLensIdx, roll[0].cameraIsFixed)
+                    setFilmData(roll[0].filmManu, roll[0].filmName, roll[0].filmIsoIdx, roll[0].filmFrames, roll[0].filmDevIdx, "")
+
+                    updateNotesHeader()
+                    setListVisibility()
+
+                    frameDataList.clear()
+                    for (i in 0 until currentFilmRoll.frames) {
+                        frameDataList.add(i, FrameData(frames[i].shutterIdx, frames[i].apertureIdx, frames[i].lensIdx, frames[i].notes))
+                        frameDataList[i].updateData()
+                    }
+                }
+
                 toast("Film Roll Data Loaded")
+
             }
         }
 
-        updateNotesHeader()
-        setListVisibility()
+
     }
 
     private fun deleteDatabase() {

@@ -18,10 +18,12 @@ data class FilmModel(@PrimaryKey @ColumnInfo(name = "model") val model: String)
 data class FrameInfo(@PrimaryKey @ColumnInfo(name = "number") val number: Int,
                      @ColumnInfo(name = "shutterIdx") val shutterIdx: Int,
                      @ColumnInfo(name = "apertureIdx") val apertureIdx: Int,
+                     @ColumnInfo(name = "lensIdx") val lensIdx: Int,
                      @ColumnInfo(name = "notes") val notes: String )
 
 @Entity(tableName = "roll_info_table")
-data class RollInfo(@PrimaryKey @ColumnInfo(name = "camera_manu") val cameraManu: String,
+data class RollInfo(@PrimaryKey @ColumnInfo(name = "index") val index: Int,
+                    @ColumnInfo(name = "camera_manu") val cameraManu: String,
                     @ColumnInfo(name="camera_name") val cameraName: String,
                     @ColumnInfo(name="camera_format") val cameraFormat: String,
                     @ColumnInfo(name="camera_lensIdx") val cameraLensIdx: Int,
@@ -32,13 +34,6 @@ data class RollInfo(@PrimaryKey @ColumnInfo(name = "camera_manu") val cameraManu
                     @ColumnInfo(name="film_isoIdx") val filmIsoIdx: Int,
                     @ColumnInfo(name="film_frames") val filmFrames: Int,
                     @ColumnInfo(name="film_devIdx") val filmDevIdx: Int)
-/*
-data class RollInfo(@PrimaryKey @ColumnInfo(name = "camera_name") val cameraName: String,
-                    @ColumnInfo(name="film_name") val filmName: String,
-                    @ColumnInfo(name="isoIdx") val isoIdx: Int,
-                    @ColumnInfo(name="devIdx") val devIdx: Int,
-                    @ColumnInfo(name="frames") val frames: Int)
-*/
 // Entities
 
 
