@@ -4,10 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -59,12 +57,19 @@ class MainActivity : AppCompatActivity() {
                                     ExposureNotesDatabase::class.java,
                               "exposure_notes_db").build()
 
-        updateNotesHeader()
-
-        // Create a list of blank exposure information
-        for (i in 0 until currentFilmRoll.frames) {
-            frameDataList.add(i, FrameData())
+        doAsync {
+            // If there's a frame info to load, do that
+            //  Otherwise load an empty list
+            if (exposureDB.rollInfoDao().getAll().isNotEmpty()) {
+                loadDatabase()
+            } else {
+                for (i in 0 until currentFilmRoll.frames) {
+                    frameDataList.add(i, FrameData())
+                }
+            }
         }
+
+        updateNotesHeader()
 
         // Create an adapter with the list data, attach that to the list view
         frameArrayAdapter = FrameArrayAdapter(this, frameDataList)
@@ -83,6 +88,10 @@ class MainActivity : AppCompatActivity() {
             if ((findViewById<View>(R.id.film_name) as TextView).text.toString() == " " ) {
                 setFilmDialog()
             }
+        }
+
+        findViewById<View>(R.id.load_roll).setOnClickListener {
+            loadDatabase()
         }
 
         frameListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
@@ -174,6 +183,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Menu items
         when (item.itemId) {
+            R.id.main_menu_about -> aboutDialog()
             R.id.main_menu_camera -> setCameraDialog()
             R.id.main_menu_lens -> setLensDialog()
             R.id.main_menu_film -> setFilmDialog()
@@ -189,7 +199,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     } //onOptionsItemSelected()
 
-    private fun saveDatabase() {
+    private fun saveDatabase(showMsg: Boolean = true) {
         doAsync {
             val roll = RollInfo(0, currentCamera.manu, currentCamera.name, currentCamera.format, currentCamera.lensIdx, currentCamera.fixed,
                     currentFilmRoll.manu, currentFilmRoll.name, currentFilmRoll.isoIdx, currentFilmRoll.frames, currentFilmRoll.devIdx)
@@ -207,12 +217,14 @@ class MainActivity : AppCompatActivity() {
 
 
             uiThread {
-                toast("Film Roll Data Saved")
+                if (showMsg) {
+                    toast("Film Roll Data Saved")
+                }
             }
         }
     }
 
-    private fun loadDatabase() {
+    private fun loadDatabase(showMsg: Boolean = true) {
         doAsync {
             val roll = exposureDB.rollInfoDao().getAll()
             val frames = exposureDB.frameInfoDao().getAll()
@@ -232,7 +244,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                toast("Film Roll Data Loaded")
+                if (showMsg) {
+                    toast("Film Roll Data Loaded")
+                }
 
             }
         }
@@ -253,18 +267,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun testDB() {
         doAsync {
-            exposureDB.cameraMakerDao().insert(CameraMaker("Canon"))
 
-            val out: List<CameraMaker> = exposureDB.cameraMakerDao().getAll()
-            Log.d(MainActivity.LOG_TAG, "Size: ${out.size}")
-            Log.d(MainActivity.LOG_TAG, "Maker: ${out[0].maker}")
 
             uiThread {
-                toast(out[0].maker)
             }
 
         }
-    }
+    } // testDB
 
     // Fill frame list with random test data
     private fun fillWithTestData() {
@@ -288,15 +297,10 @@ class MainActivity : AppCompatActivity() {
         currentFilmRoll.frames = Random().nextInt(36) + 1
 
         for (i in 0 until currentFilmRoll.frames) {
-            frameDataList.add(i, FrameData())
-        }
-
-        for (i in 0 until currentFilmRoll.frames) {
-            frameDataList[i].shutterIdx = Random().nextInt(12) + 1
-            frameDataList[i].apertureIdx = Random().nextInt(20) + 1
-            frameDataList[i].notes = getRandomString()
-            frameDataList[i].lensIdx = Random().nextInt(6) + 1
-            frameDataList[i].updateData()
+            frameDataList.add(i, FrameData(Random().nextInt(12) + 1,
+                                          Random().nextInt(20) + 1,
+                                             Random().nextInt(6) + 1,
+                                                     getRandomString() ))
         }
 
         currentCamera.manu = "Mamiya"
@@ -352,6 +356,12 @@ class MainActivity : AppCompatActivity() {
 
 
     } // clearFilmRoll
+
+    private fun aboutDialog() {
+        val aboutDialog = AboutDialog()
+        val fm = supportFragmentManager
+        aboutDialog.show(fm, "About Dialog")
+    }
 
     private fun setCameraDialog() {
         val args = Bundle()
@@ -463,10 +473,6 @@ class MainActivity : AppCompatActivity() {
         setListVisibility()
     } // updateNotesHeader
 
-    fun saveRollInfo() {
-
-    } // saveRollInfo
-
     fun setSingleFrameData(pos: Int, shutter: Int, aperture: Int, lens: Int, notes: String) {
         frameDataList[pos].shutterIdx = shutter
         frameDataList[pos].apertureIdx = aperture
@@ -475,6 +481,9 @@ class MainActivity : AppCompatActivity() {
         frameDataList[pos].updateData()
 
         frameArrayAdapter!!.notifyDataSetChanged()
+
+        // Auto-save frame data?
+        saveDatabase(true)
     } // setSingleFrameData
 
     fun exportFilmRoll(filename: String, method: String) {
@@ -511,20 +520,6 @@ class MainActivity : AppCompatActivity() {
         @Volatile
         private var INSTANCE: ExposureNotesDatabase? = null
 
-        fun getDatabase(context: Context) : ExposureNotesDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val tempInstance = INSTANCE
-                if (tempInstance != null) {
-                    return tempInstance
-                }
-                val instance = Room.databaseBuilder(context.applicationContext,
-                                                    ExposureNotesDatabase::class.java,
-                                                    "camera_maker_database").build()
-                INSTANCE = instance
-                return instance
-            }
-        }
-
         // Storage Permissions
         private val REQUEST_EXTERNAL_STORAGE = 1
         private val PERMISSIONS_STORAGE = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -543,7 +538,7 @@ class MainActivity : AppCompatActivity() {
                         REQUEST_EXTERNAL_STORAGE
                 )
             }
-        } // verifyStoragePermisions
+        } // verifyStoragePermissions
     }
 
 }

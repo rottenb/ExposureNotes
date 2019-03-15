@@ -8,6 +8,7 @@
     <string name="camera_settings">Camera Settings</string>
     <string name="lens_settings">Lens Inventory</string>
     <string name="film_settings">Film Settings</string>
+    <string name="load_roll">Load Active Roll</string>
 
     <!-- Export Dialog -->
     <string name="export_filename">00 Film_name Camera_Name Date.json</string>
@@ -177,4 +178,7 @@
     <string name="frame_select">Frame Select:</string>
     <string name="application_settings">Application Settings</string>
     <string name="welcome_msg">Tap to get started:</string>
+
+    <string name="about_text">Proin vitae tincidunt justo. Nunc quis erat a arcu placerat ultricies. Duis facilisis nibh et turpis ultrices porttitor. Praesent cursus justo feugiat est pulvinar, a auctor augue blandit. Donec non cursus est, et vestibulum lorem.</string>
+    <string name="about_button">Yeah, Yeah.</string>
 </resources>

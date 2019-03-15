@@ -4,6 +4,10 @@
     tools:context="com.brianmk.simplecheck_in.MainActivity">
 
     <group android:id="@+id/menu_group_user">
+        <item
+            android:id="@+id/main_menu_about"
+            android:orderInCategory="50"
+            android:title="About Exposure Notes"/>
 
         <item
             android:id="@+id/main_menu_settings"
@@ -32,7 +36,7 @@
         <item
             android:id="@+id/main_menu_clear_roll"
             android:orderInCategory="500"
-            android:title="@string/clear_roll"/>
+            android:title="@string/new_roll"/>
         <item
             android:id="@+id/main_menu_export_roll"
             android:orderInCategory="600"
