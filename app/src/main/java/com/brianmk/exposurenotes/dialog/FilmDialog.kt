@@ -24,7 +24,7 @@ class FilmDialog : DialogFragment() {
         manuText.setAdapter(manuAdapter)
 
         val filmText = rootView.findViewById<View>(R.id.film_edit) as AutoCompleteTextView
-        filmText.setText(arguments?.getString("name"))
+        filmText.setText(arguments?.getString("model"))
         val filmAdapter = ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, arguments?.getStringArray("models")!!)
         filmText.setAdapter(filmAdapter)
 

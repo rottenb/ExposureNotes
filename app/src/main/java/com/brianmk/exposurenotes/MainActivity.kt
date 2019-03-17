@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var exposureDB: ExposureNotesDatabase
 
-    private lateinit var productNames: ProductNameArrays
+    private lateinit var productNames: ProductNames
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,11 +51,12 @@ class MainActivity : AppCompatActivity() {
 
         currentFilmRoll = FilmData()
         currentCamera = CameraData()
-        productNames = ProductNameArrays()
+        productNames = ProductNames()
+
 
         exposureDB = Room.databaseBuilder(applicationContext,
                                     ExposureNotesDatabase::class.java,
-                              "exposure_notes_db").build()
+                              "exposure_notes_db").fallbackToDestructiveMigration().build()
 
         doAsync {
             // If there's a frame info to load, do that
@@ -66,6 +67,14 @@ class MainActivity : AppCompatActivity() {
                 for (i in 0 until currentFilmRoll.frames) {
                     frameDataList.add(i, FrameData())
                 }
+            }
+
+            if (exposureDB.productNamesDao().getAll().isNotEmpty()) {
+                val products = exposureDB.productNamesDao().getAll()[0]
+                productNames.cameraMakers = products.cameraMakers.split("•") as MutableList<String>
+                productNames.cameraModels = products.cameraModels.split("•") as MutableList<String>
+                productNames.filmMakers = products.filmMakers.split("•") as MutableList<String>
+                productNames.filmModels = products.filmModels.split("•") as MutableList<String>
             }
         }
 
@@ -89,11 +98,13 @@ class MainActivity : AppCompatActivity() {
                 setFilmDialog()
             }
         }
+/*
+        findViewById<View>(R.id.roll_settings).setOnClickListener {
+            val quickDialog = QuickSettingsDialog()
 
-        findViewById<View>(R.id.load_roll).setOnClickListener {
-            loadDatabase()
-        }
-
+            val fm = supportFragmentManager
+            quickDialog.show(fm, "Quick Settings Dialog")        }
+*/
         frameListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
             setFrameDialog(pos)
         }
@@ -135,8 +146,8 @@ class MainActivity : AppCompatActivity() {
     // Export the film roll information
     private fun exportDialog() {
         val args = Bundle()
-        args.putString("camera", currentCamera.name)
-        args.putString("film", currentFilmRoll.name)
+        args.putString("camera", currentCamera.model)
+        args.putString("film", currentFilmRoll.model)
 
         val exportDialog = ExportDialog()
         exportDialog.arguments = args
@@ -201,8 +212,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveDatabase(showMsg: Boolean = true) {
         doAsync {
-            val roll = RollInfo(0, currentCamera.manu, currentCamera.name, currentCamera.format, currentCamera.lensIdx, currentCamera.fixed,
-                    currentFilmRoll.manu, currentFilmRoll.name, currentFilmRoll.isoIdx, currentFilmRoll.frames, currentFilmRoll.devIdx)
+            val roll = RollInfoTable(0, currentCamera.manu, currentCamera.model, currentCamera.format, currentCamera.lensIdx, currentCamera.fixed,
+                    currentFilmRoll.manu, currentFilmRoll.model, currentFilmRoll.isoIdx, currentFilmRoll.frames, currentFilmRoll.devIdx)
             if (exposureDB.rollInfoDao().getAll().isEmpty()) {
                 exposureDB.rollInfoDao().insert(roll)
             } else {
@@ -210,9 +221,19 @@ class MainActivity : AppCompatActivity() {
             }
 
             for (i in 0 until currentFilmRoll.frames) {
-                val frame = FrameInfo(i, frameDataList[i].shutterIdx, frameDataList[i].apertureIdx, frameDataList[i].lensIdx, frameDataList[i].notes)
+                val frame = FrameInfoTable(i, frameDataList[i].shutterIdx, frameDataList[i].apertureIdx, frameDataList[i].lensIdx, frameDataList[i].notes)
 
                 exposureDB.frameInfoDao().insert(frame)
+            }
+
+            val products = ProductNamesTable(0, productNames.cameraMakers.joinToString(separator = "•"),
+                                                     productNames.cameraModels.joinToString(separator = "•"),
+                                                     productNames.filmMakers.joinToString(separator = "•"),
+                                                     productNames.filmModels.joinToString(separator = "•"))
+            if (exposureDB.productNamesDao().getAll().isEmpty()) {
+                exposureDB.productNamesDao().insert(products)
+            } else {
+                exposureDB.productNamesDao().update(products)
             }
 
 
@@ -228,6 +249,12 @@ class MainActivity : AppCompatActivity() {
         doAsync {
             val roll = exposureDB.rollInfoDao().getAll()
             val frames = exposureDB.frameInfoDao().getAll()
+
+            val products = exposureDB.productNamesDao().getAll()[0]
+            productNames.cameraMakers = products.cameraMakers.split("•") as MutableList<String>
+            productNames.cameraModels = products.cameraModels.split("•") as MutableList<String>
+            productNames.filmMakers = products.filmMakers.split("•") as MutableList<String>
+            productNames.filmModels = products.filmModels.split("•") as MutableList<String>
 
             uiThread {
                 if (roll.isNotEmpty()) {
@@ -256,13 +283,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun deleteDatabase() {
         doAsync {
-            exposureDB.cameraMakerDao().deleteAll()
-            exposureDB.cameraModelDao().deleteAll()
-            exposureDB.filmMakerDao().deleteAll()
-            exposureDB.filmModelDao().deleteAll()
+            exposureDB.productNamesDao().deleteAll()
             exposureDB.frameInfoDao().deleteAll()
             exposureDB.rollInfoDao().deleteAll()
         }
+
     }
 
     private fun testDB() {
@@ -304,11 +329,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         currentCamera.manu = "Mamiya"
-        currentCamera.name = "RB67sd"
+        currentCamera.model = "RB67sd"
         currentCamera.format = "120mm"
 
         currentFilmRoll.manu = "Ilford"
-        currentFilmRoll.name = "HP5+"
+        currentFilmRoll.model = "HP5+"
         currentFilmRoll.isoIdx = Random().nextInt(12) + 1
         currentFilmRoll.devIdx = Random().nextInt(7) + 1
         currentFilmRoll.updateData()
@@ -368,7 +393,7 @@ class MainActivity : AppCompatActivity() {
         args.putStringArray("makers", productNames.cameraMakers.toTypedArray())
         args.putStringArray("models", productNames.cameraModels.toTypedArray())
         args.putString("manu", currentCamera.manu)
-        args.putString("name", currentCamera.name)
+        args.putString("model", currentCamera.model)
         args.putString("format", currentCamera.format)
         args.putInt("lens", currentCamera.lensIdx)
         args.putBoolean("fixed", currentCamera.fixed)
@@ -380,14 +405,23 @@ class MainActivity : AppCompatActivity() {
         cameraDialog.show(fm, "Camera Dialog")
     } // setCameraDialog
 
-    fun setCameraData(manu: String, name: String, format: String, lensIdx: Int,
+    fun setCameraData(manu: String, model: String, format: String, lensIdx: Int,
                       isFixed: Boolean) {
         currentCamera.manu = manu
-        currentCamera.name = name
+        currentCamera.model = model
         currentCamera.format = format
         currentCamera.lensIdx = lensIdx
         currentCamera.fixed = isFixed
 
+        if (!productNames.cameraMakers.contains(manu)) {
+            productNames.cameraMakers.add(manu)
+        }
+
+        if (!productNames.cameraModels.contains(model)) {
+            productNames.cameraModels.add(model)
+        }
+
+        saveDatabase()
         updateNotesHeader()
     } // setCameraData
 
@@ -406,7 +440,7 @@ class MainActivity : AppCompatActivity() {
         args.putStringArray("makers", productNames.filmMakers.toTypedArray())
         args.putStringArray("models", productNames.filmModels.toTypedArray())
         args.putString("manu", currentFilmRoll.manu)
-        args.putString("name", currentFilmRoll.name)
+        args.putString("model", currentFilmRoll.model)
         args.putInt("iso", currentFilmRoll.isoIdx)
         args.putInt("frames", currentFilmRoll.frames)
         args.putInt("dev", currentFilmRoll.devIdx)
@@ -419,18 +453,18 @@ class MainActivity : AppCompatActivity() {
         filmDialog.show(fm, "Film Dialog")
     } // setFilmDialog
 
-    fun setFilmData(manu: String, name: String, iso: Int, frames: Int, dev: Int, notes: String) {
+    fun setFilmData(manu: String, model: String, iso: Int, frames: Int, dev: Int, notes: String) {
         updateFrameCount(frames)
 
         currentFilmRoll.manu = manu
-        currentFilmRoll.name = name
+        currentFilmRoll.model = model
         currentFilmRoll.frames = frames
         currentFilmRoll.isoIdx = iso
         currentFilmRoll.devIdx = dev
         currentFilmRoll.notes = notes
         currentFilmRoll.updateData()
 
-        setListVisibility()
+        saveDatabase()
         updateNotesHeader()
     } // setFilmData
 
@@ -454,11 +488,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateNotesHeader() {
         var textView = findViewById<View>(R.id.camera_name) as TextView
-        var str = "${currentCamera.manu} ${currentCamera.name}"
+        var str = "${currentCamera.manu} ${currentCamera.model}"
         textView.text = str
 
         textView = findViewById<View>(R.id.film_name) as TextView
-        str = "${currentFilmRoll.manu} ${currentFilmRoll.name}"
+        str = "${currentFilmRoll.manu} ${currentFilmRoll.model}"
         textView.text = str
 
         textView = findViewById<View>(R.id.format) as TextView
@@ -488,7 +522,7 @@ class MainActivity : AppCompatActivity() {
 
     fun exportFilmRoll(filename: String, method: String) {
         val outJ = OutputJSON()
-        val obj = outJ.createJSONobj(currentCamera.name, currentFilmRoll.name, currentFilmRoll.iso, currentFilmRoll.dev, frameDataList)
+        val obj = outJ.createJSONobj(currentCamera.model, currentFilmRoll.model, currentFilmRoll.iso, currentFilmRoll.dev, frameDataList)
         try {
             val filepath = File("storage/emulated/0/ExposureNotes/")
             filepath.mkdirs()

@@ -23,7 +23,7 @@ class CameraDialog : DialogFragment() {
         manuText.setAdapter(manuAdapter)
 
         val nameText = rootView.findViewById<View>(R.id.camera_edit) as AutoCompleteTextView
-        nameText.setText(arguments?.getString("name"))
+        nameText.setText(arguments?.getString("model"))
         val nameAdapter = ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, arguments?.getStringArray("models")!!)
         nameText.setAdapter(nameAdapter)
 
@@ -77,7 +77,6 @@ class CameraDialog : DialogFragment() {
             if (manuText.text.toString() == "" || nameText.text.toString() == "") {
                 Toast.makeText(rootView.context, "Make and Model required!", Toast.LENGTH_LONG).show()
             } else {
-                // This gets called if the user wants to truncate the film list
                 (activity as MainActivity).setCameraData(
                         manuText.text.toString(),
                         nameText.text.toString(),

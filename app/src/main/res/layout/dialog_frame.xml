@@ -169,16 +169,16 @@
         app:layout_constraintTop_toBottomOf="@id/frame_notes"
         app:layout_constraintStart_toStartOf="parent"
         android:gravity="center">
-        <!-- OK Button -->
+        <!-- Save Button -->
         <Button
             style="@style/Widget.AppCompat.Button.Colored"
-            android:id="@+id/ok_button"
+            android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/double_margin"
             android:textSize="@dimen/dialog_font_size"
             android:textStyle="bold"
-            android:text="@string/ok_button"/>
+            android:text="@string/save_button"/>
         <!-- Clear Button -->
         <Button
             style="@style/Widget.AppCompat.Button.Colored"

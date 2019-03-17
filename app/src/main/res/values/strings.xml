@@ -60,21 +60,31 @@
         <item>25</item>
         <item>50</item>
         <item>100</item>
+        <item>125</item>
         <item>160</item>
         <item>200</item>
+        <item>250</item>
+        <item>320</item>
         <item>400</item>
+        <item>500</item>
+        <item>640</item>
         <item>800</item>
+        <item>1000</item>
+        <item>1250</item>
         <item>1600</item>
+        <item>2000</item>
+        <item>2500</item>
         <item>3200</item>
+        <item>4000</item>
+        <item>5000</item>
         <item>6400</item>
     </string-array>
 
     <string-array name="devs">
-        <item>±</item>
         <item>-3</item>
         <item>-2</item>
         <item>-1</item>
-        <item> 0</item>
+        <item>±0</item>
         <item>+1</item>
         <item>+2</item>
         <item>+3</item>
@@ -98,6 +108,7 @@
     <string name="save_button">Save</string>
     <string name="add_button">Add</string>
     <string name="remove_button">Remove</string>
+    <string name="close_button">Close</string>
 
     <string-array name="shutter_speeds">
         <item>1/Xs</item>
@@ -167,9 +178,12 @@
     <string name="frame_dialog_title">Frame Settings</string>
     <string name="camera_dialog_title">Camera Settings</string>
     <string name="film_dialog_title">Film Settings</string>
+    <string name="quick_settings_title">Quick Settings</string>
     <string name="export_dialog_title">Export Film Roll Data</string>
     <string name="lens_dialog_title">Lens Inventory</string>
     <string name="lens_selection">Lens Selection:</string>
+    <string name="camera_selection">Camera Selection:</string>
+    <string name="film_selection">Film Selection:</string>
     <string name="lens_fixed_select">Lens (fixed):</string>
     <string name="fixed_lens">Fixed Lens:</string>
     <string name="frame_num_hint">000</string>
@@ -179,6 +193,21 @@
     <string name="application_settings">Application Settings</string>
     <string name="welcome_msg">Tap to get started:</string>
 
-    <string name="about_text">Proin vitae tincidunt justo. Nunc quis erat a arcu placerat ultricies. Duis facilisis nibh et turpis ultrices porttitor. Praesent cursus justo feugiat est pulvinar, a auctor augue blandit. Donec non cursus est, et vestibulum lorem.</string>
-    <string name="about_button">Yeah, Yeah.</string>
+    <string name="about_text">Set up both camera and film settings.\nTap a frame to add/edit exposure info.\nExport film roll and feed the json output to Exiftool (via a quick Python script, you can get that below), making sure to match your scans.\n\nhttps://www.sno.phy.queensu.ca/~phil/exiftool/</string>
+    <string name="script_button">Download Script</string>
+
+    <string-array name="camera_list">
+        <item>Canon FTb QL</item>
+        <item>Mamiya RB67sd</item>
+        <item>Mamiya Six Automat II</item>
+        <item>Fujifilm X-T1</item>
+    </string-array>
+
+    <string-array name="film_list">
+        <item>Fuji Pro400H</item>
+        <item>Kodak Portra 160</item>
+        <item>Kodak Tri-X</item>
+        <item>Ilford HP5+</item>
+        <item>Ilford FP4+</item>
+    </string-array>
 </resources>

@@ -40,7 +40,9 @@
         <item
             android:id="@+id/main_menu_export_roll"
             android:orderInCategory="600"
-            android:title="@string/export_roll"/>
+            android:icon="@drawable/file_export"
+            android:title="@string/export_roll"
+            app:showAsAction="always"/>
         <item
             android:id="@+id/main_menu_junk"
             android:orderInCategory="1000"

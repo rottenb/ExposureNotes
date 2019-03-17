@@ -2,112 +2,60 @@ package com.brianmk.exposurenotes.data
 
 import androidx.room.*
 
-@Entity(tableName = "camera_maker_table")
-data class CameraMaker(@PrimaryKey @ColumnInfo(name = "maker") val maker: String)
+@Entity(tableName = "product_names_table")
+data class ProductNamesTable(@PrimaryKey @ColumnInfo(name = "idx") val idx: Int,
+                             @ColumnInfo(name = "camera_makers") val cameraMakers: String,
+                             @ColumnInfo(name = "camera_models") val cameraModels: String,
 
-@Entity(tableName = "camera_model_table")
-data class CameraModel(@PrimaryKey @ColumnInfo(name = "model") val model: String)
-
-@Entity(tableName = "film_maker_table")
-data class FilmMaker(@PrimaryKey @ColumnInfo(name = "maker") val maker: String)
-
-@Entity(tableName = "film_model_table")
-data class FilmModel(@PrimaryKey @ColumnInfo(name = "model") val model: String)
+                             @ColumnInfo(name = "film_makers") val filmMakers: String,
+                             @ColumnInfo(name = "film_models") val filmModels: String)
 
 @Entity(tableName = "frame_info_table")
-data class FrameInfo(@PrimaryKey @ColumnInfo(name = "number") val number: Int,
+data class FrameInfoTable(@PrimaryKey @ColumnInfo(name = "idx") val idx: Int,
                      @ColumnInfo(name = "shutterIdx") val shutterIdx: Int,
                      @ColumnInfo(name = "apertureIdx") val apertureIdx: Int,
                      @ColumnInfo(name = "lensIdx") val lensIdx: Int,
                      @ColumnInfo(name = "notes") val notes: String )
 
 @Entity(tableName = "roll_info_table")
-data class RollInfo(@PrimaryKey @ColumnInfo(name = "index") val index: Int,
+data class RollInfoTable(@PrimaryKey @ColumnInfo(name = "idx") val idx: Int,
                     @ColumnInfo(name = "camera_manu") val cameraManu: String,
-                    @ColumnInfo(name="camera_name") val cameraName: String,
-                    @ColumnInfo(name="camera_format") val cameraFormat: String,
-                    @ColumnInfo(name="camera_lensIdx") val cameraLensIdx: Int,
-                    @ColumnInfo(name="camera_isFixed") val cameraIsFixed: Boolean,
+                    @ColumnInfo(name = "camera_name") val cameraName: String,
+                    @ColumnInfo(name = "camera_format") val cameraFormat: String,
+                    @ColumnInfo(name = "camera_lensIdx") val cameraLensIdx: Int,
+                    @ColumnInfo(name = "camera_isFixed") val cameraIsFixed: Boolean,
 
-                    @ColumnInfo(name="film_manu") val filmManu: String,
-                    @ColumnInfo(name="film_name") val filmName: String,
-                    @ColumnInfo(name="film_isoIdx") val filmIsoIdx: Int,
-                    @ColumnInfo(name="film_frames") val filmFrames: Int,
-                    @ColumnInfo(name="film_devIdx") val filmDevIdx: Int)
+                    @ColumnInfo(name = "film_manu") val filmManu: String,
+                    @ColumnInfo(name = "film_name") val filmName: String,
+                    @ColumnInfo(name = "film_isoIdx") val filmIsoIdx: Int,
+                    @ColumnInfo(name = "film_frames") val filmFrames: Int,
+                    @ColumnInfo(name = "film_devIdx") val filmDevIdx: Int)
 // Entities
-
-
 @Dao
-interface CameraMakerDao {
-    @Query ("SELECT * FROM camera_maker_table ORDER BY maker ASC")
-    fun getAll() : List<CameraMaker>
+interface ProductNamesDao {
+    @Query ("SELECT * FROM product_names_table ORDER BY idx ASC")
+    fun getAll() : List<ProductNamesTable>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(cameraMaker: CameraMaker)
+    fun insert(productNamesTable: ProductNamesTable)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(cameraMaker: CameraMaker)
+    fun update(productNamesTable: ProductNamesTable)
 
-    @Query ("DELETE FROM camera_maker_table")
-    fun deleteAll()
-}
-
-@Dao
-interface CameraModelDao {
-    @Query ("SELECT * FROM camera_model_table ORDER BY model ASC")
-    fun getAll() : List<CameraModel>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(cameraModel: CameraModel)
-
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(cameraModel: CameraModel)
-
-
-    @Query ("DELETE FROM camera_model_table")
-    fun deleteAll()
-}
-
-@Dao
-interface FilmMakerDao {
-    @Query ("SELECT * FROM film_maker_table ORDER BY maker ASC")
-    fun getAll() : List<FilmMaker>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(filmMaker: FilmMaker)
-
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(filmMaker: FilmMaker)
-
-    @Query ("DELETE FROM film_maker_table")
-    fun deleteAll()
-}
-
-@Dao
-interface FilmModelDao {
-    @Query ("SELECT * FROM film_model_table ORDER BY model ASC")
-    fun getAll() : List<FilmModel>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(filmModel: FilmModel)
-
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(filmModel: FilmModel)
-
-    @Query ("DELETE FROM camera_model_table")
+    @Query ("DELETE FROM product_names_table")
     fun deleteAll()
 }
 
 @Dao
 interface FrameInfoDao {
-    @Query ("SELECT * FROM frame_info_table ORDER BY number ASC")
-    fun getAll() : List<FrameInfo>
+    @Query ("SELECT * FROM frame_info_table ORDER BY idx ASC")
+    fun getAll() : List<FrameInfoTable>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(frameInfo: FrameInfo)
+    fun insert(frameInfo: FrameInfoTable)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(frameInfo: FrameInfo)
+    fun update(frameInfo: FrameInfoTable)
 
     @Query ("DELETE FROM frame_info_table")
     fun deleteAll()
@@ -116,13 +64,13 @@ interface FrameInfoDao {
 @Dao
 interface RollInfoDao {
     @Query ("SELECT * FROM roll_info_table ORDER BY camera_name ASC")
-    fun getAll() : List<RollInfo>
+    fun getAll() : List<RollInfoTable>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(rollInfo: RollInfo) : Long
+    fun insert(rollInfo: RollInfoTable) : Long
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(rollInfo: RollInfo)
+    fun update(rollInfo: RollInfoTable)
 
     @Query ("DELETE FROM roll_info_table")
     fun deleteAll()
@@ -130,15 +78,9 @@ interface RollInfoDao {
 // DAOs
 
 
-@Database(entities = [CameraMaker::class, CameraModel::class,
-                        FilmMaker::class, FilmModel::class,
-                        FrameInfo::class, RollInfo::class], version = 1, exportSchema = false)
+@Database(entities = [ProductNamesTable::class, FrameInfoTable::class, RollInfoTable::class], version = 1, exportSchema = false)
 abstract class ExposureNotesDatabase : RoomDatabase() {
-    abstract fun cameraMakerDao() : CameraMakerDao
-    abstract fun cameraModelDao() : CameraModelDao
-
-    abstract fun filmMakerDao() : FilmMakerDao
-    abstract fun filmModelDao() : FilmModelDao
+    abstract fun productNamesDao() : ProductNamesDao
 
     abstract fun frameInfoDao() : FrameInfoDao
 

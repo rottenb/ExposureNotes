@@ -4,99 +4,131 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/default_margin"
-    android:background="@drawable/border">
+    android:layout_height="wrap_content">
 
     <!-- Dialog Title -->
     <TextView
         style="@style/DialogTitle"
         android:id="@+id/dialog_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/film_dialog_title"/>
+        android:gravity="center"
+        android:text="@string/quick_settings_title"/>
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_margin="@dimen/half_margin"
-        app:layout_constraintTop_toBottomOf="@id/dialog_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/colorPrimary"/>
+        app:layout_constraintTop_toBottomOf="@id/dialog_title"
+        android:layout_margin="@dimen/half_margin"
+        android:background="@color/colorAccent"/>
 
-    <!-- Manufacturer Name -->
+    <!-- Camera -->
     <TextView
         style="@style/DialogHeader"
-        android:id="@+id/manu_header"
+        android:id="@+id/camera_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/double_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dialog_title"
-        android:text="@string/manu_header"/>
+        android:text="@string/camera_selection"/>
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/camera_spinner"
+        app:layout_constraintEnd_toEndOf="@id/camera_spinner"
+        app:layout_constraintTop_toTopOf="@id/camera_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/camera_spinner"
         android:layout_margin="@dimen/default_margin"
-        app:layout_constraintTop_toTopOf="@id/manu_edit"
-        app:layout_constraintBottom_toBottomOf="@id/manu_edit"
-        app:layout_constraintStart_toStartOf="@id/manu_edit"
-        app:layout_constraintEnd_toEndOf="@id/manu_edit"
         android:background="@drawable/border"/>
-    <AutoCompleteTextView
-        android:id="@+id/manu_edit"
+    <Spinner
+        style="@style/SpinnerStyle"
+        android:id="@+id/camera_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="@dimen/double_padding"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/manu_header"
+        app:layout_constraintTop_toBottomOf="@id/camera_header"
+        tools:listitem="@layout/item_spinner"/>
+    <TextView
+        android:id="@+id/camera_spinner_mask"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@id/camera_spinner"
+        app:layout_constraintEnd_toEndOf="@id/camera_spinner"
+        app:layout_constraintTop_toTopOf="@id/camera_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/camera_spinner"
+        android:visibility="invisible"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/dialog_font_size"
-        android:inputType="textCapWords"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textColorHint="@color/light_red"
-        android:hint="@string/film_manu"
-        android:autofillHints="@string/film_manu"
-        android:background="@android:color/transparent"/>
+        tools:text="@string/spinner_text_example"/>
+    <Button
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/camera_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/double_margin"
+        app:layout_constraintTop_toBottomOf="@id/camera_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold"
+        android:text="Edit Cameras"/>
 
-    <!-- Film model -->
+    <!-- Film -->
     <TextView
         style="@style/DialogHeader"
         android:id="@+id/film_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/manu_edit"
-        android:text="@string/film_header"/>
+        app:layout_constraintTop_toBottomOf="@id/camera_edit"
+        android:text="@string/film_selection"/>
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/film_spinner"
+        app:layout_constraintEnd_toEndOf="@id/film_spinner"
+        app:layout_constraintTop_toTopOf="@id/film_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/film_spinner"
         android:layout_margin="@dimen/default_margin"
-        app:layout_constraintStart_toStartOf="@id/film_edit"
-        app:layout_constraintEnd_toEndOf="@id/film_edit"
-        app:layout_constraintTop_toTopOf="@id/film_edit"
-        app:layout_constraintBottom_toBottomOf="@id/film_edit"
         android:background="@drawable/border"/>
-    <AutoCompleteTextView
-        android:id="@+id/film_edit"
+    <Spinner
+        style="@style/SpinnerStyle"
+        android:id="@+id/film_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="@dimen/double_padding"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/film_header"
+        tools:listitem="@layout/item_spinner"/>
+    <TextView
+        android:id="@+id/film_spinner_mask"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@id/film_spinner"
+        app:layout_constraintEnd_toEndOf="@id/film_spinner"
+        app:layout_constraintTop_toTopOf="@id/film_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/film_spinner"
+        android:visibility="invisible"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/dialog_font_size"
-        android:inputType="textCapWords"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textColorHint="@color/light_red"
-        android:hint="@string/film_name"
-        android:autofillHints="@string/film_name"
-        android:background="@android:color/transparent"/>
+        tools:text="@string/spinner_text_example"/>
+    <Button
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/film_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/double_margin"
+        app:layout_constraintTop_toBottomOf="@id/film_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold"
+        android:text="Edit Film"/>
 
     <!-- Frame Count -->
     <TextView
@@ -114,10 +146,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_margin"
+        android:gravity="center"
         android:padding="@dimen/default_padding"
         app:layout_constraintStart_toEndOf="@id/frame_header"
         app:layout_constraintTop_toTopOf="@id/frame_header"
         app:layout_constraintBottom_toBottomOf="@id/frame_header"
+        app:layout_constraintEnd_toEndOf="@id/iso_spinner"
         tools:text="@string/frame_num_header"
         android:background="@drawable/border"/>
     <NumberPicker
@@ -206,59 +240,21 @@
         tools:listitem="@layout/item_spinner">
     </Spinner>
 
-    <!-- Notes -->
-    <TextView
-        android:id="@+id/notes_header"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iso_spinner"
-        app:layout_constraintBottom_toTopOf="@id/frame_notes"
-        android:layout_marginTop="@dimen/double_margin"
-        android:paddingStart="@dimen/double_padding"
-        android:paddingEnd="@dimen/double_padding"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/dialog_font_size"
-        android:text="@string/notes_header"/>
-    <View
-        android:id="@+id/notes_border"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/default_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notes_header"
-        app:layout_constraintBottom_toBottomOf="@id/notes_edit"
-        android:background="@drawable/border"/>
-    <EditText
-        android:id="@+id/notes_edit"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/notes_field_height"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notes_header"
-        android:gravity="start"
-        android:padding="@dimen/double_padding"
-        android:textSize="@dimen/dialog_font_size"
-        android:inputType="textCapSentences"
-        android:hint="@string/frame_notes_hint"
-        android:autofillHints="@string/frame_notes_hint"
-        android:background="@android:color/transparent"/>
-
     <!-- Action Buttons -->
-    <!-- OK Button -->
+    <!-- Save Button -->
     <Button
         style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/double_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/cancel_button"
-        app:layout_constraintTop_toBottomOf="@id/notes_edit"
+        app:layout_constraintTop_toBottomOf="@id/iso_spinner"
         android:textSize="@dimen/dialog_font_size"
         android:textStyle="bold"
         android:text="@string/save_button"/>
-    <!-- Cancel Button -->
+    <!-- Clear Button -->
     <Button
         style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/cancel_button"
@@ -266,8 +262,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/save_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notes_edit"
+        app:layout_constraintTop_toTopOf="@id/save_button"
         android:textSize="@dimen/dialog_font_size"
         android:textStyle="bold"
         android:text="@string/cancel_button"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

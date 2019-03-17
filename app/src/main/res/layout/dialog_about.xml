@@ -17,12 +17,20 @@
 
     <Button
         style="@style/Widget.AppCompat.Button.Colored"
-        android:id="@+id/about_button"
+        android:id="@+id/script_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/double_margin"
+        android:layout_marginTop="@dimen/large_margin"
         android:gravity="center"
+        android:text="@string/script_button"/>
+
+    <Button
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/close_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/large_margin"
         android:textStyle="bold"
-        android:text="@string/about_button"/>
+        android:text="@string/close_button"/>
 
 </LinearLayout>

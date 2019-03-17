@@ -1,14 +1,15 @@
 package com.brianmk.exposurenotes.data
 
 data class FilmData(var manu: String = "",
-                    var name: String = "",
+                    var model: String = "",
                     var isoIdx: Int = 5,
                     var frames: Int = 0,
-                    var devIdx: Int = 4,
+                    var devIdx: Int = 3,
                     var notes: String = "") {
 
-    private val isos = arrayOf("0", "5", "12", "25", "50", "100", "160", "200", "400", "800", "1600", "3200", "6400")
-    private val devs = arrayOf("0", "-3", "-2", "-1", "0", "+1", "+2", "+3")
+    // ISOs in 1/3rd stop increments
+    private val isos = arrayOf("0", "5", "12", "25", "50", "100", "125", "160", "200", "250", "320", "400", "500", "640", "800", "1000", "1250", "1600", "2000", "2500", "3200", "4000", "5000", "6400")
+    private val devs = arrayOf("-3", "-2", "-1", "±0", "+1", "+2", "+3")
 
     var iso = isos[isoIdx]
     var dev = devs[devIdx]
@@ -20,10 +21,10 @@ data class FilmData(var manu: String = "",
 
     fun clearData() {
         manu = ""
-        name = ""
+        model = ""
         isoIdx = 5
         frames = 0
-        devIdx = 4
+        devIdx = 3
         notes = ""
 
         updateData()

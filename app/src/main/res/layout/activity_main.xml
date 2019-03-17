@@ -21,7 +21,7 @@
 
     <!-- Camera And Film Notes - "film_settings" -->
     <LinearLayout
-        android:id="@+id/film_settings"
+        android:id="@+id/roll_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/half_margin"
@@ -178,7 +178,7 @@
         android:background="@drawable/border"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/film_settings"
+        app:layout_constraintTop_toBottomOf="@id/roll_settings"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <!-- Frame List Header - "frame_header" -->
@@ -284,6 +284,7 @@
                 android:layout_marginBottom="@dimen/large_margin"
                 android:textColor="@color/colorPrimary"
                 android:text="@string/film_settings"/>
+<!--
             <ImageView
                 android:id="@+id/load_roll"
                 android:layout_width="wrap_content"
@@ -304,6 +305,7 @@
                 android:layout_marginBottom="@dimen/large_margin"
                 android:textColor="@color/colorPrimary"
                 android:text="@string/load_roll"/>
+-->
         </LinearLayout>
 
         <!-- Frame List -->

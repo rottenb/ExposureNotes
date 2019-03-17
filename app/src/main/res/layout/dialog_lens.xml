@@ -62,7 +62,7 @@
         android:autofillHints="@string/film_manu"
         android:background="@android:color/transparent"/>
 
-    <!-- Lens name -->
+    <!-- Lens model -->
     <TextView
         style="@style/DialogHeader"
         android:id="@+id/lens_header"

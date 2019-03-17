@@ -56,8 +56,8 @@ class FrameDialog : DialogFragment() {
         val notesText = rootView.findViewById<View>(R.id.frame_notes_edit) as TextView
         notesText.text = arguments!!.getString("notes")
 
-        val okButton = rootView.findViewById<View>(R.id.ok_button) as Button
-        okButton.setOnClickListener {
+        val saveButton = rootView.findViewById<View>(R.id.save_button) as Button
+        saveButton.setOnClickListener {
             (activity as MainActivity).setSingleFrameData(position,
                     shutterSpin.selectedItemPosition,
                     apertureSpin.selectedItemPosition,
