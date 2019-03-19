@@ -1,6 +1,6 @@
 package com.brianmk.exposurenotes.data
 
-data class FilmData(var manu: String = "",
+data class FilmData(var maker: String = "",
                     var model: String = "",
                     var isoIdx: Int = 5,
                     var frames: Int = 0,
@@ -20,7 +20,7 @@ data class FilmData(var manu: String = "",
     }
 
     fun clearData() {
-        manu = ""
+        maker = ""
         model = ""
         isoIdx = 5
         frames = 0

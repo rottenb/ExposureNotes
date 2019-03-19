@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/default_margin"
     android:background="@drawable/border">
-
     <!-- Dialog Title -->
     <TextView
         style="@style/DialogTitle"
@@ -26,74 +26,100 @@
         app:layout_constraintTop_toBottomOf="@id/dialog_title"
         android:layout_margin="@dimen/half_margin"
         android:background="@color/colorAccent"/>
-
-    <!-- Manufacturer Name -->
+    <!-- Current Lens List -->
     <TextView
         style="@style/DialogHeader"
-        android:id="@+id/manu_header"
+        android:id="@+id/lens_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/double_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_title"
+        android:text="@string/lens_selection"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/lens_spinner"
+        app:layout_constraintEnd_toEndOf="@id/lens_spinner"
+        app:layout_constraintTop_toTopOf="@id/lens_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/lens_spinner"
+        android:layout_margin="@dimen/default_margin"
+        android:background="@drawable/border"/>
+    <Spinner
+        style="@style/SpinnerStyle"
+        android:id="@+id/lens_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dialog_title"
-        android:layout_marginTop="@dimen/double_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lens_header"
+        tools:listitem="@layout/item_spinner"/>
+    <!-- Manufacturer Name -->
+    <TextView
+        style="@style/DialogHeader"
+        android:id="@+id/maker_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lens_spinner"
         android:text="@string/manu_header"/>
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/manu_header"
-        app:layout_constraintBottom_toBottomOf="@id/manu_edit"
+        app:layout_constraintTop_toBottomOf="@id/maker_header"
+        app:layout_constraintBottom_toBottomOf="@id/maker_edit"
         android:layout_margin="@dimen/default_margin"
         android:background="@drawable/border"/>
-    <EditText
-        android:id="@+id/manu_edit"
+    <AutoCompleteTextView
+        android:id="@+id/maker_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/manu_header"
+        app:layout_constraintTop_toBottomOf="@id/maker_header"
         android:padding="@dimen/double_padding"
         android:textSize="@dimen/dialog_font_size"
         android:inputType="textCapWords"
         android:maxLines="1"
         android:ellipsize="end"
+        android:textColorHint="@color/light_red"
         android:hint="@string/film_manu"
         android:autofillHints="@string/film_manu"
         android:background="@android:color/transparent"/>
-
     <!-- Lens model -->
     <TextView
         style="@style/DialogHeader"
-        android:id="@+id/lens_header"
+        android:id="@+id/model_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/manu_edit"
+        app:layout_constraintTop_toBottomOf="@id/maker_edit"
         android:text="@string/lens_header"/>
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lens_header"
-        app:layout_constraintBottom_toBottomOf="@id/lens_edit"
+        app:layout_constraintEnd_toEndOf="@id/model_edit"
+        app:layout_constraintTop_toBottomOf="@id/model_header"
+        app:layout_constraintBottom_toBottomOf="@id/model_edit"
         android:layout_margin="@dimen/default_margin"
         android:background="@drawable/border"/>
     <EditText
-        android:id="@+id/lens_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/model_edit"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lens_header"
+        app:layout_constraintTop_toBottomOf="@id/model_header"
+        android:gravity="start"
         android:padding="@dimen/double_padding"
         android:textSize="@dimen/dialog_font_size"
-        android:inputType="textCapWords"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:hint="@string/lens_name"
-        android:autofillHints="@string/lens_name"
+        android:inputType="textCapSentences"
+        android:textColorHint="@color/light_red"
+        android:hint="@string/lens_model_hint"
+        android:autofillHints="@string/lens_model_hint"
         android:background="@android:color/transparent"/>
     <!-- Notes -->
     <TextView
@@ -101,7 +127,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lens_edit"
+        app:layout_constraintTop_toBottomOf="@id/model_edit"
         android:layout_marginTop="@dimen/double_margin"
         android:paddingStart="@dimen/double_padding"
         android:paddingEnd="@dimen/double_padding"
@@ -120,7 +146,7 @@
     <EditText
         android:id="@+id/notes_edit"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/notes_header"
@@ -133,37 +159,41 @@
         android:background="@android:color/transparent"/>
 
     <!-- Action Buttons -->
-    <!-- Add Button -->
+    <!-- Add/Save Button -->
     <Button
         style="@style/Widget.AppCompat.Button.Colored"
-        android:id="@+id/add_button"
+        android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/remove_button"
+        app:layout_constraintEnd_toStartOf="@id/clear_button"
         app:layout_constraintTop_toBottomOf="@id/notes_edit"
+        app:layout_constraintHorizontal_chainStyle="packed"
         android:textSize="@dimen/dialog_font_size"
         android:textStyle="bold"
-        android:text="@string/add_button"/>
-    <!-- Remove Button -->
+        android:text="@string/save_button"/>
+    <!-- Delete/Clear Button -->
+    <!-- Clear Button -->
     <Button
         style="@style/Widget.AppCompat.Button.Colored"
-        android:id="@+id/remove_button"
+        android:id="@+id/clear_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/add_button"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        app:layout_constraintStart_toEndOf="@id/save_button"
         app:layout_constraintEnd_toStartOf="@id/cancel_button"
-        app:layout_constraintTop_toBottomOf="@id/notes_edit"
+        app:layout_constraintTop_toTopOf="@id/save_button"
         android:textSize="@dimen/dialog_font_size"
         android:textStyle="bold"
-        android:text="@string/remove_button"/>
+        android:text="@string/clear_button"/>
     <!-- Cancel Button -->
     <Button
         style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/remove_button"
+        app:layout_constraintStart_toEndOf="@id/clear_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/notes_edit"
         android:textSize="@dimen/dialog_font_size"

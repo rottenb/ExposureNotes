@@ -36,8 +36,8 @@ class FrameDialog : DialogFragment() {
         apertureSpin.setSelection(arguments!!.getInt("aperture"))
 
         val lensSpin = rootView.findViewById<View>(R.id.lens_spinner) as Spinner
-        val lensAdapter = ArrayAdapter.createFromResource(rootView.context,
-                R.array.lenses, R.layout.item_spinner)
+        val lensAdapter = ArrayAdapter(rootView.context, R.layout.item_spinner, arguments?.getStringArray("lenses")!!)
+
         lensAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         lensSpin.adapter = lensAdapter
         lensSpin.setSelection(arguments!!.getInt("lens"))

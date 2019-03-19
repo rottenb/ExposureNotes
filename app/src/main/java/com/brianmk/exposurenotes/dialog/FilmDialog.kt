@@ -18,10 +18,10 @@ class FilmDialog : DialogFragment() {
         val rootView = inflater.inflate(R.layout.dialog_film, container)
         rootView.setBackgroundColor(Color.TRANSPARENT)
 
-        val manuText = rootView.findViewById<View>(R.id.manu_edit) as AutoCompleteTextView
-        manuText.setText(arguments?.getString("manu"))
-        val manuAdapter = ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, arguments?.getStringArray("makers")!!)
-        manuText.setAdapter(manuAdapter)
+        val makerText = rootView.findViewById<View>(R.id.maker_edit) as AutoCompleteTextView
+        makerText.setText(arguments?.getString("maker"))
+        val makerAdapter = ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, arguments?.getStringArray("makers")!!)
+        makerText.setAdapter(makerAdapter)
 
         val filmText = rootView.findViewById<View>(R.id.film_edit) as AutoCompleteTextView
         filmText.setText(arguments?.getString("model"))
@@ -66,12 +66,12 @@ class FilmDialog : DialogFragment() {
         val saveButton = rootView.findViewById<View>(R.id.save_button) as Button
         saveButton.setOnClickListener {
             fun saveData() {
-                if( manuText.text.toString() == "" || filmText.text.toString() == "" || frameCount == 0) {
+                if( makerText.text.toString() == "" || filmText.text.toString() == "" || frameCount == 0) {
                     Toast.makeText(rootView.context, "Make, model, and frame count is required!", Toast.LENGTH_LONG).show()
                 }
                 else {
                     (activity as MainActivity).setFilmData(
-                            manuText.text.toString(),
+                            makerText.text.toString(),
                             filmText.text.toString(),
                             isoSpin.selectedItemPosition,
                             frameCount,

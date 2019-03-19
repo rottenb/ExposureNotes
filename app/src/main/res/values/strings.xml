@@ -29,7 +29,7 @@
     <string name="format_type">120mm</string>
 
     <!-- Lens Stuff -->
-    <string name="lens_header">Lens:</string>
+    <string name="lens_header">Lens Model:</string>
     <string name="lens_name">Lens Model</string>
 
     <!-- Formats -->
@@ -180,7 +180,7 @@
     <string name="film_dialog_title">Film Settings</string>
     <string name="quick_settings_title">Quick Settings</string>
     <string name="export_dialog_title">Export Film Roll Data</string>
-    <string name="lens_dialog_title">Lens Inventory</string>
+    <string name="lens_dialog_title">Lens Settings</string>
     <string name="lens_selection">Lens Selection:</string>
     <string name="camera_selection">Camera Selection:</string>
     <string name="film_selection">Film Selection:</string>
@@ -195,6 +195,13 @@
 
     <string name="about_text">Set up both camera and film settings.\nTap a frame to add/edit exposure info.\nExport film roll and feed the json output to Exiftool (via a quick Python script, you can get that below), making sure to match your scans.\n\nhttps://www.sno.phy.queensu.ca/~phil/exiftool/</string>
     <string name="script_button">Download Script</string>
+    <string name="lens_model_text">000mm f/0.0</string>
+    <string name="focal_length">Focal Length:</string>
+    <string name="focal_hint">000</string>
+    <string name="focal_units">mm</string>
+    <string name="aperture">Aperture:</string>
+    <string name="aperture_unit">f/</string>
+    <string name="lens_model_hint">Model (ie: 50mm f/1.8 macro)</string>
 
     <string-array name="camera_list">
         <item>Canon FTb QL</item>

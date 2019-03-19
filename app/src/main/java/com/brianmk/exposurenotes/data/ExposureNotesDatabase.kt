@@ -7,6 +7,9 @@ data class ProductNamesTable(@PrimaryKey @ColumnInfo(name = "idx") val idx: Int,
                              @ColumnInfo(name = "camera_makers") val cameraMakers: String,
                              @ColumnInfo(name = "camera_models") val cameraModels: String,
 
+                             @ColumnInfo(name = "lens_makers") val lensMakers: String,
+                             @ColumnInfo(name = "lens_models") val lensModels: String,
+
                              @ColumnInfo(name = "film_makers") val filmMakers: String,
                              @ColumnInfo(name = "film_models") val filmModels: String)
 

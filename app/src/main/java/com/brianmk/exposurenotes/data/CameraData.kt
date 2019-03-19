@@ -1,13 +1,13 @@
 package com.brianmk.exposurenotes.data
 
-data class CameraData(var manu: String = "",
+data class CameraData(var maker: String = "",
                       var model: String = "",
                       var format: String = "Other",
                       var lensIdx: Int = 0,
                       var fixed: Boolean = false) {
 
     fun clearData() {
-        manu = ""
+        maker = ""
         model = ""
         format = "Other"
         lensIdx = 0
@@ -15,7 +15,7 @@ data class CameraData(var manu: String = "",
     }
 
     companion object {
-        private val LOG_TAG = FilmData::class.java.simpleName
+        private val LOG_TAG = CameraData::class.java.simpleName
     }
 }
 

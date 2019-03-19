@@ -17,8 +17,8 @@ class CameraDialog : DialogFragment() {
         val rootView = inflater.inflate(R.layout.dialog_camera, container)
         rootView.setBackgroundColor(Color.TRANSPARENT)
 
-        val manuText = rootView.findViewById<View>(R.id.manu_edit) as AutoCompleteTextView
-        manuText.setText(arguments?.getString("manu"))
+        val manuText = rootView.findViewById<View>(R.id.maker_edit) as AutoCompleteTextView
+        manuText.setText(arguments?.getString("maker"))
         val manuAdapter = ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, arguments?.getStringArray("makers")!!)
         manuText.setAdapter(manuAdapter)
 
@@ -40,10 +40,11 @@ class CameraDialog : DialogFragment() {
         fixedCheckbox.isChecked = arguments!!.getBoolean("fixed")
 
         val lensSpin = rootView.findViewById<View>(R.id.lens_spinner) as Spinner
-        val lensAdapter = ArrayAdapter.createFromResource(rootView.context,
-                R.array.lenses, R.layout.item_spinner)
+        val lensAdapter = ArrayAdapter(rootView.context, R.layout.item_spinner, arguments?.getStringArray("lenses")!!.sorted())
+
         lensSpin.adapter = lensAdapter
-        lensSpin.setSelection(arguments!!.getInt("lens"))
+        lensSpin.setSelection(arguments!!.getInt("lensIdx"))
+
         if (fixedCheckbox.isChecked) {
             lensSpin.visibility = View.INVISIBLE
         }
@@ -63,6 +64,12 @@ class CameraDialog : DialogFragment() {
                 lensSpin.visibility = View.VISIBLE
                 lensSpinMask.visibility = View.INVISIBLE
             }
+        }
+
+        val addLensButton = rootView.findViewById<View>(R.id.add_lens) as Button
+        addLensButton.setOnClickListener {
+            (activity as MainActivity).setLensDialog()
+            dismiss()
         }
 
 
