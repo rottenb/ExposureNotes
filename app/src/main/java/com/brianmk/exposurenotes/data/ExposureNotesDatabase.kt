@@ -22,13 +22,12 @@ data class FrameInfoTable(@PrimaryKey @ColumnInfo(name = "idx") val idx: Int,
 
 @Entity(tableName = "roll_info_table")
 data class RollInfoTable(@PrimaryKey @ColumnInfo(name = "idx") val idx: Int,
-                    @ColumnInfo(name = "camera_manu") val cameraManu: String,
+                    @ColumnInfo(name = "camera_maker") val cameraMaker: String,
                     @ColumnInfo(name = "camera_name") val cameraName: String,
                     @ColumnInfo(name = "camera_format") val cameraFormat: String,
                     @ColumnInfo(name = "camera_lensIdx") val cameraLensIdx: Int,
-                    @ColumnInfo(name = "camera_isFixed") val cameraIsFixed: Boolean,
 
-                    @ColumnInfo(name = "film_manu") val filmManu: String,
+                    @ColumnInfo(name = "film_maker") val filmMaker: String,
                     @ColumnInfo(name = "film_name") val filmName: String,
                     @ColumnInfo(name = "film_isoIdx") val filmIsoIdx: Int,
                     @ColumnInfo(name = "film_frames") val filmFrames: Int,

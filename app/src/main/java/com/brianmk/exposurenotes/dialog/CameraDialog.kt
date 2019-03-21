@@ -32,46 +32,14 @@ class CameraDialog : DialogFragment() {
         when (arguments?.getString("format")) {
             "35mm" -> formatRadio.check(R.id.format_35)
             "120mm" -> formatRadio.check(R.id.format_120)
-            "Other" -> formatRadio.check(R.id.format_other)
             else -> formatRadio.clearCheck()
         }
 
-        val fixedCheckbox = rootView.findViewById<View>(R.id.fixed_checkbox) as CheckBox
-        fixedCheckbox.isChecked = arguments!!.getBoolean("fixed")
-
         val lensSpin = rootView.findViewById<View>(R.id.lens_spinner) as Spinner
-        val lensAdapter = ArrayAdapter(rootView.context, R.layout.item_spinner, arguments?.getStringArray("lenses")!!.sorted())
+        val lensAdapter = ArrayAdapter(rootView.context, R.layout.item_spinner, arguments?.getStringArray("lenses")!!)
 
         lensSpin.adapter = lensAdapter
-        lensSpin.setSelection(arguments!!.getInt("lensIdx"))
-
-        if (fixedCheckbox.isChecked) {
-            lensSpin.visibility = View.INVISIBLE
-        }
-
-        val lensSpinMask = rootView.findViewById<View>(R.id.lens_spinner_mask) as TextView
-        lensSpinMask.text = lensSpin.selectedItem.toString()
-        if (fixedCheckbox.isChecked) {
-            lensSpinMask.visibility = View.VISIBLE
-        }
-
-        fixedCheckbox.setOnClickListener {
-            if (fixedCheckbox.isChecked) {
-                lensSpin.visibility = View.INVISIBLE
-                lensSpinMask.text = lensSpin.selectedItem.toString()
-                lensSpinMask.visibility = View.VISIBLE
-            } else {
-                lensSpin.visibility = View.VISIBLE
-                lensSpinMask.visibility = View.INVISIBLE
-            }
-        }
-
-        val addLensButton = rootView.findViewById<View>(R.id.add_lens) as Button
-        addLensButton.setOnClickListener {
-            (activity as MainActivity).setLensDialog()
-            dismiss()
-        }
-
+        lensSpin.setSelection(arguments?.getInt("lensIdx")!!)
 
         val saveButton = rootView.findViewById<View>(R.id.save_button) as Button
         saveButton.setOnClickListener {
@@ -88,8 +56,7 @@ class CameraDialog : DialogFragment() {
                         manuText.text.toString(),
                         nameText.text.toString(),
                         formatString,
-                        lensSpin.selectedItemPosition,
-                        fixedCheckbox.isChecked)
+                        lensSpin.selectedItemPosition )
                 dismiss()
             }
         }

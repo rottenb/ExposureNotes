@@ -6,7 +6,6 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -54,8 +53,7 @@ class MainActivity : AppCompatActivity() {
         currentCamera = CameraData()
         productNames = ProductNames()
         productNames.lensModels = productNames.lensModels.sorted() as MutableList<String>
-
-
+        
         exposureDB = Room.databaseBuilder(applicationContext,
                                     ExposureNotesDatabase::class.java,
                               "exposure_notes_db").fallbackToDestructiveMigration().build()
@@ -160,37 +158,6 @@ class MainActivity : AppCompatActivity() {
         exportDialog.show(fm, "Export Dialog")
     }
 
-    // Set arguments to pass to the frame dialog, call the dialog
-    private fun setFrameDialog(pos: Int) {
-        val args = Bundle()
-
-        // If not the first frame, and not blank, take defaults from previous
-        if (pos != 0 && frameDataList[pos].shutterIdx == 0 && frameDataList[pos].apertureIdx == 0) {
-            args.putInt("shutter", frameDataList[pos - 1].shutterIdx)
-            args.putInt("aperture", frameDataList[pos - 1].apertureIdx)
-            args.putInt("lens", currentCamera.lensIdx)
-            args.putBoolean("fixed", currentCamera.fixed)
-        } else {
-            args.putInt("shutter", frameDataList[pos].shutterIdx)
-            args.putInt("aperture", frameDataList[pos].apertureIdx)
-            args.putInt("lens", currentCamera.lensIdx)
-            args.putBoolean("fixed", currentCamera.fixed)
-        }
-
-        // These are always unique to each frame
-        args.putInt("position", pos)
-        args.putString("notes", frameDataList[pos].notes)
-
-        args.putStringArray("lenses", productNames.lensModels.toTypedArray())
-
-        val frameDialog = FrameDialog()
-        frameDialog.arguments = args
-
-        val fm = supportFragmentManager
-        frameDialog.show(fm, "Frame Dialog")
-    } // frameSetDialog
-
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -209,7 +176,7 @@ class MainActivity : AppCompatActivity() {
             R.id.main_menu_junk -> fillWithTestData()
             R.id.database_menu_save -> saveDatabase()
             R.id.database_menu_load -> loadDatabase()
-            R.id.database_menu_delete -> deleteDatabase()
+            R.id.database_menu_delete -> deleteDB()
             R.id.database_menu_test -> testDB()
         }
 
@@ -218,7 +185,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveDatabase(showMsg: Boolean = true) {
         doAsync {
-            val roll = RollInfoTable(0, currentCamera.maker, currentCamera.model, currentCamera.format, currentCamera.lensIdx, currentCamera.fixed,
+            val roll = RollInfoTable(0, currentCamera.maker, currentCamera.model, currentCamera.format, currentCamera.lensIdx,
                     currentFilm.maker, currentFilm.model, currentFilm.isoIdx, currentFilm.frames, currentFilm.devIdx)
             if (exposureDB.rollInfoDao().getAll().isEmpty()) {
                 exposureDB.rollInfoDao().insert(roll)
@@ -267,8 +234,8 @@ class MainActivity : AppCompatActivity() {
 
             uiThread {
                 if (roll.isNotEmpty()) {
-                    setCameraData(roll[0].cameraManu, roll[0].cameraName,roll[0].cameraFormat, roll[0].cameraLensIdx, roll[0].cameraIsFixed)
-                    setFilmData(roll[0].filmManu, roll[0].filmName, roll[0].filmIsoIdx, roll[0].filmFrames, roll[0].filmDevIdx, "")
+                    setCameraData(roll[0].cameraMaker, roll[0].cameraName,roll[0].cameraFormat, roll[0].cameraLensIdx)
+                    setFilmData(roll[0].filmMaker, roll[0].filmName, roll[0].filmIsoIdx, roll[0].filmFrames, roll[0].filmDevIdx)
 
                     updateNotesHeader()
                     setListVisibility()
@@ -290,14 +257,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun deleteDatabase() {
+    private fun deleteDB() {
         doAsync {
             exposureDB.productNamesDao().deleteAll()
             exposureDB.frameInfoDao().deleteAll()
             exposureDB.rollInfoDao().deleteAll()
         }
 
-        deleteDatabase()
+        this.deleteDatabase("exposure_notes_db")
         exposureDB = Room.databaseBuilder(applicationContext,
                 ExposureNotesDatabase::class.java,
                 "exposure_notes_db").fallbackToDestructiveMigration().build()
@@ -337,10 +304,10 @@ class MainActivity : AppCompatActivity() {
         currentFilm.frames = Random().nextInt(36) + 1
 
         for (i in 0 until currentFilm.frames) {
-            frameDataList.add(i, FrameData(Random().nextInt(12) + 1,
-                                          Random().nextInt(20) + 1,
-                                             Random().nextInt(6) + 1,
-                                                     getRandomString() ))
+            frameDataList.add(i, FrameData(Random().nextInt(5) + 1,
+                                           Random().nextInt(5 + 1),
+                                           Random().nextInt(productNames.lensModels.size),
+                                           getRandomString() ))
         }
 
         currentCamera.maker = "Mamiya"
@@ -392,15 +359,59 @@ class MainActivity : AppCompatActivity() {
             currentFilm.clearData()
             updateNotesHeader()
         }
-
-
     } // clearFilmRoll
 
     private fun aboutDialog() {
         val aboutDialog = AboutDialog()
         val fm = supportFragmentManager
         aboutDialog.show(fm, "About Dialog")
-    }
+    } // aboutDialog
+
+    // Set arguments to pass to the frame dialog, call the dialog
+    private fun setFrameDialog(pos: Int) {
+        val args = Bundle()
+
+        // If not the first frame, and not blank, take defaults from previous
+        if (pos != 0 && frameDataList[pos].shutterIdx == 0 && frameDataList[pos].apertureIdx == 0) {
+            args.putInt("shutter", frameDataList[pos - 1].shutterIdx)
+            args.putInt("aperture", frameDataList[pos - 1].apertureIdx)
+            args.putInt("lensIdx", frameDataList[pos - 1].lensIdx)
+        } else if (pos == 0) {
+            args.putInt("shutter", frameDataList[pos].shutterIdx)
+            args.putInt("aperture", frameDataList[pos].apertureIdx)
+            args.putInt("lensIdx", currentCamera.lensIdx)
+        } else {
+            args.putInt("shutter", frameDataList[pos].shutterIdx)
+            args.putInt("aperture", frameDataList[pos].apertureIdx)
+            args.putInt("lensIdx", frameDataList[pos].lensIdx)
+        }
+
+        // These are always unique to each frame
+        args.putInt("position", pos)
+        args.putString("notes", frameDataList[pos].notes)
+
+        args.putStringArray("lenses", productNames.lensModels.toTypedArray())
+
+        val frameDialog = FrameDialog()
+        frameDialog.arguments = args
+
+        val fm = supportFragmentManager
+        frameDialog.show(fm, "Frame Dialog")
+    } // frameSetDialog
+
+    fun setFrameData(pos: Int, shutter: Int, aperture: Int, lensIdx: Int, notes: String) {
+        frameDataList[pos].shutterIdx = shutter
+        frameDataList[pos].apertureIdx = aperture
+        frameDataList[pos].lensIdx = lensIdx
+        currentCamera.lensIdx = lensIdx
+        frameDataList[pos].notes = notes
+        frameDataList[pos].updateData()
+
+        frameArrayAdapter!!.notifyDataSetChanged()
+
+        // Auto-save frame data?
+        saveDatabase(true)
+    } // setFrameData
 
     private fun setCameraDialog() {
         val args = Bundle()
@@ -412,7 +423,6 @@ class MainActivity : AppCompatActivity() {
         args.putString("model", currentCamera.model)
         args.putString("format", currentCamera.format)
         args.putInt("lensIdx", currentCamera.lensIdx)
-        args.putBoolean("fixed", currentCamera.fixed)
 
         val cameraDialog = CameraDialog()
         cameraDialog.arguments = args
@@ -421,13 +431,11 @@ class MainActivity : AppCompatActivity() {
         cameraDialog.show(fm, "Camera Dialog")
     } // setCameraDialog
 
-    fun setCameraData(manu: String, model: String, format: String, lensIdx: Int,
-                      isFixed: Boolean) {
+    fun setCameraData(manu: String, model: String, format: String, lensIdx: Int) {
         currentCamera.maker = manu
         currentCamera.model = model
         currentCamera.format = format
         currentCamera.lensIdx = lensIdx
-        currentCamera.fixed = isFixed
 
         if (!productNames.cameraMakers.contains(manu)) {
             productNames.cameraMakers.add(manu)
@@ -456,19 +464,27 @@ class MainActivity : AppCompatActivity() {
         lensDialog.show(fm, "Lens Dialog")
     } // setLensDialog
 
-    fun saveLensData(maker: String, model: String, delete: Boolean = false, index: Int = -1) {
+    fun saveLensData(maker: String, model: String, delete: Boolean = false, lensIdx: Int = 0) {
         val modelString = "$maker $model"
 
         if (delete) {
-            Log.d(LOG_TAG, "Removed Model: $modelString at $index")
-            productNames.lensModels.removeAt(index)
+            productNames.lensModels.removeAt(lensIdx)
+
+            for (i in 0 until frameDataList.size) {
+                val ldx = frameDataList[i].lensIdx
+                if (ldx == lensIdx || ldx < 0 || ldx >= frameDataList.size) {
+                    frameDataList[i].lensIdx = 0
+                }
+            }
+
         } else {
             if (!productNames.lensMakers.contains(maker)) {
                 productNames.lensMakers.add(maker)
             }
 
-            if (index > -1) {
-                productNames.lensModels[index] = modelString
+            if (lensIdx > -1) {
+                // Replace old lens description with edited one
+                productNames.lensModels[lensIdx] = modelString
             } else {
                 if (!productNames.lensModels.contains(modelString)) {
                     productNames.lensModels.add(modelString)
@@ -490,7 +506,6 @@ class MainActivity : AppCompatActivity() {
         args.putInt("iso", currentFilm.isoIdx)
         args.putInt("frames", currentFilm.frames)
         args.putInt("dev", currentFilm.devIdx)
-        args.putString("notes", currentFilm.notes)
 
         val filmDialog = FilmDialog()
         filmDialog.arguments = args
@@ -499,7 +514,7 @@ class MainActivity : AppCompatActivity() {
         filmDialog.show(fm, "Film Dialog")
     } // setFilmDialog
 
-    fun setFilmData(maker: String, model: String, iso: Int, frames: Int, dev: Int, notes: String) {
+    fun setFilmData(maker: String, model: String, iso: Int, frames: Int, dev: Int) {
         updateFrameCount(frames)
 
         currentFilm.maker = maker
@@ -507,7 +522,6 @@ class MainActivity : AppCompatActivity() {
         currentFilm.frames = frames
         currentFilm.isoIdx = iso
         currentFilm.devIdx = dev
-        currentFilm.notes = notes
         currentFilm.updateData()
 
         if (!productNames.filmMakers.contains(maker)) {
@@ -561,19 +575,6 @@ class MainActivity : AppCompatActivity() {
         setListVisibility()
     } // updateNotesHeader
 
-    fun setSingleFrameData(pos: Int, shutter: Int, aperture: Int, lens: Int, notes: String) {
-        frameDataList[pos].shutterIdx = shutter
-        frameDataList[pos].apertureIdx = aperture
-        frameDataList[pos].lensIdx = lens
-        frameDataList[pos].notes = notes
-        frameDataList[pos].updateData()
-
-        frameArrayAdapter!!.notifyDataSetChanged()
-
-        // Auto-save frame data?
-        saveDatabase(true)
-    } // setSingleFrameData
-
     fun exportFilmRoll(filename: String, method: String) {
         val outJ = OutputJSON()
         val obj = outJ.createJSONobj(currentCamera.model, currentFilm.model, currentFilm.iso, currentFilm.dev, frameDataList)
@@ -604,9 +605,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private val LOG_TAG = MainActivity::class.java.simpleName
-
-        @Volatile
-        private var INSTANCE: ExposureNotesDatabase? = null
 
         // Storage Permissions
         private val REQUEST_EXTERNAL_STORAGE = 1

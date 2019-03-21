@@ -58,7 +58,7 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textSize="@dimen/film_font_size"
-                    android:text="@string/camera_name"/>
+                    tools:text="@string/camera_name"/>
             </LinearLayout>
 
             <LinearLayout
@@ -85,7 +85,7 @@
                     android:paddingEnd="@dimen/half_padding"
                     android:maxLines="1"
                     android:ellipsize="end"
-                    android:text="@string/film_name"
+                    tools:text="@string/film_name"
                     android:textSize="@dimen/film_font_size"/>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -208,7 +208,6 @@
                 android:layout_marginStart="35dp"
                 android:text="@string/aperture_header"
                 android:textSize="@dimen/header_font_size" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

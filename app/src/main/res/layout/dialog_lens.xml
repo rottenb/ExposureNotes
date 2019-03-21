@@ -121,42 +121,7 @@
         android:hint="@string/lens_model_hint"
         android:autofillHints="@string/lens_model_hint"
         android:background="@android:color/transparent"/>
-    <!-- Notes -->
-    <TextView
-        android:id="@+id/notes_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/model_edit"
-        android:layout_marginTop="@dimen/double_margin"
-        android:paddingStart="@dimen/double_padding"
-        android:paddingEnd="@dimen/double_padding"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/dialog_font_size"
-        android:text="@string/notes_header"/>
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/notes_edit"
-        app:layout_constraintTop_toBottomOf="@id/notes_header"
-        app:layout_constraintBottom_toBottomOf="@id/notes_edit"
-        android:layout_margin="@dimen/default_margin"
-        android:background="@drawable/border"/>
-    <EditText
-        android:id="@+id/notes_edit"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notes_header"
-        android:gravity="start"
-        android:padding="@dimen/double_padding"
-        android:textSize="@dimen/dialog_font_size"
-        android:inputType="textCapSentences"
-        android:hint="@string/frame_notes_hint"
-        android:autofillHints="@string/frame_notes_hint"
-        android:background="@android:color/transparent"/>
+
 
     <!-- Action Buttons -->
     <!-- Add/Save Button -->
@@ -167,7 +132,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/clear_button"
-        app:layout_constraintTop_toBottomOf="@id/notes_edit"
+        app:layout_constraintTop_toBottomOf="@id/model_edit"
         app:layout_constraintHorizontal_chainStyle="packed"
         android:textSize="@dimen/dialog_font_size"
         android:textStyle="bold"
@@ -195,7 +160,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/clear_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notes_edit"
+        app:layout_constraintTop_toTopOf="@id/save_button"
         android:textSize="@dimen/dialog_font_size"
         android:textStyle="bold"
         android:text="@string/cancel_button"/>

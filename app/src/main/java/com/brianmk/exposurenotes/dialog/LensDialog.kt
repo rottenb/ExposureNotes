@@ -1,5 +1,7 @@
 package com.brianmk.exposurenotes.dialog
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -39,7 +41,7 @@ class LensDialog : DialogFragment() {
                 (activity as MainActivity).saveLensData(
                         makerText.text.toString(),
                         modelText.text.toString(),
-                        index = lensSpin.selectedItemPosition - 1)
+                        lensIdx = lensSpin.selectedItemPosition - 1)
                 dismiss()
             }
         }
@@ -47,12 +49,21 @@ class LensDialog : DialogFragment() {
         val clearButton = rootView.findViewById<View>(R.id.clear_button) as Button
         clearButton.setOnClickListener {
             if (clearButton.text == getString(R.string.remove_button)) {
-                (activity as MainActivity).saveLensData(
-                        makerText.text.toString(),
-                        modelText.text.toString(),
-                        delete = true,
-                        index = lensSpin.selectedItemPosition - 1)
-                dismiss()
+                val alertBuilder = AlertDialog.Builder(rootView.context)
+                alertBuilder.setMessage("Note: Any frame that used this lens will be reset.")
+                alertBuilder.setPositiveButton("Ok") { _, _ ->
+                    (activity as MainActivity).saveLensData(
+                            makerText.text.toString(),
+                            modelText.text.toString(),
+                            delete = true,
+                            lensIdx = lensSpin.selectedItemPosition - 1)
+                    dismiss()
+                }
+                alertBuilder.setNegativeButton("No, wait") { _, _ -> } // do nothing
+
+                val warnDialog: Dialog = alertBuilder.create()
+                warnDialog.show()
+
             } else {
                 makerText.setText("")
                 modelText.text = ""

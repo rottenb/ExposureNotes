@@ -111,20 +111,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lens_header"
         tools:listitem="@layout/item_spinner"/>
-    <TextView
-        android:id="@+id/lens_spinner_mask"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="@id/lens_spinner"
-        app:layout_constraintEnd_toEndOf="@id/lens_spinner"
-        app:layout_constraintTop_toTopOf="@id/lens_spinner"
-        app:layout_constraintBottom_toBottomOf="@id/lens_spinner"
-        android:visibility="invisible"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/dialog_font_size"
-        tools:text="@string/spinner_text_example"/>
 
     <!-- Notes - "frame_notes" -->
     <TextView

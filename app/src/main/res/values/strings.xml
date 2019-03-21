@@ -202,6 +202,7 @@
     <string name="aperture">Aperture:</string>
     <string name="aperture_unit">f/</string>
     <string name="lens_model_hint">Model (ie: 50mm f/1.8 macro)</string>
+    <string name="lens_inventory_button">Edit Lens Inventory</string>
 
     <string-array name="camera_list">
         <item>Canon FTb QL</item>

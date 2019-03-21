@@ -4,8 +4,7 @@ data class FilmData(var maker: String = "",
                     var model: String = "",
                     var isoIdx: Int = 5,
                     var frames: Int = 0,
-                    var devIdx: Int = 3,
-                    var notes: String = "") {
+                    var devIdx: Int = 3 ) {
 
     // ISOs in 1/3rd stop increments
     private val isos = arrayOf("0", "5", "12", "25", "50", "100", "125", "160", "200", "250", "320", "400", "500", "640", "800", "1000", "1250", "1600", "2000", "2500", "3200", "4000", "5000", "6400")
@@ -25,7 +24,6 @@ data class FilmData(var maker: String = "",
         isoIdx = 5
         frames = 0
         devIdx = 3
-        notes = ""
 
         updateData()
     }

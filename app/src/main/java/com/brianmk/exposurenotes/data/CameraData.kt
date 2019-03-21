@@ -2,16 +2,14 @@ package com.brianmk.exposurenotes.data
 
 data class CameraData(var maker: String = "",
                       var model: String = "",
-                      var format: String = "Other",
-                      var lensIdx: Int = 0,
-                      var fixed: Boolean = false) {
+                      var format: String = "",
+                      var lensIdx: Int = 0 ) {
 
     fun clearData() {
         maker = ""
         model = ""
-        format = "Other"
+        format = ""
         lensIdx = 0
-        fixed = false
     }
 
     companion object {

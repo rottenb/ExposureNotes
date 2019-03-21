@@ -26,39 +26,28 @@ class FrameDialog : DialogFragment() {
                 R.array.shutter_speeds, R.layout.item_spinner)
         shutterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         shutterSpin.adapter = shutterAdapter
-        shutterSpin.setSelection(arguments!!.getInt("shutter"))
+        shutterSpin.setSelection(arguments?.getInt("shutter")!!)
 
         val apertureSpin = rootView.findViewById<View>(R.id.aperture_spinner) as Spinner
         val apertureAdapter = ArrayAdapter.createFromResource(rootView.context,
                 R.array.apertures, R.layout.item_spinner)
         apertureAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         apertureSpin.adapter = apertureAdapter
-        apertureSpin.setSelection(arguments!!.getInt("aperture"))
+        apertureSpin.setSelection(arguments?.getInt("aperture")!!)
 
         val lensSpin = rootView.findViewById<View>(R.id.lens_spinner) as Spinner
         val lensAdapter = ArrayAdapter(rootView.context, R.layout.item_spinner, arguments?.getStringArray("lenses")!!)
 
         lensAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         lensSpin.adapter = lensAdapter
-        lensSpin.setSelection(arguments!!.getInt("lens"))
-        val isFixed = arguments!!.getBoolean("fixed")
-        if (isFixed) {
-            lensSpin.visibility = View.INVISIBLE
-        }
-
-        val lensSpinMask = rootView.findViewById<View>(R.id.lens_spinner_mask) as TextView
-        lensSpinMask.text = lensSpin.selectedItem.toString()
-        if (isFixed) {
-            lensSpinMask.visibility = View.VISIBLE
-            (rootView.findViewById<View>(R.id.lens_header) as TextView).text = getString(R.string.lens_fixed_select)
-        }
+        lensSpin.setSelection(arguments?.getInt("lensIdx")!!)
 
         val notesText = rootView.findViewById<View>(R.id.frame_notes_edit) as TextView
         notesText.text = arguments!!.getString("notes")
 
         val saveButton = rootView.findViewById<View>(R.id.save_button) as Button
         saveButton.setOnClickListener {
-            (activity as MainActivity).setSingleFrameData(position,
+            (activity as MainActivity).setFrameData(position,
                     shutterSpin.selectedItemPosition,
                     apertureSpin.selectedItemPosition,
                     lensSpin.selectedItemPosition,

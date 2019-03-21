@@ -60,9 +60,6 @@ class FilmDialog : DialogFragment() {
         devSpin.adapter = devAdapter
         devSpin.setSelection(arguments!!.getInt("dev"))
 
-        val notesText = rootView.findViewById<View>(R.id.notes_edit) as TextView
-        notesText.text = arguments!!.getString("notes")
-
         val saveButton = rootView.findViewById<View>(R.id.save_button) as Button
         saveButton.setOnClickListener {
             fun saveData() {
@@ -75,8 +72,7 @@ class FilmDialog : DialogFragment() {
                             filmText.text.toString(),
                             isoSpin.selectedItemPosition,
                             frameCount,
-                            devSpin.selectedItemPosition,
-                            notesText.text.toString())
+                            devSpin.selectedItemPosition)
                     dismiss()
                 }
             }

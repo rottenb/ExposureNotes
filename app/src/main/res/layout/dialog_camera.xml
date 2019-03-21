@@ -106,7 +106,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/camera_edit"
+        app:layout_constraintTop_toTopOf="@id/format_radio"
+        app:layout_constraintBottom_toBottomOf="@id/format_radio"
         android:text="@string/format_header"/>
     <View
         android:layout_width="0dp"
@@ -117,19 +118,16 @@
         app:layout_constraintBottom_toBottomOf="@id/format_radio"
         android:layout_margin="@dimen/default_margin"
         android:background="@drawable/border"/>
-
     <RadioGroup
         android:id="@+id/format_radio"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:paddingBottom="@dimen/double_padding"
-        android:paddingStart="@dimen/double_padding"
-        android:paddingEnd="@dimen/double_padding"
-        android:gravity="center_vertical"
-        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@id/format_header"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/format_header">
+        app:layout_constraintTop_toBottomOf="@id/camera_edit">
         <RadioButton
             style="@style/DialogHeader"
             android:id="@+id/format_35"
@@ -142,12 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/format_120mm"/>
-        <RadioButton
-            style="@style/DialogHeader"
-            android:id="@+id/format_other"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/format_other"/>
+
     </RadioGroup>
 
     <!-- Lens -->
@@ -177,81 +170,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lens_header"
         tools:listitem="@layout/item_spinner"/>
-    <TextView
-        android:id="@+id/lens_spinner_mask"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="@id/lens_spinner"
-        app:layout_constraintEnd_toEndOf="@id/lens_spinner"
-        app:layout_constraintTop_toTopOf="@id/lens_spinner"
-        app:layout_constraintBottom_toBottomOf="@id/lens_spinner"
-        android:visibility="invisible"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/dialog_font_size"
-        tools:text="@string/spinner_text_example"/>
-    <Button
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:id="@+id/add_lens"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/default_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/fixed_check_text"
-        app:layout_constraintBottom_toBottomOf="@id/fixed_check_text"
-        android:text="Add New Lens"/>
-    <TextView
-        style="@style/DialogHeader"
-        android:id="@+id/fixed_check_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/fixed_checkbox"
-        app:layout_constraintTop_toBottomOf="@id/lens_spinner"
-        android:text="@string/fixed_lens" />
-    <CheckBox
-        android:id="@+id/fixed_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/double_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/fixed_check_text"
-        app:layout_constraintBottom_toBottomOf="@id/fixed_check_text"/>
-
-    <!-- Notes -->
-    <TextView
-        android:id="@+id/notes_header"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_lens"
-        android:paddingStart="@dimen/double_padding"
-        android:paddingEnd="@dimen/double_padding"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/dialog_font_size"
-        android:text="@string/notes_header"/>
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="@id/notes_edit"
-        app:layout_constraintEnd_toEndOf="@id/notes_edit"
-        app:layout_constraintTop_toTopOf="@id/notes_edit"
-        app:layout_constraintBottom_toBottomOf="@id/notes_edit"
-        android:layout_margin="@dimen/default_margin"
-        android:background="@drawable/border"/>
-    <EditText
-        android:id="@+id/notes_edit"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notes_header"
-        android:padding="@dimen/double_padding"
-        android:textSize="@dimen/dialog_font_size"
-        android:inputType="textCapSentences"
-        android:hint="@string/frame_notes_hint"
-        android:autofillHints="@string/frame_notes_hint"
-        android:background="@android:color/transparent"/>
 
     <!-- Action Buttons -->
     <!-- Save Button -->
@@ -262,7 +180,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/cancel_button"
-        app:layout_constraintTop_toBottomOf="@id/notes_edit"
+        app:layout_constraintTop_toBottomOf="@id/lens_spinner"
         android:textSize="@dimen/dialog_font_size"
         android:textStyle="bold"
         android:text="@string/save_button"/>
