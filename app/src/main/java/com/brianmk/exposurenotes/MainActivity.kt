@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         currentCamera = CameraData()
         productNames = ProductNames()
         productNames.lensModels = productNames.lensModels.sorted() as MutableList<String>
-        
+
         exposureDB = Room.databaseBuilder(applicationContext,
                                     ExposureNotesDatabase::class.java,
                               "exposure_notes_db").fallbackToDestructiveMigration().build()
