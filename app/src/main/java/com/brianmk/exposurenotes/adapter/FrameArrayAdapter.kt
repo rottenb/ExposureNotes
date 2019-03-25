@@ -1,7 +1,6 @@
 package com.brianmk.exposurenotes.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,43 +14,36 @@ import java.util.*
 class FrameArrayAdapter internal constructor(context: Context, frameData: List<FrameData>) : ArrayAdapter<FrameData>(context, 0, frameData) {
 
     override fun getView(pos: Int, view: View?, parent: ViewGroup): View {
-        var view = view
+        var rootView = view
         val frame = getItem(pos)
 
+        val shutterArray = context.resources.getStringArray(R.array.shutter_speeds)
+        val apertureArray = context.resources.getStringArray(R.array.apertures)
+
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.item_list_frame,
+            rootView = LayoutInflater.from(context).inflate(R.layout.item_list_frame,
                     parent, false)
         }
 
         // Populate the list view with information
         if (frame != null) {
-            val frameNumberView = view!!.findViewById<View>(R.id.number) as TextView
+            val frameNumberView = rootView?.findViewById<View>(R.id.number) as TextView
 
             if (frame.shutterIdx > 0 && frame.apertureIdx > 0) {
                 frameNumberView.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
-                (view.findViewById<View>(R.id.number) as TextView).text = String.format(Locale.getDefault(), "%02d", pos + 1)
+                (rootView.findViewById<View>(R.id.number) as TextView).text = String.format(Locale.getDefault(), "%02d", pos + 1)
             } else {
-                frameNumberView.setTextColor(ContextCompat.getColor(context, R.color.light_grey))
-
-                (view.findViewById<View>(R.id.number) as TextView).text = String.format(Locale.getDefault(), "%02d", pos + 1)
+                frameNumberView.setTextColor(ContextCompat.getColor(context, R.color.grey))
+                (rootView.findViewById<View>(R.id.number) as TextView).text = String.format(Locale.getDefault(), "%02d", pos + 1)
             }
 
-            val shutterView = view.findViewById<View>(R.id.shutter) as TextView
-            when (frame.shutter) {
-                "B" -> shutterView.setTextColor(ContextCompat.getColor(context, R.color.dark_yellow))
-                "T" -> shutterView.setTextColor(ContextCompat.getColor(context, R.color.blue))
-                else -> shutterView.setTextColor(ContextCompat.getColor(context, R.color.dark_grey))
-            }
-            shutterView.text = frame.shutter
+            (rootView.findViewById<View>(R.id.shutter) as TextView).text = shutterArray[frame.shutterIdx]
+            (rootView.findViewById<View>(R.id.aperture) as TextView).text = apertureArray[frame.apertureIdx]
+            (rootView.findViewById<View>(R.id.notes) as TextView).text = frame.notes
 
-            (view.findViewById<View>(R.id.aperture) as TextView).text = frame.aperture
-            (view.findViewById<View>(R.id.notes) as TextView).text = frame.notes
-
-        } else {
-            Log.d(LOG_TAG, "frame #$pos is null!?")
         }
 
-        return view!!
+        return rootView!!
     }
 
     companion object {

@@ -17,16 +17,65 @@ class FilmDialog : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
         val rootView = inflater.inflate(R.layout.dialog_film, container)
         rootView.setBackgroundColor(Color.TRANSPARENT)
-
+/*
         val makerText = rootView.findViewById<View>(R.id.maker_edit) as AutoCompleteTextView
         makerText.setText(arguments?.getString("maker"))
         val makerAdapter = ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, arguments?.getStringArray("makers")!!)
         makerText.setAdapter(makerAdapter)
+*/
+        val makerList: MutableList<String> = mutableListOf()
+        makerList.addAll(arguments?.getStringArray("makers")!!)
+        val makerText = rootView.findViewById<View>(R.id.maker_edit) as AutoCompleteTextView
+        makerText.setAdapter(ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, makerList))
+        makerText.setText(arguments?.getString("maker"))
+        // Holding on the item deletes it from the global list, at the user's option
+        makerText.setOnLongClickListener {
+            val alertBuilder = android.app.AlertDialog.Builder(rootView.context)
+            alertBuilder.setMessage("Remove ${makerText.text} from autocomplete list?")
+            // Remove item
+            alertBuilder.setPositiveButton("Yes") { _, _ ->
+                makerList.remove(makerText.text.toString())
+                makerText.setAdapter(ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, makerList))
+                makerText.setText("")
+                (activity as MainActivity).setProductNames(makers = makerList)
+            }
+            alertBuilder.setNegativeButton("No") { _, _ -> } // do nothing
 
+            val warnDialog: Dialog = alertBuilder.create()
+            warnDialog.show()
+
+            true
+        }
+/*
         val filmText = rootView.findViewById<View>(R.id.film_edit) as AutoCompleteTextView
         filmText.setText(arguments?.getString("model"))
         val filmAdapter = ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, arguments?.getStringArray("models")!!)
         filmText.setAdapter(filmAdapter)
+*/
+        val filmList: MutableList<String> = mutableListOf()
+        filmList.addAll(arguments?.getStringArray("models")!!)
+        val filmText = rootView.findViewById<View>(R.id.film_edit) as AutoCompleteTextView
+        filmText.setAdapter(ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, filmList))
+        filmText.setText(arguments?.getString("model"))
+        // Holding on the item deletes it from the global list, at the user's option
+        filmText.setOnLongClickListener {
+            val alertBuilder = android.app.AlertDialog.Builder(rootView.context)
+            alertBuilder.setMessage("Remove ${filmText.text} from autocomplete list?")
+            // Remove item
+            alertBuilder.setPositiveButton("Yes") { _, _ ->
+                filmList.remove(makerText.text.toString())
+                filmText.setAdapter(ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, filmList))
+                filmText.setText("")
+                (activity as MainActivity).setProductNames(filmModels = filmList)
+
+            }
+            alertBuilder.setNegativeButton("No") { _, _ -> } // do nothing
+
+            val warnDialog: Dialog = alertBuilder.create()
+            warnDialog.show()
+
+            true
+        }
 
         val framePicker = rootView.findViewById<View>(R.id.frame_count) as NumberPicker
         framePicker.minValue = 0
@@ -46,7 +95,6 @@ class FilmDialog : DialogFragment() {
             numberText.text = frameCount.toString()
             framePicker.visibility = View.GONE
         }
-
 
         val isoSpin = rootView.findViewById<View>(R.id.iso_spinner) as Spinner
         val isoAdapter = ArrayAdapter.createFromResource(rootView.context,
@@ -72,7 +120,8 @@ class FilmDialog : DialogFragment() {
                             filmText.text.toString(),
                             isoSpin.selectedItemPosition,
                             frameCount,
-                            devSpin.selectedItemPosition)
+                            devSpin.selectedItemPosition,
+                            true)
                     dismiss()
                 }
             }

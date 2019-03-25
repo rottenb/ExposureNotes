@@ -198,7 +198,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="27dp"
+                android:layout_marginStart="30dp"
                 android:text="@string/shutter_header"
                 android:textSize="@dimen/header_font_size" />
 

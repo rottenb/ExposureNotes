@@ -109,9 +109,20 @@
     <string name="add_button">Add</string>
     <string name="remove_button">Remove</string>
     <string name="close_button">Close</string>
+    <string name="edit_button">Edit</string>
+    <string name="add_new">- Add New -</string>
+
+    <string-array name="camera_formats">
+        <item>Other</item>
+        <item>35mm</item>
+        <item>120mm</item>
+        <item>4x5</item>
+        <item>5x7</item>
+        <item>8x10</item>
+    </string-array>
 
     <string-array name="shutter_speeds">
-        <item>1/Xs</item>
+        <item></item>
         <item>1/500s</item>
         <item>1/250s</item>
         <item>1/125s</item>
@@ -128,7 +139,7 @@
     </string-array>
 
     <string-array name="apertures">
-        <item>f/X.X</item>
+        <item></item>
         <item>f/1.0</item>
         <item>f/1.2</item>
         <item>f/1.4</item>

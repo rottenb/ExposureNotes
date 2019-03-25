@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- Dialog Title -->
     <TextView
         style="@style/DialogTitle"
@@ -23,13 +23,14 @@
         app:layout_constraintTop_toBottomOf="@id/dialog_title"
         android:layout_margin="@dimen/half_margin"
         android:background="@color/colorAccent"/>
-
-    <!-- Camera Makers List -->
-    <TextView
-        style="@style/DialogHeader"
-        android:layout_width="wrap_content"
+    <!-- Big list of all makes and models-->
+    <ListView
+        android:id="@+id/product_list"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dialog_title"
-        android:text="Camera Makers:"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

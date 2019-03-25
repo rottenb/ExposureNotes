@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/default_margin"
+    android:focusableInTouchMode="true"
     android:background="@drawable/border">
 
     <!-- Dialog Title -->
@@ -105,43 +106,30 @@
         android:id="@+id/format_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_margin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/format_radio"
-        app:layout_constraintBottom_toBottomOf="@id/format_radio"
+        app:layout_constraintTop_toTopOf="@id/format_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/format_spinner"
         android:text="@string/format_header"/>
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="@id/format_radio"
-        app:layout_constraintEnd_toEndOf="@id/format_radio"
-        app:layout_constraintTop_toTopOf="@id/format_radio"
-        app:layout_constraintBottom_toBottomOf="@id/format_radio"
+        app:layout_constraintStart_toStartOf="@id/format_spinner"
+        app:layout_constraintEnd_toEndOf="@id/format_spinner"
+        app:layout_constraintTop_toTopOf="@id/format_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/format_spinner"
         android:layout_margin="@dimen/default_margin"
         android:background="@drawable/border"/>
-    <RadioGroup
-        android:id="@+id/format_radio"
+    <Spinner
+        style="@style/SpinnerStyle"
+        android:id="@+id/format_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/double_padding"
-        android:orientation="horizontal"
-        android:gravity="center"
         app:layout_constraintStart_toEndOf="@id/format_header"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/camera_edit">
-        <RadioButton
-            style="@style/DialogHeader"
-            android:id="@+id/format_35"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/format_35mm"/>
-        <RadioButton
-            style="@style/DialogHeader"
-            android:id="@+id/format_120"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/format_120mm"/>
-
-    </RadioGroup>
+        app:layout_constraintTop_toBottomOf="@id/camera_edit"
+        tools:listitem="@layout/item_spinner">
+    </Spinner>
 
     <!-- Lens -->
     <TextView
@@ -150,7 +138,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/format_radio"
+        app:layout_constraintTop_toBottomOf="@id/format_spinner"
         android:text="@string/lens_selection"/>
     <View
         android:layout_width="0dp"

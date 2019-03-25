@@ -17,19 +17,37 @@ class LensDialog : DialogFragment() {
         val rootView = inflater.inflate(R.layout.dialog_lens, container)
         rootView.setBackgroundColor(Color.TRANSPARENT)
 
-        val lensSpin = rootView.findViewById<View>(R.id.lens_spinner) as Spinner
-        val lenses = mutableListOf("- Add New -")
-        lenses.addAll(arguments?.getStringArray("lenses")!!)
-        val lensAdapter = ArrayAdapter(rootView.context, R.layout.item_spinner, lenses)
+        val addNewStr = rootView.resources.getString(R.string.add_new)
 
-        lensSpin.adapter = lensAdapter
+        val lensSpin = rootView.findViewById<View>(R.id.lens_spinner) as Spinner
+        val lenses = mutableListOf(addNewStr)
+        lenses.addAll(arguments?.getStringArray("lenses")!!)
+        lensSpin.adapter = ArrayAdapter(rootView.context, R.layout.item_spinner, lenses)
         lensSpin.setSelection(arguments!!.getInt("lensIdx"))
 
+        val makerList: MutableList<String> = mutableListOf()
+        makerList.addAll(arguments?.getStringArray("makers")!!)
         val makerText = rootView.findViewById<View>(R.id.maker_edit) as AutoCompleteTextView
+        makerText.setAdapter(ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, makerList))
         makerText.setText(arguments?.getString("maker"))
-        val makers = arguments?.getStringArray("makers")!!
-        val makerAdapter = ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, makers)
-        makerText.setAdapter(makerAdapter)
+        // Holding on the item deletes it from the global list, at the user's option
+        makerText.setOnLongClickListener {
+            val alertBuilder = AlertDialog.Builder(rootView.context)
+            alertBuilder.setMessage("Remove ${makerText.text} from autocomplete list?")
+            // Remove item
+            alertBuilder.setPositiveButton("Yes") { _, _ ->
+                makerList.remove(makerText.text.toString())
+                makerText.setAdapter(ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, makerList))
+                makerText.setText("")
+                (activity as MainActivity).setProductNames(makers = makerList)
+            }
+            alertBuilder.setNegativeButton("No") { _, _ -> } // do nothing
+
+            val warnDialog: Dialog = alertBuilder.create()
+            warnDialog.show()
+
+            true
+        }
 
         val modelText = rootView.findViewById<View>(R.id.model_edit) as TextView
 
@@ -38,10 +56,10 @@ class LensDialog : DialogFragment() {
             if (makerText.text.toString() == "" || modelText.text.toString() == "") {
                 Toast.makeText(rootView.context, "Make and Model required!", Toast.LENGTH_LONG).show()
             } else {
-                (activity as MainActivity).saveLensData(
+                (activity as MainActivity).setLensData(
                         makerText.text.toString(),
                         modelText.text.toString(),
-                        lensIdx = lensSpin.selectedItemPosition - 1)
+                        save = true)
                 dismiss()
             }
         }
@@ -52,11 +70,14 @@ class LensDialog : DialogFragment() {
                 val alertBuilder = AlertDialog.Builder(rootView.context)
                 alertBuilder.setMessage("Note: Any frame that used this lens will be reset.")
                 alertBuilder.setPositiveButton("Ok") { _, _ ->
-                    (activity as MainActivity).saveLensData(
+                    makerList.remove(addNewStr)
+                    (activity as MainActivity).setLensData(
                             makerText.text.toString(),
                             modelText.text.toString(),
                             delete = true,
-                            lensIdx = lensSpin.selectedItemPosition - 1)
+                            lensIdx = lensSpin.selectedItemPosition - 1,
+                            save = true)
+
                     dismiss()
                 }
                 alertBuilder.setNegativeButton("No, wait") { _, _ -> } // do nothing
@@ -87,11 +108,11 @@ class LensDialog : DialogFragment() {
                 } else {
                     saveButton.setText(R.string.save_button)
                     clearButton.setText(R.string.remove_button)
-                    for (i in 0 until makers.size) {
-                        if (lensSpin.selectedItem.toString().startsWith(makers[i])) {
-                            makerText.setText(makers[i])
+                    for (i in 0 until makerList.size) {
+                        if (lensSpin.selectedItem.toString().startsWith(makerList[i])) {
+                            makerText.setText(makerList[i])
                             makerText.dismissDropDown()
-                            modelText.text = lensSpin.selectedItem.toString().substringAfter("${makers[i]} ")
+                            modelText.text = lensSpin.selectedItem.toString().substringAfter("${makerList[i]} ")
                         }
                     }
                 }

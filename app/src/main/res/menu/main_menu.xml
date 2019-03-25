@@ -8,18 +8,17 @@
             android:id="@+id/main_menu_about"
             android:orderInCategory="50"
             android:title="About Exposure Notes"/>
-
+<!--
         <item
-            android:id="@+id/main_menu_settings"
+            android:id="@+id/main_menu_app_settings"
             android:orderInCategory="100"
             android:title="@string/app_settings"/>
-
+-->
         <item
             android:id="@+id/main_menu_camera"
             android:orderInCategory="200"
             android:title="@string/camera_settings"
-            android:icon="@drawable/camera"
-            app:showAsAction="ifRoom"/>
+            android:icon="@drawable/camera"/>
 
         <item
             android:id="@+id/main_menu_lens"
@@ -30,8 +29,7 @@
             android:id="@+id/main_menu_film"
             android:orderInCategory="400"
             android:title="@string/film_settings"
-            android:icon="@drawable/film"
-            app:showAsAction="ifRoom"/>
+            android:icon="@drawable/film"/>
 
         <item
             android:id="@+id/main_menu_clear_roll"
@@ -43,11 +41,12 @@
             android:icon="@drawable/file_export"
             android:title="@string/export_roll"
             app:showAsAction="always"/>
+<!--
         <item
             android:id="@+id/main_menu_junk"
             android:orderInCategory="1000"
             android:title="TEST DATA"/>
-
+-->
         <item
             android:orderInCategory="2000"
             android:title="Database Admin">
@@ -61,34 +60,13 @@
                 <item
                     android:id="@+id/database_menu_delete"
                     android:title="Delete Database"/>
+<!--
                 <item
                     android:id="@+id/database_menu_test"
                     android:orderInCategory="100"
                     android:title="TEST DB"/>
-
+-->
             </menu>
         </item>
-
-
-
-        <!--
-        <item
-            android:orderInCategory="200"
-            android:titleCondensed="Areas"
-            android:title="USer"
-            android:enabled="true">
-            <menu
-                android:id="@+id/main_menu_sort">
-                <item
-                    android:id="@+id/sort_title"
-                    android:title="poop"/>
-                <item
-                    android:id="@+id/sort_activity"
-                    android:title="pee"/>
-            </menu>
-        </item>
-        -->
     </group>
-
-
 </menu>

@@ -19,39 +19,41 @@ class FrameDialog : DialogFragment() {
         val rootView = inflater.inflate(R.layout.dialog_frame, container)
         rootView.setBackgroundColor(Color.TRANSPARENT)
 
-        val position = arguments!!.getInt("position")
-
         val shutterSpin = rootView.findViewById<View>(R.id.shutter_spinner) as Spinner
-        val shutterAdapter = ArrayAdapter.createFromResource(rootView.context,
-                R.array.shutter_speeds, R.layout.item_spinner)
-        shutterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        shutterSpin.adapter = shutterAdapter
+        val shutters = rootView.resources.getStringArray(R.array.shutter_speeds)
+        shutters[0] = "0s"
+        shutterSpin.adapter = ArrayAdapter(rootView.context, R.layout.item_spinner, shutters)
         shutterSpin.setSelection(arguments?.getInt("shutter")!!)
 
         val apertureSpin = rootView.findViewById<View>(R.id.aperture_spinner) as Spinner
-        val apertureAdapter = ArrayAdapter.createFromResource(rootView.context,
-                R.array.apertures, R.layout.item_spinner)
-        apertureAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        apertureSpin.adapter = apertureAdapter
+        val apertures = rootView.resources.getStringArray(R.array.apertures)
+        apertures[0] = "f/0.0"
+        apertureSpin.adapter = ArrayAdapter(rootView.context, R.layout.item_spinner, apertures)
         apertureSpin.setSelection(arguments?.getInt("aperture")!!)
 
         val lensSpin = rootView.findViewById<View>(R.id.lens_spinner) as Spinner
-        val lensAdapter = ArrayAdapter(rootView.context, R.layout.item_spinner, arguments?.getStringArray("lenses")!!)
+        val lenses = arguments?.getStringArray("lenses")!!
+        lensSpin.adapter = ArrayAdapter(rootView.context, R.layout.item_spinner, lenses)
+        for (i in 0 until lenses.size) {
+            if (lenses[i] == arguments?.getString("lens")) {
+                lensSpin.setSelection(i)
+            }
 
-        lensAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        lensSpin.adapter = lensAdapter
-        lensSpin.setSelection(arguments?.getInt("lensIdx")!!)
+        }
+        //lensSpin.setSelection(arguments?.getInt("lensIdx")!!)
 
         val notesText = rootView.findViewById<View>(R.id.frame_notes_edit) as TextView
-        notesText.text = arguments!!.getString("notes")
+        notesText.text = arguments?.getString("notes")
 
         val saveButton = rootView.findViewById<View>(R.id.save_button) as Button
         saveButton.setOnClickListener {
-            (activity as MainActivity).setFrameData(position,
+            (activity as MainActivity).setFrameData(arguments?.getInt("position")!!,
                     shutterSpin.selectedItemPosition,
                     apertureSpin.selectedItemPosition,
-                    lensSpin.selectedItemPosition,
-                    notesText.text.toString())
+                    lensSpin.selectedItem.toString(),
+                    notesText.text.toString(),
+                    true)
+
             dismiss()
         }
 

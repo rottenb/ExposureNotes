@@ -27,7 +27,6 @@ import java.io.File
 import java.io.FileWriter
 import java.util.*
 
-
 class MainActivity : AppCompatActivity() {
     private var frameDataList: MutableList<FrameData> = mutableListOf()
     private var frameArrayAdapter: FrameArrayAdapter? = null
@@ -35,7 +34,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var currentFilm: FilmData
     private lateinit var currentCamera: CameraData
 
-    lateinit var exposureDB: ExposureNotesDatabase
+    private lateinit var globalCameraFormatArray: Array<String>
+    private lateinit var globalIsoArray: Array<String>
+    private lateinit var globalDevArray: Array<String>
+
+    lateinit var globalShutterArray: Array<String>
+    lateinit var globalApertureArray: Array<String>
+
+    private lateinit var exposureDB: ExposureNotesDatabase
 
     private lateinit var productNames: ProductNames
 
@@ -49,37 +55,37 @@ class MainActivity : AppCompatActivity() {
         val myToolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(myToolbar)
 
+        // Default string arrays
+        // (Shutter and aperture are in 1/3rd stops)
+        globalCameraFormatArray = resources.getStringArray(R.array.camera_formats)
+        globalIsoArray = resources.getStringArray(R.array.isos)
+        globalDevArray = resources.getStringArray(R.array.devs)
+        globalShutterArray = resources.getStringArray(R.array.shutter_speeds)
+        globalApertureArray = resources.getStringArray(R.array.apertures)
+
         currentFilm = FilmData()
         currentCamera = CameraData()
+
         productNames = ProductNames()
         productNames.lensModels = productNames.lensModels.sorted() as MutableList<String>
 
         exposureDB = Room.databaseBuilder(applicationContext,
                                     ExposureNotesDatabase::class.java,
                               "exposure_notes_db").fallbackToDestructiveMigration().build()
-
+        loadDatabase()
+/*
         doAsync {
             // If there's a frame info to load, do that
             //  Otherwise load an empty list
-            if (exposureDB.rollInfoDao().getAll().isNotEmpty()) {
+            if (exposureDB.frameInfoDao().getAll().isNotEmpty()) {
                 loadDatabase()
             } else {
                 for (i in 0 until currentFilm.frames) {
                     frameDataList.add(i, FrameData())
                 }
             }
-
-            if (exposureDB.productNamesDao().getAll().isNotEmpty()) {
-                val products = exposureDB.productNamesDao().getAll()[0]
-                productNames.cameraMakers = products.cameraMakers.split("•") as MutableList<String>
-                productNames.cameraModels = products.cameraModels.split("•") as MutableList<String>
-                productNames.lensMakers = products.lensMakers.split("•") as MutableList<String>
-                productNames.lensModels = products.lensModels.split("•") as MutableList<String>
-                productNames.filmMakers = products.filmMakers.split("•") as MutableList<String>
-                productNames.filmModels = products.filmModels.split("•") as MutableList<String>
-            }
         }
-
+*/
         updateNotesHeader()
 
         // Create an adapter with the list data, attach that to the list view
@@ -173,11 +179,11 @@ class MainActivity : AppCompatActivity() {
             R.id.main_menu_film -> setFilmDialog()
             R.id.main_menu_clear_roll -> clearFilmRoll()
             R.id.main_menu_export_roll -> exportDialog()
-            R.id.main_menu_junk -> fillWithTestData()
+//          R.id.main_menu_junk -> fillWithTestData()
             R.id.database_menu_save -> saveDatabase()
             R.id.database_menu_load -> loadDatabase()
             R.id.database_menu_delete -> deleteDB()
-            R.id.database_menu_test -> testDB()
+//          R.id.database_menu_test -> testDB()
         }
 
         return super.onOptionsItemSelected(item)
@@ -185,7 +191,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveDatabase(showMsg: Boolean = true) {
         doAsync {
-            val roll = RollInfoTable(0, currentCamera.maker, currentCamera.model, currentCamera.format, currentCamera.lensIdx,
+            val roll = RollInfoTable(0, currentCamera.maker, currentCamera.model, currentCamera.formatIdx, currentCamera.lens,
                     currentFilm.maker, currentFilm.model, currentFilm.isoIdx, currentFilm.frames, currentFilm.devIdx)
             if (exposureDB.rollInfoDao().getAll().isEmpty()) {
                 exposureDB.rollInfoDao().insert(roll)
@@ -194,16 +200,14 @@ class MainActivity : AppCompatActivity() {
             }
 
             for (i in 0 until currentFilm.frames) {
-                val frame = FrameInfoTable(i, frameDataList[i].shutterIdx, frameDataList[i].apertureIdx, frameDataList[i].lensIdx, frameDataList[i].notes)
+                val frame = FrameInfoTable(i, frameDataList[i].shutterIdx, frameDataList[i].apertureIdx, frameDataList[i].lens, frameDataList[i].notes)
 
                 exposureDB.frameInfoDao().insert(frame)
             }
 
-            val products = ProductNamesTable(0, productNames.cameraMakers.joinToString(separator = "•"),
+            val products = ProductNamesTable(0, productNames.makers.joinToString(separator = "•"),
                                                      productNames.cameraModels.joinToString(separator = "•"),
-                                                     productNames.lensMakers.joinToString(separator = "•"),
                                                      productNames.lensModels.joinToString(separator = "•"),
-                                                     productNames.filmMakers.joinToString(separator = "•"),
                                                      productNames.filmModels.joinToString(separator = "•"))
             if (exposureDB.productNamesDao().getAll().isEmpty()) {
                 exposureDB.productNamesDao().insert(products)
@@ -225,26 +229,23 @@ class MainActivity : AppCompatActivity() {
             val frames = exposureDB.frameInfoDao().getAll()
 
             val products = exposureDB.productNamesDao().getAll()[0]
-            productNames.cameraMakers = products.cameraMakers.split("•") as MutableList<String>
+            productNames.makers = products.cameraMakers.split("•") as MutableList<String>
             productNames.cameraModels = products.cameraModels.split("•") as MutableList<String>
-            productNames.lensMakers = products.lensMakers.split("•") as MutableList<String>
             productNames.lensModels = products.lensModels.split("•") as MutableList<String>
-            productNames.filmMakers = products.filmMakers.split("•") as MutableList<String>
             productNames.filmModels = products.filmModels.split("•") as MutableList<String>
 
             uiThread {
-                if (roll.isNotEmpty()) {
-                    setCameraData(roll[0].cameraMaker, roll[0].cameraName,roll[0].cameraFormat, roll[0].cameraLensIdx)
+                if (frames.isNotEmpty()) {
+                    setCameraData(roll[0].cameraMaker, roll[0].cameraName,roll[0].cameraFormatIdx, roll[0].cameraLens)
                     setFilmData(roll[0].filmMaker, roll[0].filmName, roll[0].filmIsoIdx, roll[0].filmFrames, roll[0].filmDevIdx)
-
                     updateNotesHeader()
-                    setListVisibility()
 
                     frameDataList.clear()
                     for (i in 0 until currentFilm.frames) {
-                        frameDataList.add(i, FrameData(frames[i].shutterIdx, frames[i].apertureIdx, frames[i].lensIdx, frames[i].notes))
-                        frameDataList[i].updateData()
+                        frameDataList.add(i, FrameData(frames[i].shutterIdx, frames[i].apertureIdx, frames[i].lens, frames[i].notes))
                     }
+
+                    setListVisibility()
                 }
 
                 if (showMsg) {
@@ -304,21 +305,20 @@ class MainActivity : AppCompatActivity() {
         currentFilm.frames = Random().nextInt(36) + 1
 
         for (i in 0 until currentFilm.frames) {
-            frameDataList.add(i, FrameData(Random().nextInt(5) + 1,
-                                           Random().nextInt(5 + 1),
-                                           Random().nextInt(productNames.lensModels.size),
+            frameDataList.add(i, FrameData(Random().nextInt(5),
+                                           Random().nextInt(5),
+                                           "Brian Sucks",
                                            getRandomString() ))
         }
 
         currentCamera.maker = "Mamiya"
         currentCamera.model = "RB67sd"
-        currentCamera.format = "120mm"
+        currentCamera.formatIdx = 2
 
         currentFilm.maker = "Ilford"
         currentFilm.model = "HP5+"
-        currentFilm.isoIdx = Random().nextInt(12) + 1
-        currentFilm.devIdx = Random().nextInt(7) + 1
-        currentFilm.updateData()
+        currentFilm.isoIdx = Random().nextInt(11) + 1
+        currentFilm.devIdx = Random().nextInt(6) + 1
 
         updateNotesHeader()
         setListVisibility()
@@ -367,6 +367,16 @@ class MainActivity : AppCompatActivity() {
         aboutDialog.show(fm, "About Dialog")
     } // aboutDialog
 
+    fun setProductNames(makers: MutableList<String> = productNames.makers,
+                        cameraModels: MutableList<String> = productNames.cameraModels,
+                        filmModels: MutableList<String> = productNames.filmModels,
+                        lensModels: MutableList<String> = productNames.lensModels) {
+        productNames.makers = makers
+        productNames.cameraModels = cameraModels
+        productNames.filmModels = filmModels
+        productNames.lensModels = lensModels
+    }
+
     // Set arguments to pass to the frame dialog, call the dialog
     private fun setFrameDialog(pos: Int) {
         val args = Bundle()
@@ -375,15 +385,11 @@ class MainActivity : AppCompatActivity() {
         if (pos != 0 && frameDataList[pos].shutterIdx == 0 && frameDataList[pos].apertureIdx == 0) {
             args.putInt("shutter", frameDataList[pos - 1].shutterIdx)
             args.putInt("aperture", frameDataList[pos - 1].apertureIdx)
-            args.putInt("lensIdx", frameDataList[pos - 1].lensIdx)
-        } else if (pos == 0) {
-            args.putInt("shutter", frameDataList[pos].shutterIdx)
-            args.putInt("aperture", frameDataList[pos].apertureIdx)
-            args.putInt("lensIdx", currentCamera.lensIdx)
+            args.putString("lens", frameDataList[pos - 1].lens)
         } else {
             args.putInt("shutter", frameDataList[pos].shutterIdx)
             args.putInt("aperture", frameDataList[pos].apertureIdx)
-            args.putInt("lensIdx", frameDataList[pos].lensIdx)
+            args.putString("lens", frameDataList[pos].lens)
         }
 
         // These are always unique to each frame
@@ -399,30 +405,29 @@ class MainActivity : AppCompatActivity() {
         frameDialog.show(fm, "Frame Dialog")
     } // frameSetDialog
 
-    fun setFrameData(pos: Int, shutter: Int, aperture: Int, lensIdx: Int, notes: String) {
+    fun setFrameData(pos: Int, shutter: Int, aperture: Int, lens: String, notes: String, save: Boolean = false) {
         frameDataList[pos].shutterIdx = shutter
         frameDataList[pos].apertureIdx = aperture
-        frameDataList[pos].lensIdx = lensIdx
-        currentCamera.lensIdx = lensIdx
+        frameDataList[pos].lens = lens
+        currentCamera.lens = lens
         frameDataList[pos].notes = notes
-        frameDataList[pos].updateData()
 
         frameArrayAdapter!!.notifyDataSetChanged()
 
-        // Auto-save frame data?
-        saveDatabase(true)
+        if (save) {
+            saveDatabase(true)
+        }
     } // setFrameData
 
     private fun setCameraDialog() {
         val args = Bundle()
-        args.putStringArray("makers", productNames.cameraMakers.toTypedArray())
+        args.putStringArray("makers", productNames.makers.toTypedArray())
         args.putStringArray("models", productNames.cameraModels.toTypedArray())
-        args.putStringArray("lens_makers", productNames.lensMakers.toTypedArray())
         args.putStringArray("lenses", productNames.lensModels.toTypedArray())
         args.putString("maker", currentCamera.maker)
         args.putString("model", currentCamera.model)
-        args.putString("format", currentCamera.format)
-        args.putInt("lensIdx", currentCamera.lensIdx)
+        args.putInt("formatIdx", currentCamera.formatIdx)
+        args.putString("lensIdx", currentCamera.lens)
 
         val cameraDialog = CameraDialog()
         cameraDialog.arguments = args
@@ -431,30 +436,33 @@ class MainActivity : AppCompatActivity() {
         cameraDialog.show(fm, "Camera Dialog")
     } // setCameraDialog
 
-    fun setCameraData(manu: String, model: String, format: String, lensIdx: Int) {
-        currentCamera.maker = manu
+    fun setCameraData(maker: String, model: String, formatIdx: Int, lens: String, save: Boolean = false) {
+        currentCamera.maker = maker
         currentCamera.model = model
-        currentCamera.format = format
-        currentCamera.lensIdx = lensIdx
+        currentCamera.formatIdx = formatIdx
+        currentCamera.lens = lens
 
-        if (!productNames.cameraMakers.contains(manu)) {
-            productNames.cameraMakers.add(manu)
+        // Updated list of makes/models
+        if (!productNames.makers.contains(maker)) {
+            productNames.makers.add(maker)
         }
-
         if (!productNames.cameraModels.contains(model)) {
             productNames.cameraModels.add(model)
         }
 
-        saveDatabase()
+        if (save) {
+            saveDatabase()
+        }
+
         updateNotesHeader()
     } // setCameraData
 
     /*
         SET LENS DIALOG
      */
-    fun setLensDialog() {
+    private fun setLensDialog() {
         val args = Bundle()
-        args.putStringArray("makers", productNames.lensMakers.toTypedArray())
+        args.putStringArray("makers", productNames.makers.toTypedArray())
         args.putStringArray("lenses", productNames.lensModels.toTypedArray())
 
         val lensDialog = LensDialog()
@@ -464,26 +472,23 @@ class MainActivity : AppCompatActivity() {
         lensDialog.show(fm, "Lens Dialog")
     } // setLensDialog
 
-    fun saveLensData(maker: String, model: String, delete: Boolean = false, lensIdx: Int = 0) {
+    fun setLensData(maker: String, model: String, delete: Boolean = false, lensIdx: Int = -1, save: Boolean = false) {
         val modelString = "$maker $model"
 
+        // Remove from list of lenses
         if (delete) {
-            productNames.lensModels.removeAt(lensIdx)
-
+            productNames.lensModels.remove(modelString)
             for (i in 0 until frameDataList.size) {
-                val ldx = frameDataList[i].lensIdx
-                if (ldx == lensIdx || ldx < 0 || ldx >= frameDataList.size) {
-                    frameDataList[i].lensIdx = 0
+                if (frameDataList[i].lens == modelString) {
+                    frameDataList[i].lens = ""
                 }
             }
-
         } else {
-            if (!productNames.lensMakers.contains(maker)) {
-                productNames.lensMakers.add(maker)
+            if (!productNames.makers.contains(maker)) {
+                productNames.makers.add(maker)
             }
-
-            if (lensIdx > -1) {
-                // Replace old lens description with edited one
+            // Swap new lens for old one
+            if (lensIdx >= 0) {
                 productNames.lensModels[lensIdx] = modelString
             } else {
                 if (!productNames.lensModels.contains(modelString)) {
@@ -494,12 +499,14 @@ class MainActivity : AppCompatActivity() {
 
         productNames.lensModels.sort()
 
-        saveDatabase()
-    } // saveLensData
+        if (save) {
+            saveDatabase()
+        }
+    } // setLensData
 
     private fun setFilmDialog() {
         val args = Bundle()
-        args.putStringArray("makers", productNames.filmMakers.toTypedArray())
+        args.putStringArray("makers", productNames.makers.toTypedArray())
         args.putStringArray("models", productNames.filmModels.toTypedArray())
         args.putString("maker", currentFilm.maker)
         args.putString("model", currentFilm.model)
@@ -514,25 +521,26 @@ class MainActivity : AppCompatActivity() {
         filmDialog.show(fm, "Film Dialog")
     } // setFilmDialog
 
-    fun setFilmData(maker: String, model: String, iso: Int, frames: Int, dev: Int) {
+    fun setFilmData(maker: String, model: String, isoIdx: Int, frames: Int, devIdx: Int, save: Boolean = false) {
         updateFrameCount(frames)
 
         currentFilm.maker = maker
         currentFilm.model = model
         currentFilm.frames = frames
-        currentFilm.isoIdx = iso
-        currentFilm.devIdx = dev
-        currentFilm.updateData()
+        currentFilm.isoIdx = isoIdx
+        currentFilm.devIdx = devIdx
 
-        if (!productNames.filmMakers.contains(maker)) {
-            productNames.filmMakers.add(maker)
+        if (!productNames.makers.contains(maker)) {
+            productNames.makers.add(maker)
         }
 
         if (!productNames.filmModels.contains(model)) {
             productNames.filmModels.add(model)
         }
 
-        saveDatabase()
+        if (save) {
+            saveDatabase()
+        }
         updateNotesHeader()
     } // setFilmData
 
@@ -551,7 +559,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         frameArrayAdapter?.notifyDataSetInvalidated()
-
     }
 
     private fun updateNotesHeader() {
@@ -564,21 +571,26 @@ class MainActivity : AppCompatActivity() {
         textView.text = str
 
         textView = findViewById<View>(R.id.format) as TextView
-        textView.text = currentCamera.format
+        textView.text = globalCameraFormatArray[currentCamera.formatIdx]
 
         textView = findViewById<View>(R.id.iso) as TextView
-        textView.text = currentFilm.iso
+        textView.text = globalIsoArray[currentFilm.isoIdx]
 
         textView = findViewById<View>(R.id.dev) as TextView
-        textView.text = currentFilm.dev
+        textView.text = globalDevArray[currentFilm.devIdx]
 
         setListVisibility()
     } // updateNotesHeader
 
-    fun exportFilmRoll(filename: String, method: String) {
+    fun exportFilmRoll(filename: String, method: String = "file") {
         val outJ = OutputJSON()
-        val obj = outJ.createJSONobj(currentCamera.model, currentFilm.model, currentFilm.iso, currentFilm.dev, frameDataList)
+        val obj = outJ.createJSONobj(currentCamera.model, currentFilm.model,
+                globalIsoArray[currentFilm.isoIdx], globalDevArray[currentFilm.devIdx],
+                globalShutterArray, globalApertureArray, frameDataList)
+
         try {
+            // TODO implement different methods
+            if (method == "file") { }
             val filepath = File("storage/emulated/0/ExposureNotes/")
             filepath.mkdirs()
 
@@ -586,7 +598,7 @@ class MainActivity : AppCompatActivity() {
             val output = BufferedWriter(FileWriter(file))
 
             output.write(obj.toString())
-            output.close()
+            output.close ()
 
             val msg: Toast = Toast.makeText(applicationContext, "JSON saved", Toast.LENGTH_SHORT)
             msg.setGravity(Gravity.CENTER, 0, 0)

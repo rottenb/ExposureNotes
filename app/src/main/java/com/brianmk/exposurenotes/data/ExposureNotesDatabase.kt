@@ -4,28 +4,24 @@ import androidx.room.*
 
 @Entity(tableName = "product_names_table")
 data class ProductNamesTable(@PrimaryKey @ColumnInfo(name = "idx") val idx: Int,
-                             @ColumnInfo(name = "camera_makers") val cameraMakers: String,
+                             @ColumnInfo(name = "makers") val cameraMakers: String,
                              @ColumnInfo(name = "camera_models") val cameraModels: String,
-
-                             @ColumnInfo(name = "lens_makers") val lensMakers: String,
                              @ColumnInfo(name = "lens_models") val lensModels: String,
-
-                             @ColumnInfo(name = "film_makers") val filmMakers: String,
                              @ColumnInfo(name = "film_models") val filmModels: String)
 
 @Entity(tableName = "frame_info_table")
 data class FrameInfoTable(@PrimaryKey @ColumnInfo(name = "idx") val idx: Int,
                      @ColumnInfo(name = "shutterIdx") val shutterIdx: Int,
                      @ColumnInfo(name = "apertureIdx") val apertureIdx: Int,
-                     @ColumnInfo(name = "lensIdx") val lensIdx: Int,
+                     @ColumnInfo(name = "lens") val lens: String,
                      @ColumnInfo(name = "notes") val notes: String )
 
 @Entity(tableName = "roll_info_table")
 data class RollInfoTable(@PrimaryKey @ColumnInfo(name = "idx") val idx: Int,
                     @ColumnInfo(name = "camera_maker") val cameraMaker: String,
                     @ColumnInfo(name = "camera_name") val cameraName: String,
-                    @ColumnInfo(name = "camera_format") val cameraFormat: String,
-                    @ColumnInfo(name = "camera_lensIdx") val cameraLensIdx: Int,
+                    @ColumnInfo(name = "camera_formatIdx") val cameraFormatIdx: Int,
+                    @ColumnInfo(name = "camera_lens") val cameraLens: String,
 
                     @ColumnInfo(name = "film_maker") val filmMaker: String,
                     @ColumnInfo(name = "film_name") val filmName: String,

@@ -10,6 +10,7 @@ import org.json.JSONObject
 class OutputJSON : JSONObject() {
 
     fun createJSONobj(camera: String, film: String, iso: String, dev: String,
+                      shutters: Array<String>, apertures: Array<String>,
                       frameList: List<FrameData>): JSONObject {
 
         val obj = JSONObject()
@@ -17,8 +18,8 @@ class OutputJSON : JSONObject() {
         for (i in frameList.indices) {
             val frameArray = JSONArray()
 
-            frameArray.put(frameList[i].shutter)
-            frameArray.put(frameList[i].aperture)
+            frameArray.put(shutters[frameList[i].shutterIdx])
+            frameArray.put(apertures[frameList[i].apertureIdx])
             frameArray.put(frameList[i].notes)
 
             filmArray.put(frameArray)
