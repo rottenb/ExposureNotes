@@ -13,13 +13,13 @@ class AboutDialog : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
         val rootView = inflater.inflate(R.layout.dialog_about, container)
         rootView.setBackgroundColor(Color.TRANSPARENT)
-
+/*
         val scriptButton = rootView.findViewById<View>(R.id.script_button) as Button
         scriptButton.setOnClickListener {
             // TODO Dump a python script
             dismiss()
         }
-
+*/
         (rootView.findViewById<View>(R.id.close_button) as Button).setOnClickListener {
             dismiss()
         }

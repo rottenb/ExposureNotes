@@ -7,14 +7,25 @@
     android:layout_margin="@dimen/double_margin"
     android:gravity="center"
     android:background="@drawable/border">
-
+    <!-- Dialog Title -->
+    <TextView
+        style="@style/DialogTitle"
+        android:id="@+id/dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/about_exposure_notes_header"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="@dimen/half_margin"
+        android:background="@color/colorPrimary"/>
     <TextView
         style="@style/DialogHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/about_text"/>
-
+<!--
     <Button
         style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/script_button"
@@ -23,7 +34,7 @@
         android:layout_marginTop="@dimen/large_margin"
         android:gravity="center"
         android:text="@string/script_button"/>
-
+-->
     <Button
         style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/close_button"

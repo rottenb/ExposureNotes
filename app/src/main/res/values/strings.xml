@@ -110,7 +110,7 @@
     <string name="remove_button">Remove</string>
     <string name="close_button">Close</string>
     <string name="edit_button">Edit</string>
-    <string name="add_new">- Add New -</string>
+    <string name="add_new">Add New</string>
 
     <string-array name="camera_formats">
         <item>Other</item>
@@ -204,7 +204,7 @@
     <string name="application_settings">Application Settings</string>
     <string name="welcome_msg">Tap to get started:</string>
 
-    <string name="about_text">Set up both camera and film settings.\nTap a frame to add/edit exposure info.\nExport film roll and feed the json output to Exiftool (via a quick Python script, you can get that below), making sure to match your scans.\n\nhttps://www.sno.phy.queensu.ca/~phil/exiftool/</string>
+    <string name="about_text">Set up both camera and film settings.\nTap a frame to add/edit exposure info.\nExport film roll and feed the json output to Exiftool (via a quick Python script, roll your own or download soon), making sure to match your scans.\n\nhttps://www.sno.phy.queensu.ca/~phil/exiftool/</string>
     <string name="script_button">Download Script</string>
     <string name="lens_model_text">000mm f/0.0</string>
     <string name="focal_length">Focal Length:</string>
@@ -214,6 +214,11 @@
     <string name="aperture_unit">f/</string>
     <string name="lens_model_hint">Model (ie: 50mm f/1.8 macro)</string>
     <string name="lens_inventory_button">Edit Lens Inventory</string>
+    <string name="about_exposure_notes_header">About Exposure Notes</string>
+    <string name="delete_button">Delete</string>
+    <string name="info_text">Info Text</string>
+
+    <string name="lens_dialog_info">• Tap "Add New" to add new lens.\n• Tap lens to edit.\n• Hold on lens to delete.</string>
 
     <string-array name="camera_list">
         <item>Canon FTb QL</item>

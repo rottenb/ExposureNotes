@@ -119,6 +119,7 @@
         app:layout_constraintStart_toEndOf="@id/frame_header"
         app:layout_constraintTop_toTopOf="@id/frame_header"
         app:layout_constraintBottom_toBottomOf="@id/frame_header"
+        android:textColor="@color/black"
         tools:text="@string/frame_num_header"
         android:background="@drawable/border"/>
     <NumberPicker

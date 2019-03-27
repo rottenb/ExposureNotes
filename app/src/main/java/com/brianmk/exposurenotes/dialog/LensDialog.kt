@@ -1,22 +1,73 @@
 package com.brianmk.exposurenotes.dialog
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.Button
+import android.widget.ListView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.brianmk.exposurenotes.MainActivity
 import com.brianmk.exposurenotes.R
+import com.brianmk.exposurenotes.adapter.LensArrayAdapter
+
 
 class LensDialog : DialogFragment() {
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
-        val rootView = inflater.inflate(R.layout.dialog_lens, container)
+        val rootView = inflater.inflate(com.brianmk.exposurenotes.R.layout.dialog_lens, container)
         rootView.setBackgroundColor(Color.TRANSPARENT)
 
+        // Help information for this dialog
+        rootView.findViewById<View>(R.id.info_text).setOnClickListener {
+            val infoBuilder = AlertDialog.Builder(rootView.context)
+            infoBuilder.setTitle("Instructions for Lens Selection:")
+            infoBuilder.setMessage(resources.getString(R.string.lens_dialog_info))
+            infoBuilder.setPositiveButton("Ok") { _, _ -> } // Do nothing, just disappear
+            infoBuilder.create().show()
+        }
+
+        val lensList: MutableList<String> = mutableListOf()
+        lensList.addAll(arguments?.getStringArray("lenses")!!)
+
+        val lensListView = rootView.findViewById<View>(R.id.lens_list) as ListView
+        val lensAdapter = LensArrayAdapter(rootView.context, lensList)
+        lensListView.adapter = lensAdapter
+
+        lensListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
+            if (pos == 0) {
+                lensList.add("AA New lens, lol")
+                lensList.sort()
+                lensAdapter.notifyDataSetChanged()
+            }
+        }
+
+        lensListView.onItemLongClickListener = AdapterView.OnItemLongClickListener { _, _, pos, _ ->
+            if (pos > 0) {
+                val alertBuilder = AlertDialog.Builder(rootView.context)
+                alertBuilder.setMessage("Note: Any frame that used this lens will be reset.")
+                alertBuilder.setPositiveButton("Ok") { _, _ ->
+                    lensList.removeAt(pos)
+                    lensAdapter.notifyDataSetChanged()
+
+                    //dismiss()
+                }
+                alertBuilder.setNegativeButton("No, wait") { _, _ -> } // do nothing
+
+                val warnDialog: Dialog = alertBuilder.create()
+                warnDialog.show()
+            }
+
+
+            true
+        }
+
+
+
+/*
         val addNewStr = rootView.resources.getString(R.string.add_new)
 
         val lensSpin = rootView.findViewById<View>(R.id.lens_spinner) as Spinner
@@ -70,7 +121,7 @@ class LensDialog : DialogFragment() {
                 val alertBuilder = AlertDialog.Builder(rootView.context)
                 alertBuilder.setMessage("Note: Any frame that used this lens will be reset.")
                 alertBuilder.setPositiveButton("Ok") { _, _ ->
-                    makerList.remove(addNewStr)
+                    //makerList.remove(addNewStr)
                     (activity as MainActivity).setLensData(
                             makerText.text.toString(),
                             modelText.text.toString(),
@@ -91,10 +142,7 @@ class LensDialog : DialogFragment() {
             }
         }
 
-        val cancelButton = rootView.findViewById<View>(R.id.cancel_button) as Button
-        cancelButton.setOnClickListener {
-            dismiss()
-        }
+
 
         lensSpin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -118,6 +166,12 @@ class LensDialog : DialogFragment() {
                 }
             }
 
+        }
+*/
+
+        val cancelButton = rootView.findViewById<View>(com.brianmk.exposurenotes.R.id.cancel_button) as Button
+        cancelButton.setOnClickListener {
+            dismiss()
         }
 
         return rootView

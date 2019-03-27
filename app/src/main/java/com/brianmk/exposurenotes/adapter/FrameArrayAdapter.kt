@@ -21,7 +21,7 @@ class FrameArrayAdapter internal constructor(context: Context, frameData: List<F
         val apertureArray = context.resources.getStringArray(R.array.apertures)
 
         if (view == null) {
-            rootView = LayoutInflater.from(context).inflate(R.layout.item_list_frame,
+            rootView = LayoutInflater.from(context).inflate(R.layout.item_frame_list,
                     parent, false)
         }
 
