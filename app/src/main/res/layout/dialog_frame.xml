@@ -13,20 +13,34 @@
     <TextView
         style="@style/DialogTitle"
         android:id="@+id/dialog_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_padding"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/frame_dialog_title"/>
+        android:text="@string/frame_settings"/>
+    <ImageView
+        android:id="@+id/info_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/dialog_title"
+        app:layout_constraintBottom_toBottomOf="@id/dialog_title"
+        android:contentDescription="@string/info_text"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:backgroundTint="@color/grey_blue"
+        android:background="@drawable/help_box"/>
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_margin="@dimen/half_margin"
-        app:layout_constraintTop_toBottomOf="@id/dialog_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/colorPrimary"/>
+        app:layout_constraintTop_toBottomOf="@id/dialog_title"
+        android:layout_margin="@dimen/half_margin"
+        android:background="@color/colorAccent"/>
 
     <!-- Shutter Speed Selection - "shutter_select" -->
     <TextView
@@ -115,7 +129,7 @@
 
     <!-- Notes - "frame_notes" -->
     <TextView
-        android:id="@+id/notes_header_text"
+        android:id="@+id/notes_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,65 +141,56 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/dialog_font_size"
         android:text="@string/notes_header"/>
-    <LinearLayout
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/frame_notes"
+        app:layout_constraintEnd_toEndOf="@id/frame_notes"
+        app:layout_constraintTop_toTopOf="@id/frame_notes"
+        app:layout_constraintBottom_toBottomOf="@id/frame_notes"
+        android:layout_margin="@dimen/default_margin"
+        android:background="@drawable/border"/>
+    <EditText
         android:id="@+id/frame_notes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        app:layout_constraintTop_toBottomOf="@id/notes_header_text"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/border">
-        <EditText
-            android:id="@+id/frame_notes_edit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/double_padding"
-            android:textSize="@dimen/dialog_font_size"
-            android:inputType="textCapSentences"
-            android:hint="@string/frame_notes_hint"
-            android:autofillHints="@string/frame_notes_hint"
-            android:background="@android:color/transparent"/>
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/notes_header"
+        android:padding="@dimen/double_padding"
+        android:textSize="@dimen/dialog_font_size"
+        android:inputType="textCapSentences"
+        android:hint="@string/frame_notes_hint"
+        android:autofillHints="@string/frame_notes_hint"
+        android:background="@android:color/transparent"/>
 
     <!-- Action Buttons -->
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        style="@style/Buttons"
+        android:id="@+id/save_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        app:layout_constraintTop_toBottomOf="@id/frame_notes"
         app:layout_constraintStart_toStartOf="parent"
-        android:gravity="center">
-        <!-- Save Button -->
-        <Button
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:id="@+id/save_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/double_margin"
-            android:textSize="@dimen/dialog_font_size"
-            android:textStyle="bold"
-            android:text="@string/save_button"/>
-        <!-- Clear Button -->
-        <Button
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:id="@+id/clear_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/double_margin"
-            android:layout_marginEnd="@dimen/double_margin"
-            android:textSize="@dimen/dialog_font_size"
-            android:textStyle="bold"
-            android:text="@string/clear_button"/>
-        <!-- Cancel -->
-        <Button
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:id="@+id/cancel_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/double_margin"
-            android:textSize="@dimen/dialog_font_size"
-            android:textStyle="bold"
-            android:text="@string/cancel_button"
-            />
-    </LinearLayout>
+        app:layout_constraintEnd_toStartOf="@id/clear_button"
+        app:layout_constraintTop_toBottomOf="@id/frame_notes"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/save_button"/>
+    <Button
+        style="@style/Buttons"
+        android:id="@+id/clear_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/save_button"
+        app:layout_constraintEnd_toStartOf="@id/cancel_button"
+        app:layout_constraintTop_toTopOf="@id/save_button"
+        app:layout_constraintBottom_toBottomOf="@id/save_button"
+        android:text="@string/clear_button"/>
+    <Button
+        style="@style/Buttons"
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/clear_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/save_button"
+        app:layout_constraintBottom_toBottomOf="@id/save_button"
+        android:text="@string/cancel_button"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

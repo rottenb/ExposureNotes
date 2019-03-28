@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableRow
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<TextView
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lens_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/default_padding"
-    android:orientation="horizontal">
+    android:gravity="center"
+    android:textColor="@color/colorPrimaryDark"
+    android:textSize="@dimen/list_item_font_size"
+    tools:text="@string/spinner_text_example" />
 
-    <TextView
-        android:id="@+id/lens_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/list_item_font_size"
-        tools:text="@string/spinner_text_example"/>
-
-</TableRow>

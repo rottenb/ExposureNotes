@@ -29,8 +29,8 @@ class ExportDialog : DialogFragment() {
         saveSpin.adapter = saveAdapter
         saveSpin.setSelection(0)
 
-        val okButton = rootView.findViewById<View>(R.id.ok_button) as Button
-        okButton.setOnClickListener {
+        val exportButton = rootView.findViewById<View>(R.id.export_button) as Button
+        exportButton.setOnClickListener {
             (activity as MainActivity).exportFilmRoll(filenameText.text.toString(),
                     saveSpin.selectedItem.toString())
 

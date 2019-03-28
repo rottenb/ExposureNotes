@@ -42,6 +42,14 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Buttons -->
+    <style name="Buttons">
+        <item name="android:layout_margin">@dimen/double_margin</item>
+        <item name="android:textSize">@dimen/dialog_font_size</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:background">@drawable/border</item>
+    </style>
+
     <style name="ExportDialog" parent="AppTheme" >
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>

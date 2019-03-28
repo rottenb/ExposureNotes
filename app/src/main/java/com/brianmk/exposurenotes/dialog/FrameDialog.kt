@@ -42,7 +42,7 @@ class FrameDialog : DialogFragment() {
         }
         //lensSpin.setSelection(arguments?.getInt("lensIdx")!!)
 
-        val notesText = rootView.findViewById<View>(R.id.frame_notes_edit) as TextView
+        val notesText = rootView.findViewById<View>(R.id.frame_notes) as TextView
         notesText.text = arguments?.getString("notes")
 
         val saveButton = rootView.findViewById<View>(R.id.save_button) as Button

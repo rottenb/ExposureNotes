@@ -6,13 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Button
-import android.widget.ListView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.brianmk.exposurenotes.R
-import com.brianmk.exposurenotes.adapter.LensArrayAdapter
 
 
 class LensDialog : DialogFragment() {
@@ -31,39 +28,79 @@ class LensDialog : DialogFragment() {
         }
 
         val lensList: MutableList<String> = mutableListOf()
-        lensList.addAll(arguments?.getStringArray("lenses")!!)
+        lensList.addAll(arguments?.getStringArray("lenses")!!.slice(1 until arguments?.getStringArray("lenses")!!.size))
 
         val lensListView = rootView.findViewById<View>(R.id.lens_list) as ListView
-        val lensAdapter = LensArrayAdapter(rootView.context, lensList)
+        val lensAdapter = ArrayAdapter<String>(rootView.context, R.layout.item_lens_list, lensList)
         lensListView.adapter = lensAdapter
 
+        val makerList = arguments?.getStringArray("makers")!!
+        val makerText = rootView.findViewById<View>(R.id.maker_edit) as AutoCompleteTextView
+        makerText.setAdapter(ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, makerList))
+
+        val modelText = rootView.findViewById<View>(R.id.model_edit) as EditText
+
         lensListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
-            if (pos == 0) {
-                lensList.add("AA New lens, lol")
-                lensList.sort()
-                lensAdapter.notifyDataSetChanged()
+            for (i in 0 until makerList.size ) {
+                if (lensList[pos].contains(makerList[i])) {
+                    makerText.setText(makerList[i])
+                    modelText.setText(lensList[pos].removePrefix("${makerText.text} "))
+                }
             }
         }
 
         lensListView.onItemLongClickListener = AdapterView.OnItemLongClickListener { _, _, pos, _ ->
-            if (pos > 0) {
-                val alertBuilder = AlertDialog.Builder(rootView.context)
-                alertBuilder.setMessage("Note: Any frame that used this lens will be reset.")
-                alertBuilder.setPositiveButton("Ok") { _, _ ->
-                    lensList.removeAt(pos)
-                    lensAdapter.notifyDataSetChanged()
-
-                    //dismiss()
-                }
-                alertBuilder.setNegativeButton("No, wait") { _, _ -> } // do nothing
-
-                val warnDialog: Dialog = alertBuilder.create()
-                warnDialog.show()
+            val alertBuilder = AlertDialog.Builder(rootView.context)
+            alertBuilder.setMessage("Note: Any frame that used this lens will be reset.")
+            alertBuilder.setPositiveButton("Ok") { _, _ ->
+                lensList.removeAt(pos)
+                lensList.sort()
+                lensAdapter.notifyDataSetChanged()
             }
+            alertBuilder.setNegativeButton("No, wait") { _, _ -> } // do nothing
 
+            val warnDialog: Dialog = alertBuilder.create()
+            warnDialog.show()
 
             true
         }
+
+        val addButton = rootView.findViewById<View>(R.id.add_button) as Button
+        addButton.setOnClickListener {
+            if (makerText.text.toString() == "" || modelText.text.toString() == "") {
+                Toast.makeText(rootView.context, "Make and Model required!", Toast.LENGTH_LONG).show()
+            } else {
+                val modelStr = "${makerText.text} ${modelText.text}"
+                if (!lensList.contains(modelStr)) {
+                    lensList.add(modelStr)
+                    lensList.sort()
+                    lensAdapter.notifyDataSetChanged()
+                    makerText.setText("")
+                    modelText.setText("")
+                }
+            }
+        }
+
+        val closeButton = rootView.findViewById<View>(R.id.close_button) as Button
+        closeButton.setOnClickListener {
+            dismiss()
+        }
+
+        return rootView
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+    }
+
+    companion object {
+        private val LOG_TAG = CameraDialog::class.java.simpleName
+    }
+}
+
+
 
 
 
@@ -168,22 +205,3 @@ class LensDialog : DialogFragment() {
 
         }
 */
-
-        val cancelButton = rootView.findViewById<View>(com.brianmk.exposurenotes.R.id.cancel_button) as Button
-        cancelButton.setOnClickListener {
-            dismiss()
-        }
-
-        return rootView
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-    }
-
-    companion object {
-        private val LOG_TAG = CameraDialog::class.java.simpleName
-    }
-}

@@ -5,9 +5,10 @@
 
     <!-- Main Menu -->
     <string name="app_settings">App Settings</string>
-    <string name="camera_settings">Camera Settings</string>
-    <string name="lens_settings">Lens Inventory</string>
-    <string name="film_settings">Film Settings</string>
+    <string name="camera_settings">Camera</string>
+    <string name="lens_settings">Lens</string>
+    <string name="film_settings">Film</string>
+    <string name="frame_settings">Frame</string>
     <string name="load_roll">Load Active Roll</string>
 
     <!-- Export Dialog -->
@@ -40,6 +41,8 @@
     <!-- Film Info -->
     <string name="film_header">Film:</string>
     <string name="manu_header">Manufacturer:</string>
+    <string name="make_header">Make:</string>
+    <string name="model_header">Model:</string>
     <string name="iso_header">ISO:</string>
     <string name="dev_header">Dev:</string>
     <string name="film_size_header">Film Size:</string>
@@ -102,7 +105,7 @@
 
     <!-- Button Text -->
     <string name="ok_button">OK</string>
-    <string name="export_button">Export Film Info</string>
+    <string name="export_button">Export</string>
     <string name="cancel_button">Cancel</string>
     <string name="clear_button">Clear</string>
     <string name="save_button">Save</string>
@@ -190,7 +193,7 @@
     <string name="camera_dialog_title">Camera Settings</string>
     <string name="film_dialog_title">Film Settings</string>
     <string name="quick_settings_title">Quick Settings</string>
-    <string name="export_dialog_title">Export Film Roll Data</string>
+    <string name="export_dialog_title">Export Film Roll</string>
     <string name="lens_dialog_title">Lens Settings</string>
     <string name="lens_selection">Lens Selection:</string>
     <string name="camera_selection">Camera Selection:</string>
@@ -218,7 +221,7 @@
     <string name="delete_button">Delete</string>
     <string name="info_text">Info Text</string>
 
-    <string name="lens_dialog_info">• Tap "Add New" to add new lens.\n• Tap lens to edit.\n• Hold on lens to delete.</string>
+    <string name="lens_dialog_info">• Enter lens make and model to add new\n• Tap lens to edit.\n• Hold on lens to delete.</string>
 
     <string-array name="camera_list">
         <item>Canon FTb QL</item>
