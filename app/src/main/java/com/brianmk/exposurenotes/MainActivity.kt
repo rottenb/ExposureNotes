@@ -71,21 +71,16 @@ class MainActivity : AppCompatActivity() {
 
         exposureDB = Room.databaseBuilder(applicationContext,
                                     ExposureNotesDatabase::class.java,
-                              "exposure_notes_db").fallbackToDestructiveMigration().build()
-        loadDatabase()
-/*
+                              "exposure_notes_db").build()
+
+
         doAsync {
             // If there's a frame info to load, do that
-            //  Otherwise load an empty list
             if (exposureDB.frameInfoDao().getAll().isNotEmpty()) {
                 loadDatabase()
-            } else {
-                for (i in 0 until currentFilm.frames) {
-                    frameDataList.add(i, FrameData())
-                }
             }
         }
-*/
+
         updateNotesHeader()
 
         // Create an adapter with the list data, attach that to the list view
@@ -205,10 +200,10 @@ class MainActivity : AppCompatActivity() {
                 exposureDB.frameInfoDao().insert(frame)
             }
 
-            val products = ProductNamesTable(0, productNames.makers.joinToString(separator = "•"),
-                                                     productNames.cameraModels.joinToString(separator = "•"),
-                                                     productNames.lensModels.joinToString(separator = "•"),
-                                                     productNames.filmModels.joinToString(separator = "•"))
+            val products = ProductNamesTable(0, productNames.makers.joinToString(separator = resources.getString(R.string.DB_DELIMITER)),
+                                                     productNames.cameraModels.joinToString(separator = resources.getString(R.string.DB_DELIMITER)),
+                                                     productNames.lensModels.joinToString(separator = resources.getString(R.string.DB_DELIMITER)),
+                                                     productNames.filmModels.joinToString(separator = resources.getString(R.string.DB_DELIMITER)))
             if (exposureDB.productNamesDao().getAll().isEmpty()) {
                 exposureDB.productNamesDao().insert(products)
             } else {
@@ -229,10 +224,10 @@ class MainActivity : AppCompatActivity() {
             val frames = exposureDB.frameInfoDao().getAll()
 
             val products = exposureDB.productNamesDao().getAll()[0]
-            productNames.makers = products.cameraMakers.split("•") as MutableList<String>
-            productNames.cameraModels = products.cameraModels.split("•") as MutableList<String>
-            productNames.lensModels = products.lensModels.split("•") as MutableList<String>
-            productNames.filmModels = products.filmModels.split("•") as MutableList<String>
+            productNames.makers = products.cameraMakers.split(resources.getString(R.string.DB_DELIMITER)) as MutableList<String>
+            productNames.cameraModels = products.cameraModels.split(resources.getString(R.string.DB_DELIMITER)) as MutableList<String>
+            productNames.lensModels = products.lensModels.split(resources.getString(R.string.DB_DELIMITER)) as MutableList<String>
+            productNames.filmModels = products.filmModels.split(resources.getString(R.string.DB_DELIMITER)) as MutableList<String>
 
             uiThread {
                 if (frames.isNotEmpty()) {
@@ -472,32 +467,32 @@ class MainActivity : AppCompatActivity() {
         lensDialog.show(fm, "Lens Dialog")
     } // setLensDialog
 
-    fun setLensData(maker: String, model: String, delete: Boolean = false, lensIdx: Int = -1, save: Boolean = false) {
-        val modelString = "$maker $model"
-
-        // Remove from list of lenses
-        if (delete) {
-            productNames.lensModels.remove(modelString)
-            for (i in 0 until frameDataList.size) {
-                if (frameDataList[i].lens == modelString) {
-                    frameDataList[i].lens = ""
-                }
-            }
-        } else {
-            if (!productNames.makers.contains(maker)) {
-                productNames.makers.add(maker)
-            }
-            // Swap new lens for old one
-            if (lensIdx >= 0) {
-                productNames.lensModels[lensIdx] = modelString
-            } else {
-                if (!productNames.lensModels.contains(modelString)) {
-                    productNames.lensModels.add(modelString)
-                }
-            }
+    fun updateLensData(make: String, oldLens: String, newLens: String) {
+        // Add product maker to list of product makers, if not on the list of product makers
+        if (make != "" && !productNames.makers.contains(make)) {
+            productNames.makers.add(make)
         }
 
-        productNames.lensModels.sort()
+        for (i in 0 until frameDataList.size) {
+            if (frameDataList[i].lens == oldLens) {
+                setFrameData(i, frameDataList[i].shutterIdx, frameDataList[i].apertureIdx, newLens, frameDataList[i].notes)
+            }
+        }
+    }
+
+    fun setLensData(make: String, lensList: MutableList<String>, save: Boolean = false, reset: Boolean = false) {
+        // Add product maker to list of product makers, if not on the list of product makers
+        if (make != "" && !productNames.makers.contains(make)) {
+            productNames.makers.add(make)
+        }
+
+        if (reset) {
+            productNames.resetLens()
+        } else {
+            productNames.lensModels.clear()
+            productNames.lensModels = lensList
+            productNames.lensModels.sort()
+        }
 
         if (save) {
             saveDatabase()

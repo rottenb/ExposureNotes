@@ -8,8 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.brianmk.exposurenotes.R
 
-class LensArrayAdapter internal constructor(context: Context, lensList: MutableList<String>) : ArrayAdapter<String>(context, 0, lensList) {
-
+class LensArrayAdapter internal constructor(context: Context, resId: Int, lensList: MutableList<String>) : ArrayAdapter<String>(context, resId, lensList) {
     override fun getView(pos: Int, view: View?, parent: ViewGroup): View {
         var rootView = view
         val lens = getItem(pos)
@@ -21,7 +20,7 @@ class LensArrayAdapter internal constructor(context: Context, lensList: MutableL
 
         val lensText = rootView?.findViewById<View>(R.id.lens_text) as TextView
 
-        lensText.text = lens
+        lensText.text = lens?.replace('♠', ' ')
 
         return rootView
     }

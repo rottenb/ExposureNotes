@@ -32,15 +32,15 @@ class FrameDialog : DialogFragment() {
         apertureSpin.setSelection(arguments?.getInt("aperture")!!)
 
         val lensSpin = rootView.findViewById<View>(R.id.lens_spinner) as Spinner
-        val lenses = arguments?.getStringArray("lenses")!!
-        lensSpin.adapter = ArrayAdapter(rootView.context, R.layout.item_spinner, lenses)
-        for (i in 0 until lenses.size) {
-            if (lenses[i] == arguments?.getString("lens")) {
+        val lensList = arguments?.getStringArray("lenses")!!
+        lensSpin.adapter = ArrayAdapter(rootView.context, R.layout.item_spinner, lensList)
+
+        for (i in 0 until lensList.size) {
+            if (lensList[i] == arguments?.getString("lens")) {
                 lensSpin.setSelection(i)
             }
 
         }
-        //lensSpin.setSelection(arguments?.getInt("lensIdx")!!)
 
         val notesText = rootView.findViewById<View>(R.id.frame_notes) as TextView
         notesText.text = arguments?.getString("notes")

@@ -3,6 +3,8 @@
     <string name="app_name">ExposureNotes</string>
     <string name="spinner_drop"> </string>
 
+    <string name="DB_DELIMITER">♣</string>
+
     <!-- Main Menu -->
     <string name="app_settings">App Settings</string>
     <string name="camera_settings">Camera</string>
@@ -113,6 +115,7 @@
     <string name="remove_button">Remove</string>
     <string name="close_button">Close</string>
     <string name="edit_button">Edit</string>
+    <string name="update_button">Update</string>
     <string name="add_new">Add New</string>
 
     <string-array name="camera_formats">

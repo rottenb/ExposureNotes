@@ -34,7 +34,6 @@ class CameraDialog : DialogFragment() {
                 makerText.setAdapter(ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, makerList))
                 makerText.setText("")
                 (activity as MainActivity).setProductNames(makers = makerList)
-
             }
             alertBuilder.setNegativeButton("No") { _, _ -> } // do nothing
 
@@ -75,14 +74,15 @@ class CameraDialog : DialogFragment() {
 
         // Lens attached to this camera (+ edit list on long press?)
         val lensSpin = rootView.findViewById<View>(R.id.lens_spinner) as Spinner
-        val lenses = arguments?.getStringArray("lenses")!!
-        lensSpin.adapter = ArrayAdapter(rootView.context, R.layout.item_spinner, lenses)
-        for (i in 0 until lenses.size) {
-            if (lenses[i] == arguments?.getString("lens")) {
+        val lensList = arguments?.getStringArray("lenses")!!
+
+        lensSpin.adapter = ArrayAdapter(rootView.context, R.layout.item_spinner, lensList)
+
+        for (i in 0 until lensList.size) {
+            if (lensList[i] == arguments?.getString("lens")) {
                 lensSpin.setSelection(i)
             }
         }
-        //lensSpin.setSelection(arguments?.getInt("lensIdx")!!)
 
         // Don't let the user save unless make/model is set
         val saveButton = rootView.findViewById<View>(R.id.save_button) as Button
