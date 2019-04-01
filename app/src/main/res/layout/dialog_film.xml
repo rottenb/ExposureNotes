@@ -31,7 +31,7 @@
         android:contentDescription="@string/info_text"
         android:scaleX="1.5"
         android:scaleY="1.5"
-        android:backgroundTint="@color/grey_blue"
+        android:backgroundTint="@color/colorPrimary"
         android:background="@drawable/help_box"/>
     <View
         android:layout_width="0dp"
@@ -45,30 +45,31 @@
     <!-- Manufacturer Name -->
     <TextView
         style="@style/DialogHeader"
-        android:id="@+id/maker_header"
-        android:layout_width="0dp"
+        android:id="@+id/make_header"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/double_margin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dialog_title"
-        android:text="@string/manu_header"/>
+        app:layout_constraintTop_toTopOf="@id/make_edit"
+        app:layout_constraintBottom_toBottomOf="@id/make_edit"
+        android:text="@string/make_header"/>
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="@dimen/default_margin"
-        app:layout_constraintTop_toTopOf="@id/maker_edit"
-        app:layout_constraintBottom_toBottomOf="@id/maker_edit"
-        app:layout_constraintStart_toStartOf="@id/maker_edit"
-        app:layout_constraintEnd_toEndOf="@id/maker_edit"
+        app:layout_constraintTop_toTopOf="@id/make_edit"
+        app:layout_constraintBottom_toBottomOf="@id/make_edit"
+        app:layout_constraintStart_toStartOf="@id/make_edit"
+        app:layout_constraintEnd_toEndOf="@id/make_edit"
         android:background="@drawable/border"/>
     <AutoCompleteTextView
-        android:id="@+id/maker_edit"
+        android:id="@+id/make_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/double_margin"
         android:padding="@dimen/double_padding"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/make_header"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/maker_header"
+        app:layout_constraintTop_toBottomOf="@id/dialog_title"
         android:textSize="@dimen/dialog_font_size"
         android:inputType="textCapWords"
         android:maxLines="1"
@@ -85,7 +86,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/maker_edit"
+        app:layout_constraintTop_toTopOf="@id/film_edit"
+        app:layout_constraintBottom_toBottomOf="@id/film_edit"
         android:text="@string/film_header"/>
     <View
         android:layout_width="0dp"
@@ -101,9 +103,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="@dimen/double_padding"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/make_edit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/film_header"
+        app:layout_constraintTop_toBottomOf="@id/make_edit"
         android:textSize="@dimen/dialog_font_size"
         android:inputType="textCapWords"
         android:maxLines="1"
@@ -114,6 +116,7 @@
         android:background="@android:color/transparent"/>
 
     <!-- Frame Count -->
+<!--
     <TextView
         style="@style/DialogHeader"
         android:id="@+id/frame_header"
@@ -129,12 +132,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_margin"
-        android:padding="@dimen/default_padding"
-        app:layout_constraintStart_toEndOf="@id/frame_header"
+        android:paddingTop="@dimen/default_padding"
+        android:paddingBottom="@dimen/default_padding"
+        app:layout_constraintStart_toStartOf="@id/make_edit"
         app:layout_constraintTop_toTopOf="@id/frame_header"
         app:layout_constraintBottom_toBottomOf="@id/frame_header"
         android:textColor="@color/black"
-        tools:text="@string/frame_num_header"
+        tools:text="@string/exp_count"
         android:background="@drawable/border"/>
     <NumberPicker
         android:id="@+id/frame_count"
@@ -150,21 +154,19 @@
         android:background="@drawable/border"
         android:elevation="20dp"
         android:visibility="gone"/>
-
+-->
     <!-- ISO Selection -->
     <TextView
         android:id="@+id/iso_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/double_margin"
-        android:layout_marginStart="@dimen/double_margin"
-        android:text="@string/iso_header"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/dialog_font_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/iso_spinner"
-        app:layout_constraintTop_toBottomOf="@id/number_text"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"/>
+        app:layout_constraintTop_toTopOf="@id/iso_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/iso_spinner"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/dialog_font_size"
+        android:text="@string/iso_header"/>
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -179,11 +181,9 @@
         android:id="@+id/iso_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/iso_header"
+        app:layout_constraintStart_toStartOf="@id/make_edit"
         app:layout_constraintEnd_toStartOf="@id/dev_header"
-        app:layout_constraintTop_toTopOf="@id/iso_header"
-        app:layout_constraintBottom_toBottomOf="@id/iso_header"
-        app:layout_constraintWidth_percent=".35"
+        app:layout_constraintTop_toBottomOf="@id/film_edit"
         tools:listitem="@layout/item_spinner">
     </Spinner>
 
@@ -192,10 +192,10 @@
         android:id="@+id/dev_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/double_margin"
         app:layout_constraintStart_toEndOf="@id/iso_spinner"
         app:layout_constraintEnd_toStartOf="@id/dev_spinner"
-        app:layout_constraintTop_toBottomOf="@id/number_text"
+        app:layout_constraintTop_toTopOf="@id/dev_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/dev_spinner"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/dialog_font_size"
         android:text="@string/dev_header"/>
@@ -208,7 +208,6 @@
         app:layout_constraintTop_toTopOf="@id/dev_spinner"
         app:layout_constraintBottom_toBottomOf="@id/dev_spinner"
         android:background="@drawable/border"/>
-
     <Spinner
         style="@style/SpinnerStyle"
         android:id="@+id/dev_spinner"
@@ -216,35 +215,32 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/dev_header"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/dev_header"
-        app:layout_constraintBottom_toBottomOf="@id/dev_header"
-        app:layout_constraintWidth_percent=".35"
+        app:layout_constraintTop_toTopOf="@id/iso_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/iso_spinner"
         tools:listitem="@layout/item_spinner">
     </Spinner>
 
     <!-- Action Buttons -->
     <!-- OK Button -->
     <Button
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Buttons"
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/cancel_button"
         app:layout_constraintTop_toBottomOf="@id/dev_spinner"
-        android:textSize="@dimen/dialog_font_size"
-        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:text="@string/save_button"/>
     <!-- Cancel Button -->
     <Button
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Buttons"
         android:id="@+id/cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/save_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/save_button"
-        android:textSize="@dimen/dialog_font_size"
-        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/save_button"
         android:text="@string/cancel_button"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

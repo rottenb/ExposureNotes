@@ -73,10 +73,16 @@ class MainActivity : AppCompatActivity() {
                                     ExposureNotesDatabase::class.java,
                               "exposure_notes_db").build()
 
-
         doAsync {
             // If there's a frame info to load, do that
-            if (exposureDB.frameInfoDao().getAll().isNotEmpty()) {
+            var dbExists = false
+            try {
+                dbExists = exposureDB.frameInfoDao().getAll().isNotEmpty()
+            } catch (e: Exception) {
+                deleteDB()
+            }
+
+            if (dbExists) {
                 loadDatabase()
             }
         }
@@ -101,6 +107,11 @@ class MainActivity : AppCompatActivity() {
                 setFilmDialog()
             }
         }
+
+        findViewById<View>(R.id.fab_add_new).setOnClickListener {
+            addFrame()
+            setFrameDialog(frameDataList.size - 1)
+        }
 /*
         findViewById<View>(R.id.roll_settings).setOnClickListener {
             val quickDialog = QuickSettingsDialog()
@@ -110,6 +121,12 @@ class MainActivity : AppCompatActivity() {
 */
         frameListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
             setFrameDialog(pos)
+        }
+
+        frameListView.onItemLongClickListener = AdapterView.OnItemLongClickListener { _, _, pos, _ ->
+            removeFrame(pos, true)
+
+            true
         }
 
     } // onCreate
@@ -135,7 +152,7 @@ class MainActivity : AppCompatActivity() {
             (findViewById<View>(R.id.film_setup_text) as TextView).setTextColor(getColor(R.color.colorPrimary))
         }
 
-        if (!cameraSet || !filmSet || currentFilm.frames <= 0) {
+        if (!cameraSet || !filmSet) {
             findViewById<View>(R.id.frame_list).visibility = View.INVISIBLE
             findViewById<View>(R.id.list_end_bar).visibility = View.INVISIBLE
             findViewById<View>(R.id.blank_list).visibility = View.VISIBLE
@@ -187,14 +204,14 @@ class MainActivity : AppCompatActivity() {
     private fun saveDatabase(showMsg: Boolean = true) {
         doAsync {
             val roll = RollInfoTable(0, currentCamera.maker, currentCamera.model, currentCamera.formatIdx, currentCamera.lens,
-                    currentFilm.maker, currentFilm.model, currentFilm.isoIdx, currentFilm.frames, currentFilm.devIdx)
+                    currentFilm.maker, currentFilm.model, currentFilm.isoIdx, currentFilm.devIdx, frameDataList.size)
             if (exposureDB.rollInfoDao().getAll().isEmpty()) {
                 exposureDB.rollInfoDao().insert(roll)
             } else {
                 exposureDB.rollInfoDao().update(roll)
             }
 
-            for (i in 0 until currentFilm.frames) {
+            for (i in 0 until frameDataList.size) {
                 val frame = FrameInfoTable(i, frameDataList[i].shutterIdx, frameDataList[i].apertureIdx, frameDataList[i].lens, frameDataList[i].notes)
 
                 exposureDB.frameInfoDao().insert(frame)
@@ -232,11 +249,12 @@ class MainActivity : AppCompatActivity() {
             uiThread {
                 if (frames.isNotEmpty()) {
                     setCameraData(roll[0].cameraMaker, roll[0].cameraName,roll[0].cameraFormatIdx, roll[0].cameraLens)
-                    setFilmData(roll[0].filmMaker, roll[0].filmName, roll[0].filmIsoIdx, roll[0].filmFrames, roll[0].filmDevIdx)
+                    setFilmData(roll[0].filmMaker, roll[0].filmName, roll[0].filmIsoIdx, roll[0].filmDevIdx)
                     updateNotesHeader()
 
+
                     frameDataList.clear()
-                    for (i in 0 until currentFilm.frames) {
+                    for (i in 0 until roll[0].frameCount) {
                         frameDataList.add(i, FrameData(frames[i].shutterIdx, frames[i].apertureIdx, frames[i].lens, frames[i].notes))
                     }
 
@@ -246,11 +264,8 @@ class MainActivity : AppCompatActivity() {
                 if (showMsg) {
                     toast("Loaded")
                 }
-
             }
         }
-
-
     }
 
     private fun deleteDB() {
@@ -297,9 +312,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         clearFilmRoll(false)
-        currentFilm.frames = Random().nextInt(36) + 1
+        val frames = Random().nextInt(36) + 1
 
-        for (i in 0 until currentFilm.frames) {
+        for (i in 0 until frames) {
             frameDataList.add(i, FrameData(Random().nextInt(5),
                                            Random().nextInt(5),
                                            "Brian Sucks",
@@ -327,7 +342,6 @@ class MainActivity : AppCompatActivity() {
             alertBuilder.setMessage("Clear all frame data?")
             alertBuilder.setPositiveButton("YES") { _, _ ->
                 frameDataList.clear()
-                currentFilm.frames = 0
 
                 setListVisibility()
 
@@ -344,7 +358,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             frameDataList.clear()
 
-            currentFilm.frames = 0
 
             setListVisibility()
 
@@ -377,10 +390,16 @@ class MainActivity : AppCompatActivity() {
         val args = Bundle()
 
         // If not the first frame, and not blank, take defaults from previous
-        if (pos != 0 && frameDataList[pos].shutterIdx == 0 && frameDataList[pos].apertureIdx == 0) {
-            args.putInt("shutter", frameDataList[pos - 1].shutterIdx)
-            args.putInt("aperture", frameDataList[pos - 1].apertureIdx)
-            args.putString("lens", frameDataList[pos - 1].lens)
+        if (frameDataList[pos].shutterIdx == 0 && frameDataList[pos].apertureIdx == 0) {
+            if (pos == 0) {
+                args.putInt("shutter", frameDataList[pos].shutterIdx)
+                args.putInt("aperture", frameDataList[pos].apertureIdx)
+                args.putString("lens", currentCamera.lens)
+            } else {
+                args.putInt("shutter", frameDataList[pos - 1].shutterIdx)
+                args.putInt("aperture", frameDataList[pos - 1].apertureIdx)
+                args.putString("lens", frameDataList[pos - 1].lens)
+            }
         } else {
             args.putInt("shutter", frameDataList[pos].shutterIdx)
             args.putInt("aperture", frameDataList[pos].apertureIdx)
@@ -413,6 +432,10 @@ class MainActivity : AppCompatActivity() {
             saveDatabase(true)
         }
     } // setFrameData
+
+    fun cancelFrame() {
+        removeFrame(frameDataList.size - 1)
+    }
 
     private fun setCameraDialog() {
         val args = Bundle()
@@ -489,6 +512,7 @@ class MainActivity : AppCompatActivity() {
         if (reset) {
             productNames.resetLens()
         } else {
+            productNames.lensModels = productNames.lensModels.toMutableList()
             productNames.lensModels.clear()
             productNames.lensModels = lensList
             productNames.lensModels.sort()
@@ -506,7 +530,6 @@ class MainActivity : AppCompatActivity() {
         args.putString("maker", currentFilm.maker)
         args.putString("model", currentFilm.model)
         args.putInt("iso", currentFilm.isoIdx)
-        args.putInt("frames", currentFilm.frames)
         args.putInt("dev", currentFilm.devIdx)
 
         val filmDialog = FilmDialog()
@@ -516,12 +539,9 @@ class MainActivity : AppCompatActivity() {
         filmDialog.show(fm, "Film Dialog")
     } // setFilmDialog
 
-    fun setFilmData(maker: String, model: String, isoIdx: Int, frames: Int, devIdx: Int, save: Boolean = false) {
-        updateFrameCount(frames)
-
+    fun setFilmData(maker: String, model: String, isoIdx: Int, devIdx: Int, save: Boolean = false) {
         currentFilm.maker = maker
         currentFilm.model = model
-        currentFilm.frames = frames
         currentFilm.isoIdx = isoIdx
         currentFilm.devIdx = devIdx
 
@@ -539,23 +559,46 @@ class MainActivity : AppCompatActivity() {
         updateNotesHeader()
     } // setFilmData
 
+    private fun removeFrame(pos: Int, warn: Boolean = false) {
+        if (warn) {
+            val alertBuilder = androidx.appcompat.app.AlertDialog.Builder(this)
+            alertBuilder.setMessage("Remove this frame?")
+            alertBuilder.setPositiveButton("Yes") { _, _ ->
+                frameDataList.removeAt(pos)
+                frameArrayAdapter?.notifyDataSetInvalidated()
+            }
+            alertBuilder.setNegativeButton("No") { _, _ -> } // do nothing
+
+            val warnDialog: Dialog = alertBuilder.create()
+            warnDialog.show()
+        } else {
+            frameDataList.removeAt(pos)
+            frameArrayAdapter?.notifyDataSetInvalidated()
+        }
+    }
+
+    private fun addFrame() {
+        frameDataList.add(FrameData())
+        frameArrayAdapter?.notifyDataSetInvalidated()
+    }
+/*
     private fun updateFrameCount(frames: Int) {
         // Change the frame list to reflect the new size
         // If new film is larger, add frames.
         // If new film is smaller, remove frames from the bottom
-        if (currentFilm.frames < frames) {
-            for(i in currentFilm.frames until frames) {
+        if (frameDataList.size < frames) {
+            for(i in frameDataList.size until frames) {
                 frameDataList.add(i, FrameData())
             }
-        } else if (currentFilm.frames > frames) {
-            for(i in currentFilm.frames - 1 downTo frames) {
+        } else if (frameDataList.size > frames) {
+            for(i in frameDataList.size - 1 downTo frames) {
                 frameDataList.removeAt(i)
             }
         }
 
         frameArrayAdapter?.notifyDataSetInvalidated()
     }
-
+*/
     private fun updateNotesHeader() {
         var textView = findViewById<View>(R.id.camera_name) as TextView
         var str = "${currentCamera.maker} ${currentCamera.model}"

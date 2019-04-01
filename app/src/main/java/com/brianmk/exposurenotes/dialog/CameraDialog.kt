@@ -2,6 +2,7 @@ package com.brianmk.exposurenotes.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,6 +18,8 @@ class CameraDialog : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
         val rootView = inflater.inflate(R.layout.dialog_camera, container)
         rootView.setBackgroundColor(Color.TRANSPARENT)
+        // Help information for this dialog
+        rootView.findViewById<View>(R.id.info_text).setOnClickListener { showHelp(rootView.context) }
 
         // Camera manufacturer edit
         val makerList: MutableList<String> = mutableListOf()
@@ -115,11 +118,20 @@ class CameraDialog : DialogFragment() {
         return rootView
     }
 
+    private fun showHelp(context: Context) {
+        // Help information for this dialog
+        val infoBuilder = androidx.appcompat.app.AlertDialog.Builder(context)
+        infoBuilder.setTitle("Camera Settings:")
+        infoBuilder.setMessage(resources.getString(R.string.camera_dialog_info))
+        infoBuilder.setPositiveButton("Ok") { _, _ -> } // Do nothing, just disappear
+        infoBuilder.create().show()
+    }
+
     // This ensures the dialog fills the screen
     override fun onResume() {
         super.onResume()
 
-        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
      }
 
 

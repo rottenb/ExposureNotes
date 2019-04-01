@@ -26,8 +26,9 @@ data class RollInfoTable(@PrimaryKey @ColumnInfo(name = "idx") val idx: Int,
                     @ColumnInfo(name = "film_maker") val filmMaker: String,
                     @ColumnInfo(name = "film_name") val filmName: String,
                     @ColumnInfo(name = "film_isoIdx") val filmIsoIdx: Int,
-                    @ColumnInfo(name = "film_frames") val filmFrames: Int,
-                    @ColumnInfo(name = "film_devIdx") val filmDevIdx: Int)
+                    @ColumnInfo(name = "film_devIdx") val filmDevIdx: Int,
+
+                    @ColumnInfo(name = "frame_count") val frameCount: Int)
 // Entities
 @Dao
 interface ProductNamesDao {

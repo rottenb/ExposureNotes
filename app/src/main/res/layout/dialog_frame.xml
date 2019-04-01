@@ -31,7 +31,7 @@
         android:contentDescription="@string/info_text"
         android:scaleX="1.5"
         android:scaleY="1.5"
-        android:backgroundTint="@color/grey_blue"
+        android:backgroundTint="@color/colorPrimary"
         android:background="@drawable/help_box"/>
     <View
         android:layout_width="0dp"

@@ -11,6 +11,7 @@
     <string name="lens_settings">Lens</string>
     <string name="film_settings">Film</string>
     <string name="frame_settings">Frame</string>
+    <string name="product_names">Autocomplete Lists</string>
     <string name="load_roll">Load Active Roll</string>
 
     <!-- Export Dialog -->
@@ -97,13 +98,14 @@
 
     <!-- Frame Notes -->
     <string name="frame_num_header">#</string>
+    <string name="exp_count">##</string>
     <string name="shutter_header">Shutter:</string>
     <string name="aperture_header">Aperture:</string>
     <string name="notes_header">Notes:</string>
     <string name="notes_hint">dogs</string>
     <string name="shutter_hint">1/500</string>
     <string name="aperture_hint">f/3.5</string>
-    <string name="frame_header">Frame Count:</string>
+    <string name="frame_header">Exp\'s:</string>
 
     <!-- Button Text -->
     <string name="ok_button">OK</string>
@@ -199,6 +201,7 @@
     <string name="export_dialog_title">Export Film Roll</string>
     <string name="lens_dialog_title">Lens Settings</string>
     <string name="lens_selection">Lens Selection:</string>
+    <string name="product_group_selection">Group:</string>
     <string name="camera_selection">Camera Selection:</string>
     <string name="film_selection">Film Selection:</string>
     <string name="lens_fixed_select">Lens (fixed):</string>
@@ -209,8 +212,6 @@
     <string name="frame_select">Frame Select:</string>
     <string name="application_settings">Application Settings</string>
     <string name="welcome_msg">Tap to get started:</string>
-
-    <string name="about_text">Set up both camera and film settings.\nTap a frame to add/edit exposure info.\nExport film roll and feed the json output to Exiftool (via a quick Python script, roll your own or download soon), making sure to match your scans.\n\nhttps://www.sno.phy.queensu.ca/~phil/exiftool/</string>
     <string name="script_button">Download Script</string>
     <string name="lens_model_text">000mm f/0.0</string>
     <string name="focal_length">Focal Length:</string>
@@ -224,7 +225,14 @@
     <string name="delete_button">Delete</string>
     <string name="info_text">Info Text</string>
 
+    <!-- Help Text -->
+    <string name="about_text">Set up both camera and film settings.\nTap a frame to add/edit exposure info.\nExport film roll and feed the json output to Exiftool (via a quick Python script, roll your own or download soon), making sure to match your scans.\n\nhttps://www.sno.phy.queensu.ca/~phil/exiftool/</string>
     <string name="lens_dialog_info">• Enter lens make and model to add new\n• Tap lens to edit.\n• Hold on lens to delete.</string>
+    <string name="film_dialog_info">• Enter film make and model\n• Enter ISO and development compensation (push/pull) settings\n• Save to commit settings, cancel to discard</string>
+    <string name="camera_dialog_info">• Enter camera make and model\n• Select camera format\n• Select default lens\n• Save to commit settings, cancel to discard</string>
+    <string name="frame_dialog_info">• Set shutter speed and aperture\n• Select lens\n• Add a short description of the shot\n• Save to commit, clear to reset everything, cancel to discard</string>
+    <string name="export_dialog_info">• Enter filename or leave as default\n• Choose method to save\n• Export or cancel</string>
+
 
     <string-array name="camera_list">
         <item>Canon FTb QL</item>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="@dimen/default_margin"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    android:background="@drawable/border">
+    <!-- Dialog Title -->
+    <TextView
+        style="@style/DialogTitle"
+        android:id="@+id/dialog_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_padding"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/product_names"/>
+    <ImageView
+        android:id="@+id/info_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/dialog_title"
+        app:layout_constraintBottom_toBottomOf="@id/dialog_title"
+        android:contentDescription="@string/info_text"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:backgroundTint="@color/grey_blue"
+        android:background="@drawable/help_box"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_title"
+        android:layout_margin="@dimen/half_margin"
+        android:background="@color/colorAccent"/>
+    <!-- List Select -->
+    <TextView
+        style="@style/DialogHeader"
+        android:id="@+id/group_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/group_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/group_spinner"
+        android:text="@string/product_group_selection"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/group_spinner"
+        app:layout_constraintEnd_toEndOf="@id/group_spinner"
+        app:layout_constraintTop_toTopOf="@id/group_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/group_spinner"
+        android:layout_margin="@dimen/default_margin"
+        android:background="@drawable/border"/>
+    <Spinner
+        style="@style/SpinnerStyle"
+        android:id="@+id/group_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/group_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_title"
+        tools:listitem="@layout/item_spinner">
+    </Spinner>
+
+    <!-- List of Names -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
