@@ -17,18 +17,18 @@
         <item
             android:id="@+id/main_menu_camera"
             android:orderInCategory="200"
-            android:title="@string/camera_settings"
+            android:title="Set Camera"
             android:icon="@drawable/camera"/>
 
         <item
             android:id="@+id/main_menu_lens"
-            android:orderInCategory="300"
+            android:orderInCategory="400"
             android:title="Lens Inventory"/>
 
         <item
             android:id="@+id/main_menu_film"
-            android:orderInCategory="400"
-            android:title="@string/film_settings"
+            android:orderInCategory="300"
+            android:title="Set Film"
             android:icon="@drawable/film"/>
 
         <item
@@ -39,18 +39,15 @@
             android:id="@+id/main_menu_export_roll"
             android:orderInCategory="600"
             android:icon="@drawable/file_export"
-            android:title="@string/export_roll"
-            app:showAsAction="always"/>
-<!--
-        <item
-            android:id="@+id/main_menu_junk"
-            android:orderInCategory="1000"
-            android:title="TEST DATA"/>
--->
+            android:title="@string/export_roll"/>
+
         <item
             android:orderInCategory="2000"
-            android:title="Database Admin">
+            android:title="Admin Options">
             <menu>
+                <item
+                    android:id="@+id/autocomplete_edit"
+                    android:title="Edit Autocomplete Lists"/>
                 <item
                     android:id="@+id/database_menu_save"
                     android:title="Save Database"/>
@@ -60,12 +57,7 @@
                 <item
                     android:id="@+id/database_menu_delete"
                     android:title="Delete Database"/>
-<!--
-                <item
-                    android:id="@+id/database_menu_test"
-                    android:orderInCategory="100"
-                    android:title="TEST DB"/>
--->
+
             </menu>
         </item>
     </group>

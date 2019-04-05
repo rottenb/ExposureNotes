@@ -25,7 +25,6 @@ import org.jetbrains.anko.uiThread
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private var frameDataList: MutableList<FrameData> = mutableListOf()
@@ -191,11 +190,10 @@ class MainActivity : AppCompatActivity() {
             R.id.main_menu_film -> setFilmDialog()
             R.id.main_menu_clear_roll -> clearFilmRoll()
             R.id.main_menu_export_roll -> exportDialog()
-//          R.id.main_menu_junk -> fillWithTestData()
+            R.id.autocomplete_edit -> autocompleteDialog()
             R.id.database_menu_save -> saveDatabase()
             R.id.database_menu_load -> loadDatabase()
             R.id.database_menu_delete -> deleteDB()
-//          R.id.database_menu_test -> testDB()
         }
 
         return super.onOptionsItemSelected(item)
@@ -283,59 +281,6 @@ class MainActivity : AppCompatActivity() {
         clearFilmRoll(false)
     }
 
-    private fun testDB() {
-        doAsync {
-
-
-            uiThread {
-            }
-
-        }
-    } // testDB
-
-    // Fill frame list with random test data
-    private fun fillWithTestData() {
-        fun getRandomString() : String {
-            val paragraph = arrayOf("Lorem ", "ipsum ", "dolor ", "sit ", "amet ", "consectetur ",
-                    "adipiscing ", "elit ", "Nulla ",  "id ", "feugiat ", "metus ", "Fusce ", "vulputate ",
-                    "elit ", "in ", "consectetur ", "hendrerit ", "Donec ", "ut ", "ullamcorper ", "tortor ",
-                    "Fusce ", "viverra ", "justo ", "a ", "magna ", "accumsan ", "at ", "malesuada ", "orci ",
-                    "pharetra. ")
-
-            var str = ""
-            val limit = Random().nextInt(4) + 2
-            for (i in 1 until limit) {
-                str += paragraph[Random().nextInt(paragraph.size)]
-            }
-
-            return str
-        }
-
-        clearFilmRoll(false)
-        val frames = Random().nextInt(36) + 1
-
-        for (i in 0 until frames) {
-            frameDataList.add(i, FrameData(Random().nextInt(5),
-                                           Random().nextInt(5),
-                                           "Brian Sucks",
-                                           getRandomString() ))
-        }
-
-        currentCamera.maker = "Mamiya"
-        currentCamera.model = "RB67sd"
-        currentCamera.formatIdx = 2
-
-        currentFilm.maker = "Ilford"
-        currentFilm.model = "HP5+"
-        currentFilm.isoIdx = Random().nextInt(11) + 1
-        currentFilm.devIdx = Random().nextInt(6) + 1
-
-        updateNotesHeader()
-        setListVisibility()
-
-        frameArrayAdapter?.notifyDataSetInvalidated()
-    } // fillFilmRollJunk
-
     private fun clearFilmRoll(showWarning: Boolean = true) {
         if (showWarning) {
             val alertBuilder = AlertDialog.Builder(this)
@@ -384,6 +329,39 @@ class MainActivity : AppCompatActivity() {
         productNames.filmModels = filmModels
         productNames.lensModels = lensModels
     }
+
+    private fun autocompleteDialog() {
+        val args = Bundle()
+        args.putStringArray("makers", productNames.makers.toTypedArray())
+        args.putStringArray("cameras", productNames.cameraModels.toTypedArray())
+        args.putStringArray("film", productNames.filmModels.toTypedArray())
+        args.putStringArray("lenses", productNames.lensModels.toTypedArray())
+
+        val autocompleteDialog = AutocompleteDialog()
+        autocompleteDialog.arguments = args
+        autocompleteDialog.show(supportFragmentManager, "Autocomplete Dialog")
+    }
+
+    fun saveAutocompleteLists(makes: MutableList<String>, cameras: MutableList<String>, film: MutableList<String>, lenses: MutableList<String>) {
+        productNames.makers.toMutableList()
+        productNames.makers.clear()
+        productNames.makers = makes
+
+        productNames.cameraModels.toMutableList()
+        productNames.cameraModels.clear()
+        productNames.cameraModels = cameras
+
+        productNames.filmModels.toMutableList()
+        productNames.filmModels.clear()
+        productNames.filmModels = film
+
+        productNames.lensModels.toMutableList()
+        productNames.lensModels.clear()
+        productNames.lensModels = lenses
+
+        saveDatabase()
+    }
+
 
     // Set arguments to pass to the frame dialog, call the dialog
     private fun setFrameDialog(pos: Int) {
@@ -503,20 +481,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun setLensData(make: String, lensList: MutableList<String>, save: Boolean = false, reset: Boolean = false) {
+    fun setLensData(make: String, lensList: MutableList<String>, save: Boolean = false) {
         // Add product maker to list of product makers, if not on the list of product makers
         if (make != "" && !productNames.makers.contains(make)) {
             productNames.makers.add(make)
         }
 
-        if (reset) {
-            productNames.resetLens()
-        } else {
-            productNames.lensModels = productNames.lensModels.toMutableList()
-            productNames.lensModels.clear()
-            productNames.lensModels = lensList
-            productNames.lensModels.sort()
-        }
+        productNames.lensModels = productNames.lensModels.toMutableList()
+        productNames.lensModels.clear()
+        productNames.lensModels = lensList
+        productNames.lensModels.sort()
 
         if (save) {
             saveDatabase()
@@ -581,24 +555,7 @@ class MainActivity : AppCompatActivity() {
         frameDataList.add(FrameData())
         frameArrayAdapter?.notifyDataSetInvalidated()
     }
-/*
-    private fun updateFrameCount(frames: Int) {
-        // Change the frame list to reflect the new size
-        // If new film is larger, add frames.
-        // If new film is smaller, remove frames from the bottom
-        if (frameDataList.size < frames) {
-            for(i in frameDataList.size until frames) {
-                frameDataList.add(i, FrameData())
-            }
-        } else if (frameDataList.size > frames) {
-            for(i in frameDataList.size - 1 downTo frames) {
-                frameDataList.removeAt(i)
-            }
-        }
 
-        frameArrayAdapter?.notifyDataSetInvalidated()
-    }
-*/
     private fun updateNotesHeader() {
         var textView = findViewById<View>(R.id.camera_name) as TextView
         var str = "${currentCamera.maker} ${currentCamera.model}"
@@ -657,7 +614,7 @@ class MainActivity : AppCompatActivity() {
         private val LOG_TAG = MainActivity::class.java.simpleName
 
         // Storage Permissions
-        private val REQUEST_EXTERNAL_STORAGE = 1
+        private const val REQUEST_EXTERNAL_STORAGE = 1
         private val PERMISSIONS_STORAGE = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
 

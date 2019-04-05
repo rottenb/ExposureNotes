@@ -59,7 +59,6 @@ class LensDialog : DialogFragment() {
             for (i in 0 until makerList.size ) {
                 if (lensList[pos].contains(makerList[i])) {
                     makerText.setText(makerList[i])
-                    //modelText.setText(lensList[pos].split(delim)[1])
                     modelText.setText(lensList[pos].split("${makerList[i]} ")[1])
                     break
                 }
@@ -69,7 +68,8 @@ class LensDialog : DialogFragment() {
         // Remove the lens from the list
         lensListView.onItemLongClickListener = AdapterView.OnItemLongClickListener { _, _, pos, _ ->
             val alertBuilder = AlertDialog.Builder(rootView.context)
-            alertBuilder.setMessage("Note: Any frame that used this lens will be reset.")
+            alertBuilder.setTitle(resources.getString(R.string.delete_alert_title))
+            alertBuilder.setMessage(resources.getString(R.string.lens_delete_msg))
             alertBuilder.setPositiveButton("Ok") { _, _ ->
                 (activity as MainActivity).updateLensData(makerText.text.toString(), lensList[pos], "Unknown")
                 (activity as MainActivity).setLensData(makerText.text.toString(), lensList, save = true)
@@ -158,6 +158,6 @@ class LensDialog : DialogFragment() {
     }
 
     companion object {
-        private val LOG_TAG = CameraDialog::class.java.simpleName
+        private val LOG_TAG = LensDialog::class.java.simpleName
     }
 }

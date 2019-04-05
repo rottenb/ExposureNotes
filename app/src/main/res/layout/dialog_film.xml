@@ -115,46 +115,6 @@
         android:autofillHints="@string/film_name"
         android:background="@android:color/transparent"/>
 
-    <!-- Frame Count -->
-<!--
-    <TextView
-        style="@style/DialogHeader"
-        android:id="@+id/frame_header"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/double_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/film_edit"
-        android:text="@string/frame_header"/>
-    <TextView
-        style="@style/DialogHeader"
-        android:id="@+id/number_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        android:paddingTop="@dimen/default_padding"
-        android:paddingBottom="@dimen/default_padding"
-        app:layout_constraintStart_toStartOf="@id/make_edit"
-        app:layout_constraintTop_toTopOf="@id/frame_header"
-        app:layout_constraintBottom_toBottomOf="@id/frame_header"
-        android:textColor="@color/black"
-        tools:text="@string/exp_count"
-        android:background="@drawable/border"/>
-    <NumberPicker
-        android:id="@+id/frame_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/half_margin"
-        android:padding="@dimen/default_padding"
-        android:scaleX="1.15"
-        android:scaleY="1.15"
-        app:layout_constraintStart_toEndOf="@id/number_text"
-        app:layout_constraintTop_toTopOf="@id/frame_header"
-        app:layout_constraintBottom_toBottomOf="@id/frame_header"
-        android:background="@drawable/border"
-        android:elevation="20dp"
-        android:visibility="gone"/>
--->
     <!-- ISO Selection -->
     <TextView
         android:id="@+id/iso_header"

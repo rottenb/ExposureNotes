@@ -29,7 +29,6 @@ data class RollInfoTable(@PrimaryKey @ColumnInfo(name = "idx") val idx: Int,
                     @ColumnInfo(name = "film_devIdx") val filmDevIdx: Int,
 
                     @ColumnInfo(name = "frame_count") val frameCount: Int)
-// Entities
 @Dao
 interface ProductNamesDao {
     @Query ("SELECT * FROM product_names_table ORDER BY idx ASC")
@@ -74,8 +73,6 @@ interface RollInfoDao {
     @Query ("DELETE FROM roll_info_table")
     fun deleteAll()
 }
-// DAOs
-
 
 @Database(entities = [ProductNamesTable::class, FrameInfoTable::class, RollInfoTable::class], version = 1, exportSchema = false)
 abstract class ExposureNotesDatabase : RoomDatabase() {

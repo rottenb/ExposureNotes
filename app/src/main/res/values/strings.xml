@@ -11,7 +11,7 @@
     <string name="lens_settings">Lens</string>
     <string name="film_settings">Film</string>
     <string name="frame_settings">Frame</string>
-    <string name="product_names">Autocomplete Lists</string>
+    <string name="autocomplete_list_edit">Autocomplete List Edit</string>
     <string name="load_roll">Load Active Roll</string>
 
     <!-- Export Dialog -->
@@ -46,15 +46,16 @@
     <string name="manu_header">Manufacturer:</string>
     <string name="make_header">Make:</string>
     <string name="model_header">Model:</string>
+    <string name="item_header">Item:</string>
     <string name="iso_header">ISO:</string>
-    <string name="dev_header">Dev:</string>
+    <string name="dev_header">Exp:</string>
     <string name="film_size_header">Film Size:</string>
     <string name="film_size">120</string>
     <string name="film_manu">Manufacturer Name</string>
     <string name="film_name">Film Name</string>
     <string name="film_notes">Additional information</string>
     <string name="iso_value">100</string>
-    <string name="dev_value">0</string>
+    <string name="dev_value">±0</string>
     <string name="clear_roll">Clear Film Roll</string>
     <string name="new_roll">New Film Roll</string>
     <string name="export_roll">Export Film Roll</string>
@@ -232,7 +233,19 @@
     <string name="camera_dialog_info">• Enter camera make and model\n• Select camera format\n• Select default lens\n• Save to commit settings, cancel to discard</string>
     <string name="frame_dialog_info">• Set shutter speed and aperture\n• Select lens\n• Add a short description of the shot\n• Save to commit, clear to reset everything, cancel to discard</string>
     <string name="export_dialog_info">• Enter filename or leave as default\n• Choose method to save\n• Export or cancel</string>
+    <string name="autocomplete_dialog_info">• Select group of names you\'d like to edit\n• Tap to edit single entry• Hold on entry to delete</string>
 
+    <!-- Alert Messages -->
+    <string name="delete_alert_title">Delete This Entry?</string>
+    <string name="lens_delete_msg">Note: Any frame that used this lens will be reset.</string>
+    <string name="item_delete_msg">This entry will be removed from the autocomplete list.</string>
+
+    <string-array name="autocomplete_groups">
+        <item>Manufacturers</item>
+        <item>Cameras</item>
+        <item>Film</item>
+        <item>Lenses</item>
+    </string-array>
 
     <string-array name="camera_list">
         <item>Canon FTb QL</item>
