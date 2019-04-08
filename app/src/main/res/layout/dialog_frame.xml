@@ -126,6 +126,50 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lens_header"
         tools:listitem="@layout/item_spinner"/>
+    <!-- Focal Length -->
+    <TextView
+        style="@style/DialogHeader"
+        android:id="@+id/focal_length_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/focal_length"
+        app:layout_constraintBottom_toBottomOf="@id/focal_length"
+        android:text="@string/focal_length_header"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/focal_length"
+        app:layout_constraintEnd_toEndOf="@id/focal_length"
+        app:layout_constraintTop_toTopOf="@id/focal_length"
+        app:layout_constraintBottom_toBottomOf="@id/focal_length"
+        android:layout_margin="@dimen/default_margin"
+        android:background="@drawable/border"/>
+    <EditText
+        android:id="@+id/focal_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/focal_length_header"
+        app:layout_constraintTop_toBottomOf="@id/lens_spinner"
+        android:padding="@dimen/double_padding"
+        android:textSize="@dimen/dialog_font_size"
+        android:inputType="number"
+        android:hint="@string/focal_length_hint"
+        android:autofillHints="@string/focal_hint"
+        android:gravity="end|center_vertical"
+        android:background="@android:color/transparent"/>
+    <TextView
+        style="@style/DialogHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:padding="0dp"
+        app:layout_constraintStart_toEndOf="@id/focal_length"
+        app:layout_constraintTop_toTopOf="@id/focal_length"
+        app:layout_constraintBottom_toBottomOf="@id/focal_length"
+        android:text="@string/focal_length_mm"/>
+
 
     <!-- Notes - "frame_notes" -->
     <TextView
@@ -133,7 +177,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lens_spinner"
+        app:layout_constraintTop_toBottomOf="@id/focal_length"
         app:layout_constraintBottom_toTopOf="@id/frame_notes"
         android:layout_marginTop="@dimen/double_margin"
         android:paddingStart="@dimen/double_padding"

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
@@ -18,10 +19,13 @@ import androidx.room.Room
 import com.brianmk.exposurenotes.adapter.FrameArrayAdapter
 import com.brianmk.exposurenotes.data.*
 import com.brianmk.exposurenotes.dialog.*
+import com.brianmk.exposurenotes.util.OutputHTML
 import com.brianmk.exposurenotes.util.OutputJSON
+import com.brianmk.exposurenotes.util.OutputTXT
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
+import org.json.JSONObject
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -109,7 +113,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.fab_add_new).setOnClickListener {
             addFrame()
-            setFrameDialog(frameDataList.size - 1)
+            setFrameDialog(frameDataList.size - 1, true)
         }
 /*
         findViewById<View>(R.id.roll_settings).setOnClickListener {
@@ -133,22 +137,42 @@ class MainActivity : AppCompatActivity() {
     private fun setListVisibility() {
         var cameraSet = false
         if ((findViewById<View>(R.id.camera_name) as TextView).text != " ") {
-            (findViewById<View>(R.id.camera_setup) as ImageView).setColorFilter(getColor(R.color.light_grey))
-            (findViewById<View>(R.id.camera_setup_text) as TextView).setTextColor(getColor(R.color.light_grey))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                (findViewById<View>(R.id.camera_setup) as ImageView).setColorFilter(getColor(R.color.light_grey))
+                (findViewById<View>(R.id.camera_setup_text) as TextView).setTextColor(getColor(R.color.light_grey))
+            } else {
+                (findViewById<View>(R.id.camera_setup) as ImageView).setColorFilter(14540253) // 14540253 = #DDDDDD = R.color.light_grey
+                (findViewById<View>(R.id.camera_setup_text) as TextView).setTextColor(14540253) // 14540253 = #DDDDDD = R.color.light_grey
+            }
             cameraSet = true
         } else {
-            (findViewById<View>(R.id.camera_setup) as ImageView).setColorFilter(getColor(R.color.colorPrimary))
-            (findViewById<View>(R.id.camera_setup_text) as TextView).setTextColor(getColor(R.color.colorPrimary))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                (findViewById<View>(R.id.camera_setup) as ImageView).setColorFilter(getColor(R.color.colorPrimary))
+                (findViewById<View>(R.id.camera_setup_text) as TextView).setTextColor(getColor(R.color.colorPrimary))
+            } else {
+                (findViewById<View>(R.id.camera_setup) as ImageView).setColorFilter(6061216) // 6061216 = #5C7CA0 = R.color.colorPrimary
+                (findViewById<View>(R.id.camera_setup_text) as TextView).setTextColor(6061216) // 6061216 = #5C7CA0 = R.color.colorPrimary
+            }
         }
 
         var filmSet = false
         if ((findViewById<View>(R.id.film_name) as TextView).text != " ") {
-            (findViewById<View>(R.id.film_setup) as ImageView).setColorFilter(getColor(R.color.light_grey))
-            (findViewById<View>(R.id.film_setup_text) as TextView).setTextColor(getColor(R.color.light_grey))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                (findViewById<View>(R.id.film_setup) as ImageView).setColorFilter(getColor(R.color.light_grey))
+                (findViewById<View>(R.id.film_setup_text) as TextView).setTextColor(getColor(R.color.light_grey))
+            } else {
+                (findViewById<View>(R.id.film_setup) as ImageView).setColorFilter(14540253) // 14540253 = #DDDDDD = R.color.light_grey
+                (findViewById<View>(R.id.film_setup_text) as TextView).setTextColor(14540253) // 14540253 = #DDDDDD = R.color.light_grey
+            }
             filmSet = true
         } else {
-            (findViewById<View>(R.id.film_setup) as ImageView).setColorFilter(getColor(R.color.colorPrimary))
-            (findViewById<View>(R.id.film_setup_text) as TextView).setTextColor(getColor(R.color.colorPrimary))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                (findViewById<View>(R.id.film_setup) as ImageView).setColorFilter(getColor(R.color.colorPrimary))
+                (findViewById<View>(R.id.film_setup_text) as TextView).setTextColor(getColor(R.color.colorPrimary))
+            } else {
+                (findViewById<View>(R.id.film_setup) as ImageView).setColorFilter(6061216) // 6061216 = #5C7CA0 = R.color.colorPrimary
+                (findViewById<View>(R.id.film_setup_text) as TextView).setTextColor(6061216) // 6061216 = #5C7CA0 = R.color.colorPrimary
+            }
         }
 
         if (!cameraSet || !filmSet) {
@@ -210,7 +234,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             for (i in 0 until frameDataList.size) {
-                val frame = FrameInfoTable(i, frameDataList[i].shutterIdx, frameDataList[i].apertureIdx, frameDataList[i].lens, frameDataList[i].notes)
+                val frame = FrameInfoTable(i, frameDataList[i].shutterIdx, frameDataList[i].apertureIdx, frameDataList[i].focalLength, frameDataList[i].lens, frameDataList[i].notes)
 
                 exposureDB.frameInfoDao().insert(frame)
             }
@@ -253,7 +277,7 @@ class MainActivity : AppCompatActivity() {
 
                     frameDataList.clear()
                     for (i in 0 until roll[0].frameCount) {
-                        frameDataList.add(i, FrameData(frames[i].shutterIdx, frames[i].apertureIdx, frames[i].lens, frames[i].notes))
+                        frameDataList.add(i, FrameData(frames[i].shutterIdx, frames[i].apertureIdx, frames[i].focalLength, frames[i].lens, frames[i].notes))
                     }
 
                     setListVisibility()
@@ -364,7 +388,7 @@ class MainActivity : AppCompatActivity() {
 
 
     // Set arguments to pass to the frame dialog, call the dialog
-    private fun setFrameDialog(pos: Int) {
+    private fun setFrameDialog(pos: Int, newFrame: Boolean = false) {
         val args = Bundle()
 
         // If not the first frame, and not blank, take defaults from previous
@@ -372,15 +396,18 @@ class MainActivity : AppCompatActivity() {
             if (pos == 0) {
                 args.putInt("shutter", frameDataList[pos].shutterIdx)
                 args.putInt("aperture", frameDataList[pos].apertureIdx)
+                args.putInt("focal_length", frameDataList[pos].focalLength)
                 args.putString("lens", currentCamera.lens)
             } else {
                 args.putInt("shutter", frameDataList[pos - 1].shutterIdx)
                 args.putInt("aperture", frameDataList[pos - 1].apertureIdx)
+                args.putInt("focal_length", frameDataList[pos - 1].focalLength)
                 args.putString("lens", frameDataList[pos - 1].lens)
             }
         } else {
             args.putInt("shutter", frameDataList[pos].shutterIdx)
             args.putInt("aperture", frameDataList[pos].apertureIdx)
+            args.putInt("focal_length", frameDataList[pos].focalLength)
             args.putString("lens", frameDataList[pos].lens)
         }
 
@@ -390,6 +417,8 @@ class MainActivity : AppCompatActivity() {
 
         args.putStringArray("lenses", productNames.lensModels.toTypedArray())
 
+        args.putBoolean("new_frame", newFrame)
+
         val frameDialog = FrameDialog()
         frameDialog.arguments = args
 
@@ -397,9 +426,10 @@ class MainActivity : AppCompatActivity() {
         frameDialog.show(fm, "Frame Dialog")
     } // frameSetDialog
 
-    fun setFrameData(pos: Int, shutter: Int, aperture: Int, lens: String, notes: String, save: Boolean = false) {
+    fun setFrameData(pos: Int, shutter: Int, aperture: Int, focalLength: Int, lens: String, notes: String, save: Boolean = false) {
         frameDataList[pos].shutterIdx = shutter
         frameDataList[pos].apertureIdx = aperture
+        frameDataList[pos].focalLength = focalLength
         frameDataList[pos].lens = lens
         currentCamera.lens = lens
         frameDataList[pos].notes = notes
@@ -411,8 +441,10 @@ class MainActivity : AppCompatActivity() {
         }
     } // setFrameData
 
-    fun cancelFrame() {
-        removeFrame(frameDataList.size - 1)
+    fun cancelFrame(remove: Boolean = false) {
+        if (remove) {
+            removeFrame(frameDataList.size - 1)
+        }
     }
 
     private fun setCameraDialog() {
@@ -476,7 +508,7 @@ class MainActivity : AppCompatActivity() {
 
         for (i in 0 until frameDataList.size) {
             if (frameDataList[i].lens == oldLens) {
-                setFrameData(i, frameDataList[i].shutterIdx, frameDataList[i].apertureIdx, newLens, frameDataList[i].notes)
+                setFrameData(i, frameDataList[i].shutterIdx, frameDataList[i].apertureIdx, frameDataList[i].focalLength, newLens, frameDataList[i].notes)
             }
         }
     }
@@ -533,7 +565,7 @@ class MainActivity : AppCompatActivity() {
         updateNotesHeader()
     } // setFilmData
 
-    private fun removeFrame(pos: Int, warn: Boolean = false) {
+    private fun removeFrame(pos: Int, warn: Boolean = false, save: Boolean = true) {
         if (warn) {
             val alertBuilder = androidx.appcompat.app.AlertDialog.Builder(this)
             alertBuilder.setMessage("Remove this frame?")
@@ -548,6 +580,10 @@ class MainActivity : AppCompatActivity() {
         } else {
             frameDataList.removeAt(pos)
             frameArrayAdapter?.notifyDataSetInvalidated()
+        }
+
+        if (save) {
+            saveDatabase()
         }
     }
 
@@ -577,38 +613,79 @@ class MainActivity : AppCompatActivity() {
         setListVisibility()
     } // updateNotesHeader
 
-    fun exportFilmRoll(filename: String, method: String = "file") {
-        val outJ = OutputJSON()
-        val obj = outJ.createJSONobj(currentCamera.model, currentFilm.model,
-                globalIsoArray[currentFilm.isoIdx], globalDevArray[currentFilm.devIdx],
-                globalShutterArray, globalApertureArray, frameDataList)
+    fun exportFilmRoll(filename: String, exportTo: Int = 0, exportAs: Int = 0) {
+        when (exportTo) {
+            // Local Storage
+            0 -> exportLocalStorage(filename, exportAs)
+            // DropBox
+            1 -> exportDropBox(filename, exportAs)
+            // Keybase
+            2 -> { }
+            // Gmail
+            3 -> { }
+            // Google Drive
+            4 -> { }
+            // Default to Local Storage
+            else -> exportLocalStorage(filename, exportAs)
+        }
+    } // exportFilmRoll
 
+    private fun exportLocalStorage(filename: String, exportAs: Int) {
+        var resultMsg = "File Saved."
         try {
-            // TODO implement different methods
-            if (method == "file") { }
             val filepath = File("storage/emulated/0/ExposureNotes/")
             filepath.mkdirs()
-
             val file = File("$filepath/$filename")
             val output = BufferedWriter(FileWriter(file))
+            when (exportAs) {
+                // JSON
+                0 -> {
+                    output.write(OutputJSON().createJSONobj(currentCamera, currentFilm,
+                            globalIsoArray[currentFilm.isoIdx], globalDevArray[currentFilm.devIdx],
+                            globalShutterArray, globalApertureArray, frameDataList).toString())
+                }
+                // HTML
+                1 -> {
+                    output.write(OutputHTML(currentCamera.model, currentFilm.model,
+                            globalIsoArray[currentFilm.isoIdx], globalDevArray[currentFilm.devIdx],
+                            globalShutterArray, globalApertureArray, frameDataList).toString())
+                }
+                // PLAIN TEXT
+                2 -> {
+                    output.write(OutputTXT(currentCamera, currentFilm, globalIsoArray[currentFilm.isoIdx],
+                            globalDevArray[currentFilm.devIdx], globalShutterArray, globalApertureArray, frameDataList).toString())
+                }
+            }
 
-            output.write(obj.toString())
-            output.close ()
-
-            val msg: Toast = Toast.makeText(applicationContext, "JSON saved", Toast.LENGTH_SHORT)
-            msg.setGravity(Gravity.CENTER, 0, 0)
-            msg.show()
+            output.close()
 
         } catch (e: Exception) {
-            val error = "ERROR! Ensure that /storage/emulated/0/ExposureNotes is created and writable."
-            val msg: Toast = Toast.makeText(applicationContext, error, Toast.LENGTH_LONG)
-            msg.setGravity(Gravity.CENTER, 0, 0)
-            msg.show()
+            resultMsg = "E: $e\nEnsure that /storage/emulated/0/ExposureNotes is created and writable."
 
             e.printStackTrace()
         }
 
-    } // exportFilmRoll
+        val toast: Toast = Toast.makeText(applicationContext, resultMsg, Toast.LENGTH_LONG)
+        toast.setGravity(Gravity.CENTER, 0, 0)
+        toast.show()
+    }
+
+    private fun exportDropBox(filename: String, exportAs: Int) {
+        lateinit var obj: JSONObject
+        when (exportAs) {
+            0 -> {
+                obj = OutputJSON().createJSONobj(currentCamera, currentFilm,
+                        globalIsoArray[currentFilm.isoIdx], globalDevArray[currentFilm.devIdx],
+                        globalShutterArray, globalApertureArray, frameDataList)
+            }
+        }
+
+        try {
+            // TODO DropBox shit goes here
+        } catch (e: Exception) {
+            // TODO More DropBox stuff
+        }
+    }
 
     companion object {
         private val LOG_TAG = MainActivity::class.java.simpleName

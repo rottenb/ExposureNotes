@@ -41,6 +41,67 @@
         android:layout_margin="@dimen/half_margin"
         android:background="@color/colorAccent"/>
 
+    <!-- Export As -->
+    <TextView
+        style="@style/DialogHeader"
+        android:id="@+id/export_as_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/double_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_title"
+        android:text="@string/export_as"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/export_as_spinner"
+        app:layout_constraintEnd_toEndOf="@id/export_as_spinner"
+        app:layout_constraintTop_toTopOf="@id/export_as_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/export_as_spinner"
+        android:layout_margin="@dimen/default_margin"
+        android:background="@drawable/border"/>
+    <Spinner
+        style="@style/SpinnerStyle"
+        android:id="@+id/export_as_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/double_margin"
+        app:layout_constraintStart_toEndOf="@id/export_as_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/export_as_header"
+        app:layout_constraintBottom_toBottomOf="@id/export_as_header"
+        tools:listitem="@layout/item_spinner"/>
+
+    <!-- Save To -->
+    <TextView
+        style="@style/DialogHeader"
+        android:id="@+id/export_to_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/double_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/export_as_spinner"
+        android:text="@string/export_to"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/export_to_spinner"
+        app:layout_constraintEnd_toEndOf="@id/export_to_spinner"
+        app:layout_constraintTop_toTopOf="@id/export_to_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/export_to_spinner"
+        android:layout_margin="@dimen/default_margin"
+        android:background="@drawable/border"/>
+    <Spinner
+        style="@style/SpinnerStyle"
+        android:id="@+id/export_to_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/export_to_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/export_to_header"
+        app:layout_constraintBottom_toBottomOf="@id/export_to_header"
+        tools:listitem="@layout/item_spinner"/>
+
     <!-- Filename -->
     <TextView
         style="@style/DialogHeader"
@@ -48,9 +109,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dialog_title"
+        app:layout_constraintTop_toBottomOf="@id/export_to_spinner"
         app:layout_constraintBottom_toTopOf="@id/filename_edit"
-        android:layout_marginTop="@dimen/double_margin"
         android:text="@string/filename_header"/>
     <View
         android:layout_width="0dp"
@@ -77,35 +137,6 @@
         android:autofillHints="@string/export_filename"
         android:background="@android:color/transparent"/>
 
-    <!-- Save Method -->
-    <TextView
-        style="@style/DialogHeader"
-        android:id="@+id/save_header"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/double_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filename_edit"
-        android:text="@string/save_method"/>
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="@id/save_spinner"
-        app:layout_constraintEnd_toEndOf="@id/save_spinner"
-        app:layout_constraintTop_toTopOf="@id/save_spinner"
-        app:layout_constraintBottom_toBottomOf="@id/save_spinner"
-        android:layout_margin="@dimen/default_margin"
-        android:background="@drawable/border"/>
-    <Spinner
-        style="@style/SpinnerStyle"
-        android:id="@+id/save_spinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/save_header"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/save_header"
-        app:layout_constraintBottom_toBottomOf="@id/save_header"
-        tools:listitem="@layout/item_spinner"/>
 
     <!-- Action Buttons -->
     <Button
@@ -115,7 +146,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/cancel_button"
-        app:layout_constraintTop_toBottomOf="@id/save_spinner"
+        app:layout_constraintTop_toBottomOf="@id/filename_edit"
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="@string/export_button"/>
     <Button

@@ -13,7 +13,8 @@
     <!-- Spinner Items -->
     <style name="SpinnerItem">
         <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/list_item_font_size</item>
+        <!--<item name="android:textSize">@dimen/list_item_font_size</item>-->
+        <item name="android:textSize">@dimen/dialog_font_size</item>
     </style>
 
     <style name="SpinnerStyle">
@@ -27,7 +28,7 @@
 
     <!-- Dialog Headers -->
     <style name="DialogHeader">
-        <item name="android:layout_marginTop">@dimen/default_margin</item>
+        <!-- <item name="android:layout_marginTop">@dimen/default_margin</item> -->
         <item name="android:paddingStart">@dimen/double_padding</item>
         <item name="android:paddingEnd">@dimen/double_padding</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>

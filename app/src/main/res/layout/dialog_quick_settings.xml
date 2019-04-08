@@ -199,7 +199,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/iso_header"
-        app:layout_constraintEnd_toStartOf="@id/dev_header"
+        app:layout_constraintEnd_toStartOf="@id/exp_header"
         app:layout_constraintTop_toTopOf="@id/iso_header"
         app:layout_constraintBottom_toBottomOf="@id/iso_header"
         app:layout_constraintWidth_percent=".35"
@@ -208,12 +208,12 @@
 
     <!-- Dev Selection -->
     <TextView
-        android:id="@+id/dev_header"
+        android:id="@+id/exp_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/double_margin"
         app:layout_constraintStart_toEndOf="@id/iso_spinner"
-        app:layout_constraintEnd_toStartOf="@id/dev_spinner"
+        app:layout_constraintEnd_toStartOf="@id/exp_spinner"
         app:layout_constraintTop_toBottomOf="@id/number_text"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/dialog_font_size"
@@ -222,21 +222,21 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="@dimen/default_margin"
-        app:layout_constraintStart_toStartOf="@id/dev_spinner"
-        app:layout_constraintEnd_toEndOf="@id/dev_spinner"
-        app:layout_constraintTop_toTopOf="@id/dev_spinner"
-        app:layout_constraintBottom_toBottomOf="@id/dev_spinner"
+        app:layout_constraintStart_toStartOf="@id/exp_spinner"
+        app:layout_constraintEnd_toEndOf="@id/exp_spinner"
+        app:layout_constraintTop_toTopOf="@id/exp_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/exp_spinner"
         android:background="@drawable/border"/>
 
     <Spinner
         style="@style/SpinnerStyle"
-        android:id="@+id/dev_spinner"
+        android:id="@+id/exp_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/dev_header"
+        app:layout_constraintStart_toEndOf="@id/exp_header"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/dev_header"
-        app:layout_constraintBottom_toBottomOf="@id/dev_header"
+        app:layout_constraintTop_toTopOf="@id/exp_header"
+        app:layout_constraintBottom_toBottomOf="@id/exp_header"
         app:layout_constraintWidth_percent=".35"
         tools:listitem="@layout/item_spinner">
     </Spinner>

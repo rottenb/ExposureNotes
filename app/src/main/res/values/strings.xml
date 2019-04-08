@@ -8,7 +8,7 @@
     <!-- Main Menu -->
     <string name="app_settings">App Settings</string>
     <string name="camera_settings">Camera</string>
-    <string name="lens_settings">Lens</string>
+    <string name="lens_settings">Lenses</string>
     <string name="film_settings">Film</string>
     <string name="frame_settings">Frame</string>
     <string name="autocomplete_list_edit">Autocomplete List Edit</string>
@@ -23,6 +23,18 @@
         <item>Keybase</item>
         <item>Gmail</item>
         <item>Google Drive</item>
+    </string-array>
+
+    <string-array name="export_types">
+        <item>JSON</item>
+        <item>HTML</item>
+        <item>Plain Text</item>
+    </string-array>
+
+    <string-array name="export_file_ext">
+        <item>.json</item>
+        <item>.html</item>
+        <item>.txt</item>
     </string-array>
 
     <!-- Camera Settings -->
@@ -46,6 +58,7 @@
     <string name="manu_header">Manufacturer:</string>
     <string name="make_header">Make:</string>
     <string name="model_header">Model:</string>
+    <string name="focal_length_header">Focal Length:</string>
     <string name="item_header">Item:</string>
     <string name="iso_header">ISO:</string>
     <string name="dev_header">Exp:</string>
@@ -56,6 +69,8 @@
     <string name="film_notes">Additional information</string>
     <string name="iso_value">100</string>
     <string name="dev_value">±0</string>
+
+
     <string name="clear_roll">Clear Film Roll</string>
     <string name="new_roll">New Film Roll</string>
     <string name="export_roll">Export Film Roll</string>
@@ -193,13 +208,16 @@
     <string name="spinner_text_example">Example</string>
     <string name="frame_notes_hint">Enter a brief description</string>
     <string name="frames_edit_hint">12</string>
+    <string name="focal_length_hint">1000</string>
+    <string name="focal_length_mm">mm</string>
     <string name="filename_header">Filename:</string>
-    <string name="save_method">Save Method:</string>
+    <string name="export_to">Export To:</string>
+    <string name="export_as">Export As:</string>
     <string name="frame_dialog_title">Frame Settings</string>
     <string name="camera_dialog_title">Camera Settings</string>
     <string name="film_dialog_title">Film Settings</string>
     <string name="quick_settings_title">Quick Settings</string>
-    <string name="export_dialog_title">Export Film Roll</string>
+    <string name="export_dialog_title">Film Roll Export</string>
     <string name="lens_dialog_title">Lens Settings</string>
     <string name="lens_selection">Lens Selection:</string>
     <string name="product_group_selection">Group:</string>
@@ -232,13 +250,15 @@
     <string name="film_dialog_info">• Enter film make and model\n• Enter ISO and development compensation (push/pull) settings\n• Save to commit settings, cancel to discard</string>
     <string name="camera_dialog_info">• Enter camera make and model\n• Select camera format\n• Select default lens\n• Save to commit settings, cancel to discard</string>
     <string name="frame_dialog_info">• Set shutter speed and aperture\n• Select lens\n• Add a short description of the shot\n• Save to commit, clear to reset everything, cancel to discard</string>
-    <string name="export_dialog_info">• Enter filename or leave as default\n• Choose method to save\n• Export or cancel</string>
+    <string name="export_dialog_info">• Select file type\n• Select method of export\n• Edit filename or leave as default</string>
     <string name="autocomplete_dialog_info">• Select group of names you\'d like to edit\n• Tap to edit single entry• Hold on entry to delete</string>
 
     <!-- Alert Messages -->
     <string name="delete_alert_title">Delete This Entry?</string>
     <string name="lens_delete_msg">Note: Any frame that used this lens will be reset.</string>
     <string name="item_delete_msg">This entry will be removed from the autocomplete list.</string>
+    <string name="file_exists_title">Filename Already Exists!</string>
+    <string name="file_exists_msg">Over-write or cancel?</string>
 
     <string-array name="autocomplete_groups">
         <item>Manufacturers</item>

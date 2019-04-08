@@ -13,6 +13,7 @@ data class ProductNamesTable(@PrimaryKey @ColumnInfo(name = "idx") val idx: Int,
 data class FrameInfoTable(@PrimaryKey @ColumnInfo(name = "idx") val idx: Int,
                      @ColumnInfo(name = "shutterIdx") val shutterIdx: Int,
                      @ColumnInfo(name = "apertureIdx") val apertureIdx: Int,
+                     @ColumnInfo(name = "focal_length") val focalLength: Int,
                      @ColumnInfo(name = "lens") val lens: String,
                      @ColumnInfo(name = "notes") val notes: String )
 

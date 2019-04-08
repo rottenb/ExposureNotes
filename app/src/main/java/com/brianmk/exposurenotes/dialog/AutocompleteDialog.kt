@@ -78,6 +78,8 @@ class AutocompleteDialog : DialogFragment() {
         itemListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
             itemText.setText(itemListView.getItemAtPosition(pos).toString())
             currentItem = pos
+
+            saveButton.text = resources.getString(R.string.update_button)
         }
 
         // Hold on list entry to prompt delete
@@ -89,16 +91,13 @@ class AutocompleteDialog : DialogFragment() {
                 itemList.removeAt(pos)
                 itemList.sort()
                 itemListAdapter.notifyDataSetChanged()
-
                 when (currentList) {
                     0 -> makerList = itemList
                     1 -> cameraList = itemList
                     2 -> filmList = itemList
                     3 -> lensList = itemList
                 }
-
                 itemText.setText("")
-                currentList = -1
                 currentItem = -1
 
             }
@@ -111,8 +110,22 @@ class AutocompleteDialog : DialogFragment() {
         }
 
         saveButton.setOnClickListener {
-            (activity as MainActivity).saveAutocompleteLists(makerList, cameraList, filmList, lensList)
-            dismiss()
+            if (saveButton.text == resources.getString(R.string.save_button)) {
+                (activity as MainActivity).saveAutocompleteLists(makerList, cameraList, filmList, lensList)
+                dismiss()
+            } else if (saveButton.text == resources.getString(R.string.update_button)) {
+                itemList[currentItem] = itemText.text.toString()
+                when (currentList) {
+                    0 -> makerList = itemList
+                    1 -> cameraList = itemList
+                    2 -> filmList = itemList
+                    3 -> lensList = itemList
+                }
+                currentItem = -1
+                itemText.setText("")
+                itemListAdapter.notifyDataSetChanged()
+                saveButton.text = resources.getString(R.string.save_button)
+            }
         }
 
         closeButton.setOnClickListener {

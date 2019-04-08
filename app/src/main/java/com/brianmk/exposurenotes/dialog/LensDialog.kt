@@ -20,17 +20,15 @@ class LensDialog : DialogFragment() {
         // Help information for this dialog
         rootView.findViewById<View>(R.id.info_text).setOnClickListener { showHelp(rootView.context) }
 
-        // Editable Text
+        /* VIEWS */
         val lensListView = rootView.findViewById<View>(R.id.lens_list) as ListView
         val makerText = rootView.findViewById<View>(R.id.maker_edit) as AutoCompleteTextView
         val modelText = rootView.findViewById<View>(R.id.model_edit) as EditText
-
-        // Buttons
         val addButton = rootView.findViewById<View>(R.id.add_button) as Button
         val clearButton = rootView.findViewById<View>(R.id.clear_button) as Button
         val closeButton = rootView.findViewById<View>(R.id.close_button) as Button
 
-        // Data and such
+        /* DATA */
         val lensList: MutableList<String> = mutableListOf()
         lensList.addAll(arguments?.getStringArray("lenses")!!)
         var currentLens = -1
@@ -39,7 +37,7 @@ class LensDialog : DialogFragment() {
         val makerList = arguments?.getStringArray("makers")!!
         makerText.setAdapter(ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, makerList))
 
-        /* Event Listeners */
+        /* LISTENERS */
         makerText.setOnClickListener {
             if (makerText.text.toString() == "") {
                 addButton.text = resources.getString(R.string.add_button)

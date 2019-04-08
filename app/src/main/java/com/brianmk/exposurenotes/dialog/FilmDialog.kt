@@ -18,15 +18,39 @@ class FilmDialog : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
         val rootView = inflater.inflate(R.layout.dialog_film, container)
         rootView.setBackgroundColor(Color.TRANSPARENT)
-
         // Help information for this dialog
         rootView.findViewById<View>(R.id.info_text).setOnClickListener { showHelp(rootView.context) }
 
+        /* VIEWS */
+        val makerText = rootView.findViewById<View>(R.id.make_edit) as AutoCompleteTextView
+        val filmText = rootView.findViewById<View>(R.id.film_edit) as AutoCompleteTextView
+        val isoSpin = rootView.findViewById<View>(R.id.iso_spinner) as Spinner
+        val devSpin = rootView.findViewById<View>(R.id.exp_spinner) as Spinner
+        val saveButton = rootView.findViewById<View>(R.id.save_button) as Button
+        val cancelButton = rootView.findViewById<View>(R.id.cancel_button) as Button
+
+        /* DATA & ADAPTERS */
         val makerList: MutableList<String> = mutableListOf()
         makerList.addAll(arguments?.getStringArray("makers")!!)
-        val makerText = rootView.findViewById<View>(R.id.make_edit) as AutoCompleteTextView
         makerText.setAdapter(ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, makerList))
         makerText.setText(arguments?.getString("maker"))
+
+        val filmList: MutableList<String> = mutableListOf()
+        filmList.addAll(arguments?.getStringArray("models")!!)
+        filmText.setAdapter(ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, filmList))
+        filmText.setText(arguments?.getString("model"))
+
+        val isoAdapter = ArrayAdapter.createFromResource(rootView.context,
+                R.array.isos, R.layout.item_spinner)
+        isoSpin.adapter = isoAdapter
+        isoSpin.setSelection(arguments!!.getInt("iso"))
+
+        val devAdapter = ArrayAdapter.createFromResource(rootView.context,
+                R.array.devs, R.layout.item_spinner)
+        devSpin.adapter = devAdapter
+        devSpin.setSelection(arguments!!.getInt("dev"))
+
+        /* LISTENERS */
         // Holding on the item deletes it from the global list, at the user's option
         makerText.setOnLongClickListener {
             val alertBuilder = android.app.AlertDialog.Builder(rootView.context)
@@ -46,11 +70,6 @@ class FilmDialog : DialogFragment() {
             true
         }
 
-        val filmList: MutableList<String> = mutableListOf()
-        filmList.addAll(arguments?.getStringArray("models")!!)
-        val filmText = rootView.findViewById<View>(R.id.film_edit) as AutoCompleteTextView
-        filmText.setAdapter(ArrayAdapter<String>(rootView.context, R.layout.item_simple_list, filmList))
-        filmText.setText(arguments?.getString("model"))
         // Holding on the item deletes it from the global list, at the user's option
         filmText.setOnLongClickListener {
             val alertBuilder = android.app.AlertDialog.Builder(rootView.context)
@@ -71,19 +90,6 @@ class FilmDialog : DialogFragment() {
             true
         }
 
-        val isoSpin = rootView.findViewById<View>(R.id.iso_spinner) as Spinner
-        val isoAdapter = ArrayAdapter.createFromResource(rootView.context,
-                R.array.isos, R.layout.item_spinner)
-        isoSpin.adapter = isoAdapter
-        isoSpin.setSelection(arguments!!.getInt("iso"))
-
-        val devSpin = rootView.findViewById<View>(R.id.dev_spinner) as Spinner
-        val devAdapter = ArrayAdapter.createFromResource(rootView.context,
-                R.array.devs, R.layout.item_spinner)
-        devSpin.adapter = devAdapter
-        devSpin.setSelection(arguments!!.getInt("dev"))
-
-        val saveButton = rootView.findViewById<View>(R.id.save_button) as Button
         saveButton.setOnClickListener {
             if( makerText.text.toString() == "" || filmText.text.toString() == "") {
                 Toast.makeText(rootView.context, "Entries for make and model required!", Toast.LENGTH_LONG).show()
@@ -100,7 +106,6 @@ class FilmDialog : DialogFragment() {
 
         }
 
-        val cancelButton = rootView.findViewById<View>(R.id.cancel_button) as Button
         cancelButton.setOnClickListener {
             dismiss()
         }

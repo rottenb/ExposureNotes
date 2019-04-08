@@ -2,6 +2,7 @@ package com.brianmk.exposurenotes.data
 
 data class FrameData(var shutterIdx: Int = 0,
                      var apertureIdx: Int = 0,
+                     var focalLength: Int = 0,
                      var lens: String = "",
                      var notes: String = "") {
 

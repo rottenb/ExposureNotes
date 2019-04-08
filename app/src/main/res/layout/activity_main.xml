@@ -141,14 +141,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/iso_header"
-            app:layout_constraintEnd_toStartOf="@id/dev_header"
+            app:layout_constraintEnd_toStartOf="@id/exp_header"
             app:layout_constraintTop_toTopOf="@id/iso_header"
             app:layout_constraintBottom_toBottomOf="@id/iso_header"
             android:textSize="@dimen/film_font_size"
             tools:text="@string/iso_value"/>
         <!-- Exp Comp -->
         <TextView
-            android:id="@+id/dev_header"
+            android:id="@+id/exp_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/iso"
@@ -163,7 +163,7 @@
             android:id="@+id/dev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/dev_header"
+            app:layout_constraintStart_toEndOf="@id/exp_header"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/iso_header"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -301,6 +301,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_margin="2dp"/>
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_add_new"
                 android:layout_width="wrap_content"
