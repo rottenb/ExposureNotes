@@ -33,8 +33,6 @@ class OutputTXT(c: CameraData, f: FilmData, i: String, e: String, s: Array<Strin
             12 -> month = "DEC"
         }
 
-
-
         val date = "${cal.get(Calendar.DAY_OF_MONTH)} $month ${cal.get(Calendar.YEAR)}"
         val time = "${cal.get(Calendar.HOUR_OF_DAY)}:${cal.get(Calendar.MINUTE)}"
 

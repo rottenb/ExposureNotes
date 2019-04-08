@@ -12,6 +12,7 @@
     <string name="film_settings">Film</string>
     <string name="frame_settings">Frame</string>
     <string name="autocomplete_list_edit">Autocomplete List Edit</string>
+    <string name="add_new_frame">Add New Frame</string>
     <string name="load_roll">Load Active Roll</string>
 
     <!-- Export Dialog -->
@@ -259,6 +260,7 @@
     <string name="item_delete_msg">This entry will be removed from the autocomplete list.</string>
     <string name="file_exists_title">Filename Already Exists!</string>
     <string name="file_exists_msg">Over-write or cancel?</string>
+    <string name="file_write_success_title">File Saved Successfully</string>
 
     <string-array name="autocomplete_groups">
         <item>Manufacturers</item>

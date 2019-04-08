@@ -23,5 +23,7 @@
     <!-- Other Dimensions -->
     <dimen name="notes_field_height">80dp</dimen>
     <dimen name="main_icon_scale">2.75</dimen>
+    <dimen name="new_frame_button_size">36dp</dimen>
+    <dimen name="new_frame_img_scale">1.5</dimen>
 
 </resources>

@@ -19,7 +19,6 @@ import androidx.room.Room
 import com.brianmk.exposurenotes.adapter.FrameArrayAdapter
 import com.brianmk.exposurenotes.data.*
 import com.brianmk.exposurenotes.dialog.*
-import com.brianmk.exposurenotes.util.OutputHTML
 import com.brianmk.exposurenotes.util.OutputJSON
 import com.brianmk.exposurenotes.util.OutputTXT
 import org.jetbrains.anko.doAsync
@@ -111,17 +110,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<View>(R.id.fab_add_new).setOnClickListener {
+        findViewById<View>(R.id.add_new_frame).setOnClickListener {
             addFrame()
             setFrameDialog(frameDataList.size - 1, true)
         }
-/*
-        findViewById<View>(R.id.roll_settings).setOnClickListener {
-            val quickDialog = QuickSettingsDialog()
 
-            val fm = supportFragmentManager
-            quickDialog.show(fm, "Quick Settings Dialog")        }
-*/
         frameListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
             setFrameDialog(pos)
         }
@@ -632,8 +625,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun exportLocalStorage(filename: String, exportAs: Int) {
         var resultMsg = "File Saved."
+        val path = "storage/emulated/0/ExposureNotes/"
         try {
-            val filepath = File("storage/emulated/0/ExposureNotes/")
+            val filepath = File(path)
             filepath.mkdirs()
             val file = File("$filepath/$filename")
             val output = BufferedWriter(FileWriter(file))
@@ -646,9 +640,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 // HTML
                 1 -> {
-                    output.write(OutputHTML(currentCamera.model, currentFilm.model,
-                            globalIsoArray[currentFilm.isoIdx], globalDevArray[currentFilm.devIdx],
-                            globalShutterArray, globalApertureArray, frameDataList).toString())
+                    // TODO make HTML work
+                    output.write(OutputTXT(currentCamera, currentFilm, globalIsoArray[currentFilm.isoIdx],
+                            globalDevArray[currentFilm.devIdx], globalShutterArray, globalApertureArray, frameDataList).toString())
                 }
                 // PLAIN TEXT
                 2 -> {
@@ -659,14 +653,24 @@ class MainActivity : AppCompatActivity() {
 
             output.close()
 
+            val alertBuilder = androidx.appcompat.app.AlertDialog.Builder(this)
+            alertBuilder.setTitle(resources.getString(R.string.file_write_success_title))
+            alertBuilder.setMessage("Saved  $filename  in\n $filepath")
+
+            // Over-write
+            alertBuilder.setPositiveButton("Ok") { _, _ -> }
+
+            val writeDialog: Dialog = alertBuilder.create()
+            writeDialog.show()
+
         } catch (e: Exception) {
-            resultMsg = "E: $e\nEnsure that /storage/emulated/0/ExposureNotes is created and writable."
+            resultMsg = "E: $e\nEnsure that $path is created and writable."
 
             e.printStackTrace()
         }
 
         val toast: Toast = Toast.makeText(applicationContext, resultMsg, Toast.LENGTH_LONG)
-        toast.setGravity(Gravity.CENTER, 0, 0)
+        toast.setGravity(Gravity.CENTER, 0, 500)
         toast.show()
     }
 
